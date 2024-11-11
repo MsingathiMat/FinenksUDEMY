@@ -1,0 +1,152 @@
+
+
+* {
+    font-family: "Poppins", "Roboto", "Helvetica", sans-serif ;
+  }
+
+:root {
+    --Base: #ffffff;
+    --BaseShade:#F5F1F9;
+    --BaseShade1:#F0EBF5;
+    --BaseShade2:#EBE3F3;
+    --BaseShade3:#E6DEEE;
+    --BaseShade4:#E0D7EA;
+    --BaseShade5:#DAD0E7;
+    --BaseShadeDark:#ffffff;
+    --ForeBase: #171717;
+    --Pri:#11CC95;
+    --PriLight:#13DFA3;
+    --PriLighter:#37F4BC;
+    --PriDark:#0BBC88;
+    --PriDarker:#0DA578;
+    --PriHover:#06805C;
+    --Sec:#0E9FDD;
+    --SecHover:#086187;
+    --Tert:#3BDCDC;
+    --TertHover:#23C3C3;
+    --Border: #5F7B72;
+    --BorderLight: #659F8D;
+    --Border2: #C0BDBD;
+    --Border3: #DAD9D9;
+    --Border4: #EAEAEA;
+    --BaseWhite:#ffffff;
+    --BaseShadeWhite:var(--BaseWhite);
+    --BaseShade1WHite:var(--BaseWhite);
+    --BaseShade2WHite:var(--BaseWhite);
+    --BaseShade3White:var(--BaseWhite);
+    --BaseShade4White:var(--BaseWhite);
+    --BaseShade5White:var(--BaseWhite);
+    --BaseShadeDarkWhite:var(--BaseWhite);
+    --Alpha:rgba(179,188,210,0.01);
+    --Alpha1:rgba(179,188,210,0.03);
+    --Alpha2:rgba(179,188,210,0.06);
+    --Alpha3:rgba(179,188,210,0.09);
+    --Alpha4:rgba(179,188,210,0.12);
+    --Alpha5:rgba(179,188,210,0.3);
+    --textPri:#102E26;
+    --textSec:#4E4E4E;
+    --textTert:#A6A6A6;
+
+    --HoverPri:var(--Pri);
+    --HoverSec:var(--Sec);
+    --ButtonFore:white;
+  }
+
+:root{
+    --Radius:0px;
+    --LayoutGap:3px;
+    --LayoutGap1:6px;
+    --LayoutGap2:9px;
+    --LayoutGap3:15px;
+    --LayoutGap4:18px;
+    --Hd1:65px;
+    --Hd2:60px;
+    --Hd3:55px;
+    --Hd4:48px;
+    --Hd5:38px;
+    --Hd6:28px;
+    --p:15px;
+    --InputHeight: 35px;
+  
+}
+
+h1{
+    font-size:var( --Hd1) ;
+}
+
+h2{
+    font-size:var( --Hd2) ;
+}
+
+h3{
+    font-size:var(--Hd3) ;
+}
+h4{
+    font-size:var(--Hd4) ;
+}
+h5{
+    font-size:var(--Hd5) ;
+}
+
+h6{
+    font-size:var(--Hd6) ; 
+}
+
+p{
+    font-size:var( --p) !important;   
+}
+
+
+
+.TextWhite{
+    color:white !important;
+}
+
+Button:hover{
+    --HoverPri: var(--PriHover);
+    --HoverSec:var(--SecHover);
+}
+.dark{
+    --Base: #030907;
+    --ForeBase: #ffffff;
+    --BaseShade:#0B1915;
+    --BaseShade1:#10231D;
+    --BaseShade2:#132A23;
+    --BaseShade3:#173129;
+    --BaseShade4:#1C3A31;
+    --BaseShade5:#22453A;
+    --BaseShadeDark:#030907;
+ 
+    --Alpha:rgba(179,188,210,0.01);
+    --Alpha1:rgba(179,188,210,0.03);
+    --Alpha2:rgba(179,188,210,0.06);
+    --Alpha3:rgba(179,188,210,0.09);
+    --Alpha4:rgba(179,188,210,0.12);
+    --Alpha5:rgba(179,188,210,0.15);
+
+    --BaseShadeWhite:var(--BaseShade);
+    --BaseShade1WHite:var(--BaseShade1);
+    --BaseShade2WHite:var(--BaseShade2);
+    --BaseShade3White:var(--BaseShade3);
+    --BaseShade4White:var(--BaseShade4);
+    --BaseShade5White:var(--BaseShade5);
+    --BaseShadeDarkWhite:var(--BaseShadeDark);
+
+    --textPri:#fffcfc;
+    --textSec:#d0d0d0;
+    --textTert:#989898;
+  
+}
+
+
+.NavHover:hover~label{
+
+    @apply opacity-100 left-[68px] 
+    
+  }
+  
+  .NavHover2:hover~label{
+  
+    @apply opacity-100 !-top-[40px]  left-0
+    
+  }

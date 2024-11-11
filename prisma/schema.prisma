@@ -1,0 +1,153 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  UserId        String       @id @default(cuid())
+  name          String?
+  email         String?      @unique
+  emailVerified DateTime?
+  ProfileImage  String?
+  password      String?      @db.VarChar(80)
+  role          Role         @default(USER)
+  Companies     Companies[]
+  Items         Items[]
+  Invoices      Invoices[]
+  Quotations    Quotations[]
+  Clients       Clients[]
+  QuoteChats QuoteChats[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@map("users")
+}
+
+model Companies {
+  CompanyId     String      @unique @default(uuid())
+  UserId        String
+  user          Users?      @relation(fields: [UserId], references: [UserId])
+  ContactPerson String
+  ContactNo     String
+  Logo          String
+  CompanyName   String
+  Type          CompanyType @default(Company)
+  Email         String      @unique
+  TagLine       String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+
+model Quotations {
+  status      DocStatus @default(CREATED)
+  QuotationId String    @unique @default(uuid())
+  UserId      String
+  user        Users   @relation(fields: [UserId], references: [UserId])
+  ClientId String
+  clients Clients @relation(fields: [ClientId], references: [ClientId])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  QuotationDetails QuotationDetails[]
+  QuoteChats QuoteChats[]
+}
+
+
+model QuoteChats {
+
+  QuoteChatId Int @unique @default(autoincrement())
+  UserId String
+  Users Users @relation(fields: [UserId],references: [UserId])
+  QuotationId String
+  Quotations Quotations @relation(fields: [QuotationId],references: [QuotationId])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  message String
+}
+model QuotationDetails {
+  QdId Int @unique @default(autoincrement())
+QuotationId String
+  Quote Quotations @relation(fields: [QuotationId],references: [QuotationId])
+ItemId String
+Items Items @relation(fields: [ItemId],references: [ItemId])
+Quantity Int
+Amount Decimal
+
+}
+model Invoices {
+  InvoiceId String    @unique @default(uuid())
+  status    DocStatus @default(CREATED)
+  UserId    String
+
+  user      Users?   @relation(fields: [UserId], references: [UserId])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Items {
+  ItemId      String     @unique @default(uuid())
+  ItemName    String     @unique
+  ItemType    String
+  Description String
+  ItemStatus  ItemStatus
+  Quantity    Int
+  Amount      Decimal
+
+  UserId String
+
+  QuotationDetails QuotationDetails[]
+
+  user      Users?       @relation(fields: [UserId], references: [UserId])
+  Type      ItemTypeEnum @default(SERVICE)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+model Clients {
+  ClientId      String      @unique @default(uuid())
+  ClientName    String     
+  ClientType    CompanyType
+  ContactPerson String
+   ContactNumber String
+  CompanyEmail  String  @unique
+
+  UserId String
+  Quotations Quotations[]
+
+  user Users? @relation(fields: [UserId], references: [UserId])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum ItemStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum DocStatus {
+  CREATED
+  PARTIAL
+  CLOSED
+  VOID
+}
+
+enum ItemTypeEnum {
+  PRODUCT
+  SERVICE
+}
+
+enum CompanyType {
+  Individual
+  Company
+}
+
+enum Role {
+  ADMIN
+  USER
+  MANAGER
+}
