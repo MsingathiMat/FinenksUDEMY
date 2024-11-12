@@ -2,7 +2,8 @@ import React from 'react'
 import { MttTabContainer, MttTabContent, MttTabList, MttTabTrigger } from '@/components/mtt/components/MttTabs'
 import FormAddClient from './FormAddCompany'
 import TableClients from './TableClients'
-const page = ({params}:{params:string})=> {
+export const dynamic = 'force-dynamic';
+const page = ()=> {
   return (
     <div className=' h-full w-full '>
    

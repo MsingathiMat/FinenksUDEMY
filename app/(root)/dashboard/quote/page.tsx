@@ -5,6 +5,7 @@ import { MttTabContainer, MttTabContent, MttTabList, MttTabTrigger } from '@/com
 
 import TableClients from './TableClients'
 import Quote from './quote'
+export const dynamic = 'force-dynamic';
 const page = () => {
   return (
     <div className=' h-full w-full '>
