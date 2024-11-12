@@ -7,6 +7,7 @@ import { useParams } from 'next/navigation'
 const Page = () => {
 
 const SearchParams = useParams()
+console.log(SearchParams)
   return (
     <div className=' h-full w-full '>
    
