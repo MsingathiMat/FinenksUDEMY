@@ -1,12 +1,13 @@
-"use client"
+
 import React from 'react'
 import { MttTabContainer, MttTabContent, MttTabList, MttTabTrigger } from '@/components/mtt/components/MttTabs'
 import FormAddClient from './FormAddClient'
 import TableClients from './TableClients'
-import {  useSearchParams } from 'next/navigation'
+
+export const dynamic = 'force-dynamic';
 const Page = () => {
 
-const SearchParams = useSearchParams()
+
 
   return (
     <div className=' h-full w-full '>
