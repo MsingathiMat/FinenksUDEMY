@@ -82,7 +82,7 @@ const OriginalComponent = ({
 
   const { data: QuoteData, refetch } = FormQuery(QuotationId);
 
-  console.log(QuoteData);
+
   useEffect(() => {
     if (UserId) {
       FormMethods.setValue("UserId", UserId);
@@ -176,8 +176,8 @@ QuoteData.QuoteChats.map((chat,index)=>(
   
   className={cn(" p-3 pr-4 rounded-[3px] h-[60px] mtt-center !justify-start gap-4",
     chat.UserId === UserId
-      ? "mr-auto bg-green-100 "
-      : "ml-auto bg-blue-100 "
+      ? "mr-auto bg-green-100 dark:bg-green-300 "
+      : "ml-auto bg-blue-100 dark:bg-blue-300"
   )}
  >
 
