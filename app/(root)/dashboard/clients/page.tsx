@@ -5,6 +5,7 @@ import TableClients from './TableClients'
 const page = ({params}:{params:string}) => {
 
   const dynamic = params
+  console.log(dynamic)
   return (
     <div className=' h-full w-full '>
    
