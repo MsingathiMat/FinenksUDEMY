@@ -3,10 +3,10 @@ import React from 'react'
 import { MttTabContainer, MttTabContent, MttTabList, MttTabTrigger } from '@/components/mtt/components/MttTabs'
 import FormAddClient from './FormAddClient'
 import TableClients from './TableClients'
-const page = ({params}:{params:string}) => {
+import { useParams } from 'next/navigation'
+const Page = () => {
 
-  const dynamic = params
-  console.log(dynamic)
+const SearchParams = useParams()
   return (
     <div className=' h-full w-full '>
    
@@ -41,4 +41,4 @@ const page = ({params}:{params:string}) => {
   )
 }
 
-export default page
+export default Page
