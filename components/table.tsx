@@ -12,7 +12,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
 
-import { UtilitiesProp } from "@/components/mtt/Types/MttTypes";
+import { UtilitiesProp } from "@/components/mtt/Types/types";
 import { MutationModels, QueryModels } from "@/components/mtt/config/ReactQueryConfig";
 import MttImage from "@/components/mtt/components/MttImage";
 import { MttTable } from "@/components/mtt/components/MttTable";

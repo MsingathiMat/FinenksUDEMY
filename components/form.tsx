@@ -17,7 +17,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { UtilitiesProp } from "./mtt/Types/MttTypes";
+import { UtilitiesProp } from "./mtt/Types/types";
 import withUtilities from "./mtt/HOC/withUtilities";
 
 // OriginalForm is expecting FormHelpers of type FormHelperProps which it will get from a Higher Order Component

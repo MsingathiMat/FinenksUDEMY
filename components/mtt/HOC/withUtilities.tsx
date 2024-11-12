@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { useToast } from "@/hooks/use-toast";
 
-import { ActiveUserType, UtilitiesProp } from "../Types/MttTypes";
+import { ActiveUserType, UtilitiesProp } from "../Types/types";
 import { useMttFetch } from "../Api/Mttfetch";
 import useMttMedia from "../components/mttForm/mttMedia/useMttMedia";
 import useActiveUser from "../Hooks/useActiveUser";

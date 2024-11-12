@@ -7,7 +7,7 @@ import useActiveUser from "../../Hooks/useActiveUser";
 
 import ConvertToFormData from "../../Helpers/ConvertToFormData";
 
-import { ActiveUserType, FormHelperProps } from "../../Types/MttTypes";
+import { ActiveUserType, FormHelperProps } from "../../Types/types";
 import useMttMedia from "./mttMedia/useMttMedia";
 import IsLoading from "../Isloading";
 

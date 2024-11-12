@@ -6,7 +6,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { ImageUp } from "lucide-react";
 import LabelWrapper from "../LabelWrapper";
-import { MttImageFileProps, UploadedImageProps } from "@/components/mtt/Types/MttTypes";
+import { MttImageFileProps, UploadedImageProps } from "@/components/mtt/Types/types";
 
 
 const useMttMedia = () => {

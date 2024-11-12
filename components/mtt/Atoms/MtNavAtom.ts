@@ -1,6 +1,6 @@
 import {atom} from 'jotai'
 import { MttNavItems } from '../MttNavigation/NavList'
-import { MtNavItemsProp } from '../Types/MttTypes'
+import { MtNavItemsProp } from '../Types/types'
 
 
 

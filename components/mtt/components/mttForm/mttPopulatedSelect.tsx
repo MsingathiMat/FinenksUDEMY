@@ -4,7 +4,7 @@ import { MttComboSearch } from '@/components/mtt/components/mttForm/mttForm';
 
 import { QueryModels } from '@/components/mtt/config/ReactQueryConfig';
 import withUtilities from '@/components/mtt/HOC/withUtilities';
-import { UtilitiesProp } from '@/components/mtt/Types/MttTypes';
+import { UtilitiesProp } from '@/components/mtt/Types/types';
 import { Items } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react'
