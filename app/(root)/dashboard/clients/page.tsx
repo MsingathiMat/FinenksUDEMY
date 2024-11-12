@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import { MttTabContainer, MttTabContent, MttTabList, MttTabTrigger } from '@/components/mtt/components/MttTabs'
 import FormAddClient from './FormAddClient'
