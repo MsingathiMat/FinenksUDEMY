@@ -4,7 +4,7 @@ import { MttTabContainer, MttTabContent, MttTabList, MttTabTrigger } from '@/com
 
 import FormAddItem from './FormAddItem'
 import TableClients from './TableClients'
-const page = () => {
+const page = ({params}:{params:string}) => {
   return (
     <div className=' h-full w-full '>
    
