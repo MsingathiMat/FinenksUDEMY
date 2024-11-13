@@ -23,26 +23,10 @@ import LiftOfitemsSelect from "@/components/AppComponents/ListOfSelects/ListOfIt
     
     const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
       // Declare FORM NAME or Table name
-      const FormName = "User";
+      const FormName = "Quote";
     
 
-      const newObg =[
-        {
-          value:"One Dime",
-          label:"One Dime",
-          id:"1"
-        },
-        {
-          value:"Vula Media",
-          label:"Fasi Funeral",
-          id:"2"
-        },
-        {
-          value:"Vula Media",
-          label:"Bright Star",
-          id:"3"
-        }
-      ]
+    
       // Get(Destructure) all the methods that your form will need from  Utilities
       const {
         Create,
@@ -142,7 +126,7 @@ import LiftOfitemsSelect from "@/components/AppComponents/ListOfSelects/ListOfIt
          
             <MttForm
          
-          debugMode
+          
        
               onSubmit={FormSubmit}
               Methods={FormMethods}

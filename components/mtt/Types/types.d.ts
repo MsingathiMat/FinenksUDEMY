@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, Role } from "@prisma/client";
 import { QueryClient } from "@tanstack/react-query";
 
 
@@ -64,7 +64,8 @@ declare global {
       activeEmail: string;
       activeImagePath: string;
       activeId: string;
-      activeRole;
+      activeRole:Role;
+      company:string;
     };
     
     type navItemProp = {

@@ -23,6 +23,8 @@ model Users {
   QuoteChats QuoteChats[]
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
+CompanyId String @default("NONE")
+
 
   @@map("users")
 }
@@ -40,6 +42,10 @@ model Companies {
   TagLine       String
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
+  Quotation Quotations[]
+  Invoice Invoices[]
+  Item Items[]
+  Client Clients[]
 }
 
 
@@ -54,6 +60,8 @@ model Quotations {
   updatedAt   DateTime  @updatedAt
   QuotationDetails QuotationDetails[]
   QuoteChats QuoteChats[]
+  CompanyId String
+  Company Companies @relation(fields: [CompanyId], references: [CompanyId])
 }
 
 
@@ -86,6 +94,8 @@ model Invoices {
   user      Users?   @relation(fields: [UserId], references: [UserId])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+    CompanyId String
+  Company Companies @relation(fields: [CompanyId], references: [CompanyId])
 }
 
 model Items {
@@ -105,6 +115,9 @@ model Items {
   Type      ItemTypeEnum @default(SERVICE)
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
+      CompanyId String
+  Company Companies @relation(fields: [CompanyId], references: [CompanyId])
+  
 }
 
 model Clients {
@@ -122,6 +135,8 @@ model Clients {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+      CompanyId String
+  Company Companies @relation(fields: [CompanyId], references: [CompanyId])
 }
 
 enum ItemStatus {

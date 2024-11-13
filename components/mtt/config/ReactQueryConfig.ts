@@ -16,6 +16,9 @@ export const QueryModels = {
   QuotationById: {
     QueryKey: "QuotationById",
   },
+  UserCompany: {
+    QueryKey: "UserCompany",
+  },
 };
 
 export const MutationModels = {

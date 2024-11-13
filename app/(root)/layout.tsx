@@ -1,6 +1,6 @@
 
 "use client"
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { MttNav, MttNavSwitch, MttSideNavToggler,MttNavHeader }  from '@/components/mtt/MttNavigation'
 
 import { LayoutDashboardIcon } from 'lucide-react'
@@ -11,13 +11,28 @@ import AvatarLogout from '@/components/mtt/components/mttAvatar/AvatarLogout'
 import MttAvatar from '@/components/mtt/components/mttAvatar/MttAvatar'
 import useActiveUser from '@/components/mtt/Hooks/useActiveUser'
 import MttIconTitle from '@/components/mtt/components/MtticonTitle'
+import HasACompany from '@/components/mtt/components/HasACompany'
+import { useAtom } from 'jotai'
+import { UserCompany } from '@/components/mtt/Atoms/AtomUserCompany'
 
 
 
 const Layout = ({children}:{children:Readonly<React.ReactNode>}) => {
  
-
+  const [CompanyName, ] = useAtom(UserCompany);
  const {userData} = useActiveUser<ActiveUserType>() 
+
+ console.log("CN",CompanyName)
+
+  const [companySetup, setCompanySetup] = useState(false);
+
+  useEffect(() => {
+    if (userData?.company === "NONE") {
+      setCompanySetup(true);
+    }
+  }, [userData]);
+
+  
 
  
   const AvatarItems = [
@@ -37,6 +52,10 @@ const Layout = ({children}:{children:Readonly<React.ReactNode>}) => {
 <div className=' mr-auto'>
 <MttNavSwitch />
 </div>
+
+{
+CompanyName?<p className=' font-bold'>{CompanyName}</p>:null
+}
 
 {
   userData?.activeImagePath?
@@ -62,7 +81,16 @@ const Layout = ({children}:{children:Readonly<React.ReactNode>}) => {
 
 </div>
 <div className=' w-full h-full pt-8 overflow-y-scroll pr-8  '>
-{children}
+
+<HasACompany>
+
+  {children}
+</HasACompany>
+{
+
+
+// companySetup?<p>COMPANY SETUP</p>:children
+}
 </div>
 </div>
 </div>

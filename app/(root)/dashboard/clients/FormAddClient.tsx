@@ -19,7 +19,7 @@ import { MutationModels } from "@/components/mtt/config/ReactQueryConfig";
 
 const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   // Declare FORM NAME or Table name
-  const FormName = "User";
+  const FormName = "Client";
 
   const {userData} = useActiveUser<ActiveUserType>()
 
@@ -92,7 +92,7 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
       QClient.invalidateQueries({ queryKey: ["getUsers"] });
 
       //Reset form fields
-      // FormMethods.reset();
+      FormMethods.reset();
 
       // Resert MttImage - This clears input images on the UI
       ImageReset("imageUrl");

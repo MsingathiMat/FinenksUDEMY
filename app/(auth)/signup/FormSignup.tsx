@@ -23,8 +23,7 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   const {
     Create,
     toast,
-    MttImageFile,
-    MttImageDisplay,
+   
     ImageReset,
     ObjectToFormData,
     IsLoading,
@@ -38,7 +37,7 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
       email: z.string().email({ message: "Not Valid" }),
       password: z.string().min(1, "Required"),
       passConfirm: z.string().min(1, "Required"),
-      ProfileImage: z.instanceof(File, { message: "Required" }),
+
     })
     .superRefine((data, ctx) => {
       if (data.password !== data.passConfirm) {
@@ -60,7 +59,7 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
       email: "",
       password: "",
       passConfirm: "",
-      ProfileImage: undefined,
+    
     },
     resolver: zodResolver(FormSchema),
     mode: "all",
@@ -157,16 +156,7 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
           </div>
 
           <div className=" mtt-center gap-4 !flex-col w-[250px]">
-            <MttImageDisplay
-              name="ProfileImage"
-              className=" w-[250px] h-[150px]"
-            />
-
-            <MttImageFile
-              readOnly={readOnly}
-              name="ProfileImage"
-              label="Profile Image"
-            />
+         
 
             <IsLoading className="w-full mtt-center" isLoading={FormIsloading}>
               <MttSubmit>Submit</MttSubmit>

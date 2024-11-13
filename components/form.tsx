@@ -119,7 +119,7 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp })=>{
       <div className=" bg-BaseShadeWhite  p-2 w-fit">
         <MttForm
           title="Register"
-          debugMode
+        
           onSubmit={FormSubmit}
           Methods={FormMethods}
           className="mtt-center gap-6 mt-2 !flex-col w-fit"

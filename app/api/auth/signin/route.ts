@@ -45,13 +45,15 @@ import { ActiveUserType } from "@/components/mtt/Types/MttTypes";
        }
    
      
-     const CookieTokenResponse = await CreateCookieToken<ActiveUserType >({
-       activeName:ExistingUser.name as string,
-       activeEmail: ExistingUser.email as string,
-       activeImagePath:ExistingUser.ProfileImage as string,
-       activeId:ExistingUser.UserId,
-       activeRole:ExistingUser.role
-     })
+       const CookieTokenResponse = await CreateCookieToken<ActiveUserType>({
+
+        activeName:ExistingUser.name as string,
+        activeEmail: ExistingUser.email as string,
+        activeImagePath:ExistingUser.ProfileImage as string,
+        activeId:ExistingUser.UserId,
+        activeRole:ExistingUser.role,
+        company:ExistingUser.CompanyId
+      })
      
 
      

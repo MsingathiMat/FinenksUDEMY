@@ -41,7 +41,7 @@ const events = [
     time: "18:00",
     location: "Los Angeles, CA",
     venue: "LA Concert Hall",
-    poster: "/tv.jpg",
+    poster: "/me.jpg",
     createdAt: new Date("2024-10-01"),
     updatedAt: new Date("2024-10-15"),
     userId: "user123",
@@ -53,7 +53,7 @@ const events = [
     time: "09:00",
     location: "San Francisco, CA",
     venue: "SF Tech Center",
-    poster: "/tv.jpg",
+    poster: "/me.jpg",
     createdAt: new Date("2024-10-05"),
     updatedAt: new Date("2024-10-20"),
     userId: "user456",
@@ -65,7 +65,7 @@ const events = [
     time: "14:00",
     location: "New York, NY",
     venue: "NY Art Gallery",
-    poster: "/tv.jpg",
+    poster: "/me.jpg",
     createdAt: new Date("2024-10-10"),
     updatedAt: new Date("2024-10-22"),
     userId: "user789",
@@ -77,7 +77,7 @@ const events = [
     time: "17:30",
     location: "Austin, TX",
     venue: "Austin Innovation Hub",
-    poster: "/tv.jpg",
+    poster: "/me.jpg",
     createdAt: new Date("2024-09-15"),
     updatedAt: new Date("2024-10-18"),
     userId: "user101",
@@ -89,19 +89,19 @@ const events = [
     time: "19:00",
     location: "Miami, FL",
     venue: "Miami Grand Hotel",
-    poster: "/tv.jpg",
+    poster: "/me.jpg",
     createdAt: new Date("2024-10-07"),
     updatedAt: new Date("2024-10-19"),
     userId: "user102",
   },
   {
     id: "6",
-    title: "Film Screening: Indie Movies",
+    title: "TV one: Indie Movies",
     date: new Date("2025-01-25"),
     time: "20:00",
     location: "Seattle, WA",
     venue: "Seattle Film Center",
-    poster: "/tv.jpg",
+    poster: "/me.jpg",
     createdAt: new Date("2024-10-12"),
     updatedAt: new Date("2024-10-21"),
     userId: "user103",
@@ -113,35 +113,35 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   
   const { Read, Create, toast, QClient, IsLoading } = Utilities;
 
-  const setActive = (EventId: string) => {
-    TableMutationActivate.mutate({ EventId });
-  };
+  // const setActive = (EventId: string) => {
+  //   TableMutationActivate.mutate({ EventId });
+  // };
 
-  const TableQuery = useQuery({
-    queryKey: [QueryModels.Events.QueryKey],
-    queryFn: async () => {
-      return await Read<TypeEvent[]>("/api/tables/getAllEvents");
-    },
-    gcTime: 0,
-    staleTime: 0,
-  });
+  // const TableQuery = useQuery({
+  //   queryKey: [QueryModels.Events.QueryKey],
+  //   queryFn: async () => {
+  //     return await Read<TypeEvent[]>("/api/tables/getAllEvents");
+  //   },
+  //   gcTime: 0,
+  //   staleTime: 0,
+  // });
 
-  const TableMutationActivate = useMutation({
-    mutationKey: [MutationModels.EventUpdateStatus.MutationKey],
-    mutationFn: async ({ EventId }: { EventId: string }) => {
-      return await Create("/api/tables/TableEvents/UpdateStatus/", { EventId });
-    },
-    onSettled: () => {
-      QClient.invalidateQueries({
-        queryKey: [MutationModels.Event.Dependants],
-      });
-    },
-    onSuccess: () => {
-      toast({ title: "SUCCESSFUL", description: "Event status updated" });
-    },
-  });
+  // const TableMutationActivate = useMutation({
+  //   mutationKey: [MutationModels.EventUpdateStatus.MutationKey],
+  //   mutationFn: async ({ EventId }: { EventId: string }) => {
+  //     return await Create("/api/tables/TableEvents/UpdateStatus/", { EventId });
+  //   },
+  //   onSettled: () => {
+  //     QClient.invalidateQueries({
+  //       queryKey: [MutationModels.Event.Dependants],
+  //     });
+  //   },
+  //   onSuccess: () => {
+  //     toast({ title: "SUCCESSFUL", description: "Event status updated" });
+  //   },
+  // });
 
-  const { data, isPending } = TableQuery;
+  // const { data, isPending } = TableQuery;
 
   const columns: ColumnDef<TypeEvent>[] = [
     {
@@ -203,7 +203,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   // return <MtTable data={data ? data : []} columns={columns} />;
 
   return (
-    <IsLoading className="w-full" isLoading={isPending}>
+    <IsLoading className="w-full" isLoading={false}>
       <MttTable data={events ? events : []} columns={columns} />{" "}
     </IsLoading>
   );

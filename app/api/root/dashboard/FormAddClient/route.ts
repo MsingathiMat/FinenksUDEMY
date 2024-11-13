@@ -3,8 +3,16 @@ import { NextRequest, NextResponse } from "next/server";
 import uuid4 from "uuid4";
 import SingletonPrisma from "@/components/mtt/Api/Prisma/singleton";
 import { CompanyType } from "@prisma/client";
+import GetCompanyId from "@/components/mtt/Api/helpers/GetCompanyId";
 
 export const POST = async (req: NextRequest) => {
+
+const CompanyId = await  GetCompanyId()
+
+
+if(!CompanyId){
+  return NextResponse.json({ message: "Unrecognized Company", status: 400 });
+}
   const data = await req.formData();
 
   const ClientName = data.get("ClientName") as string | null;
@@ -37,6 +45,7 @@ export const POST = async (req: NextRequest) => {
       ContactNumber,
       CompanyEmail,
       UserId,
+      CompanyId
     },
   });
 

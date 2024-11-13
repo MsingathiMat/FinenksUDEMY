@@ -29,6 +29,7 @@ import Link from "next/link";
 import Textarea from "react-expanding-textarea";
 import MttImage from "@/components/mtt/components/MttImage";
 import { useParams, useSearchParams } from "next/navigation";
+import IsLoading from "@/components/mtt/components/Isloading";
 const OriginalComponent = ({
   Utilities,
 
@@ -42,7 +43,7 @@ const OriginalComponent = ({
     toast,
     QClient,
 
-    IsLoading,
+ 
     Read,
   } = Utilities;
 
@@ -80,7 +81,7 @@ const OriginalComponent = ({
     });
   };
 
-  const { data: QuoteData, refetch } = FormQuery(QuotationId);
+  const { data: QuoteData, refetch, isPending } = FormQuery(QuotationId);
 
 
   useEffect(() => {
@@ -129,10 +130,18 @@ const OriginalComponent = ({
 
   return (
     <div className="px-8 relative  mtt-Alpha !w-full mtt-center !flex-col !items-start !justify-start pt-2">
+     
+     <IsLoading isLoading={isPending} className="w-full h-full">
       <div className=" mtt-center  gap-8 py-4">
-        <div className="text-[25px] font-bold  text-Pri">
-          R{QuoteData && QuoteData.total}
-        </div>
+        {
+
+
+
+<div className="text-[25px] font-bold  text-Pri">
+R{QuoteData && QuoteData.total}
+</div>
+
+        }
         <div className="text-[18px]">
           <span className="font-bold">QID: </span>
           {QuoteData && QuoteData.QuotationId}
@@ -146,7 +155,7 @@ const OriginalComponent = ({
           {QuoteData && QuoteData.user.name}
         </div>
       </div>
-
+</IsLoading>
       <MttForm
         onSubmit={FormSubmit}
         Methods={FormMethods}

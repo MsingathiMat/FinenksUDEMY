@@ -12,7 +12,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
 
-import { UtilitiesProp } from "@/components/mtt/Types/types";
+import { UtilitiesProp } from "@/components/mtt/Types/MttTypes";
 import { MutationModels, QueryModels } from "@/components/mtt/config/ReactQueryConfig";
 import MttImage from "@/components/mtt/components/MttImage";
 import { MttTable } from "@/components/mtt/components/MttTable";
@@ -96,7 +96,7 @@ const events = [
   },
   {
     id: "6",
-    title: "Film Screening: Indie Movies",
+    title: "TV one: Indie Movies",
     date: new Date("2025-01-25"),
     time: "20:00",
     location: "Seattle, WA",
@@ -113,35 +113,35 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   
   const { Read, Create, toast, QClient, IsLoading } = Utilities;
 
-  const setActive = (EventId: string) => {
-    TableMutationActivate.mutate({ EventId });
-  };
+  // const setActive = (EventId: string) => {
+  //   TableMutationActivate.mutate({ EventId });
+  // };
 
-  const TableQuery = useQuery({
-    queryKey: [QueryModels.Clients.QueryKey],
-    queryFn: async () => {
-      return await Read<TypeEvent[]>("/api/tables/getAllEvents");
-    },
-    gcTime: 0,
-    staleTime: 0,
-  });
+  // const TableQuery = useQuery({
+  //   queryKey: [QueryModels.Events.QueryKey],
+  //   queryFn: async () => {
+  //     return await Read<TypeEvent[]>("/api/tables/getAllEvents");
+  //   },
+  //   gcTime: 0,
+  //   staleTime: 0,
+  // });
 
-  const TableMutationActivate = useMutation({
-    mutationKey: [MutationModels.Clients.MutationKey],
-    mutationFn: async ({ EventId }: { EventId: string }) => {
-      return await Create("/api/tables/TableEvents/UpdateStatus/", { EventId });
-    },
-    onSettled: () => {
-      QClient.invalidateQueries({
-        queryKey: [MutationModels.Clients.Dependants],
-      });
-    },
-    onSuccess: () => {
-      toast({ title: "SUCCESSFUL", description: "Event status updated" });
-    },
-  });
+  // const TableMutationActivate = useMutation({
+  //   mutationKey: [MutationModels.EventUpdateStatus.MutationKey],
+  //   mutationFn: async ({ EventId }: { EventId: string }) => {
+  //     return await Create("/api/tables/TableEvents/UpdateStatus/", { EventId });
+  //   },
+  //   onSettled: () => {
+  //     QClient.invalidateQueries({
+  //       queryKey: [MutationModels.Event.Dependants],
+  //     });
+  //   },
+  //   onSuccess: () => {
+  //     toast({ title: "SUCCESSFUL", description: "Event status updated" });
+  //   },
+  // });
 
-  const { data, isPending } = TableQuery;
+  // const { data, isPending } = TableQuery;
 
   const columns: ColumnDef<TypeEvent>[] = [
     {
@@ -203,7 +203,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   // return <MtTable data={data ? data : []} columns={columns} />;
 
   return (
-    <IsLoading className="w-full" isLoading={isPending}>
+    <IsLoading className="w-full" isLoading={false}>
       <MttTable data={events ? events : []} columns={columns} />{" "}
     </IsLoading>
   );

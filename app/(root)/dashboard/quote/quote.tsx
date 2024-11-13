@@ -22,6 +22,8 @@ import { MttSearchCombo } from "@/components/mtt/components/mttSearchCombo";
 import { cn } from "@/lib/utils";
 import uuid4 from "uuid4";
 import Link from "next/link";
+import { useAtom } from "jotai";
+import { UserCompany } from "@/components/mtt/Atoms/AtomUserCompany";
 
 const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   const {
@@ -38,6 +40,7 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   const FormSchema = z.object({
     ClientId: z.string().min(1, "Required"),
     UserId: z.string().min(1, "Required"),
+    CompanyId: z.string().min(1, "Required"),
     items: z.array(
       z.object({
         ItemCode: z.string().min(1, "Required"),
@@ -49,6 +52,7 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     ),
   });
 
+  const [CompanyId,] = useAtom(UserCompany);
   const FormName = "Quotation"
   type FormType = z.infer<typeof FormSchema>;
   const FormMethods = useForm<FormType>({
@@ -70,7 +74,11 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     if (UserId) {
       FormMethods.setValue("UserId", UserId);
     }
-  }, [UserId]);
+    if (CompanyId) {
+      FormMethods.setValue("CompanyId", CompanyId);
+    }
+
+  }, [UserId,CompanyId]);
 
   const { control, handleSubmit, watch } = FormMethods;
   const { fields, append, remove } = useFieldArray({
@@ -145,7 +153,7 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
         <h3 className="text-right text-lg  ">QTNO: 00005</h3>
       </div>
       <MttForm
-
+isLoading={FormMutation.isPending}
         onSubmit={FormSubmit}
         Methods={FormMethods}
         className="space-y-4 w-full "
@@ -308,11 +316,11 @@ if(field.Description!=="" && field.Description!==undefined && field.Description!
           </div>
         </div>
 
-<Link href="/api/generatePDF">Generate Quote</Link>
+
         {/* Submit Button */}
-        <div className="text-right mt-4 absolute right-10 bottom-10">
+        <div className="text-right mt-4 absolute right-10 bottom-5">
           <IsLoading isLoading={false}>
-            <MttSubmit>Generate Invoice</MttSubmit>
+            <MttSubmit>Create </MttSubmit>
           </IsLoading>
         </div>
       </MttForm>

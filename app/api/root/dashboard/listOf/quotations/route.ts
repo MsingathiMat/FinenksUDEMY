@@ -1,11 +1,22 @@
 import { Users } from './../../../../../../node_modules/.prisma/client/index.d';
 import { NextRequest, NextResponse } from "next/server";
 import SingletonPrisma from "@/components/mtt/Api/Prisma/singleton";
+import GetCompanyId from '@/components/mtt/Api/helpers/GetCompanyId';
 
 export const GET = async (req: NextRequest) => {
   const DynamicRoute = req.nextUrl.searchParams.get('DynamicRoute') || null;
+
+  const CompanyId = await  GetCompanyId()
+
+
+  if(!CompanyId){
+    return NextResponse.json({ message: "Unrecognized Company", status: 400 });
+  }
   try {
     const quotations = await SingletonPrisma.quotations.findMany({
+      where:{
+        CompanyId
+      },
       include: {
         clients:true ,// Assuming there's a related Client table
         user: true,   // Assuming there's a related User table

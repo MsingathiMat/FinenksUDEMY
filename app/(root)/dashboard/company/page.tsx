@@ -1,7 +1,8 @@
 import React from 'react'
 import { MttTabContainer, MttTabContent, MttTabList, MttTabTrigger } from '@/components/mtt/components/MttTabs'
-import FormAddClient from './FormAddCompany'
+
 import TableClients from './TableClients'
+import FormAddCompany from './FormAddCompany';
 export const dynamic = 'force-dynamic';
 const page = ()=> {
   return (
@@ -23,7 +24,7 @@ const page = ()=> {
 
 <MttTabContent className=" pt-8" value="Users">
 
-<FormAddClient/>
+<FormAddCompany/>
 
 </MttTabContent>
 

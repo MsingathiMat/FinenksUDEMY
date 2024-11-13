@@ -18,6 +18,7 @@ import useActiveUser from "@/components/mtt/Hooks/useActiveUser";
 import { MutationModels, QueryModels } from "@/components/mtt/config/ReactQueryConfig";
 import { Prisma } from "@prisma/client";
 import { MttSearchCombo } from "@/components/mtt/components/mttSearchCombo";
+import { MttRedirect } from "@/components/mtt/Helpers/MttRedirect";
 
 
 const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
@@ -25,7 +26,7 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
 const [SelectValues, SetSelectValues] = useState([{}])
 
   // Declare FORM NAME or Table name
-  const FormName = "User";
+  const FormName = "Company";
 
   //Current User ID
 
@@ -38,14 +39,11 @@ const [SelectValues, SetSelectValues] = useState([{}])
      
     }
 
-    if(data){
-      FormMethods.setValue("FileName",data[0].Logo)
-    }
     
   }, [userData]);
   const {
     Create,
-    Read,
+
     toast,
     MttImageFile,
     MttImageDisplay,
@@ -55,19 +53,19 @@ const [SelectValues, SetSelectValues] = useState([{}])
     QClient,
   } = Utilities;
 
-  const [IsUpdating,setIsupdating] = useState(false)
+
   // Create a FormSchema
   const FormSchema = z.object({
     UserId: z.string().min(1, "Required"),
-    OldFileName:z.string(),
-    CompanyId:IsUpdating?z.string().min(1,"Required"):z.any().optional(),
+  
+    CompanyId:z.any().optional(),
     CompanyName: z.string().min(1, "Required"),
     ContactPerson: z.string().min(1, "Required"),
     Type: z.enum(["Company", "Individual"]),
     ContactNo: z.string().min(1, "Required"),
     TagLine: z.string().min(1, "Required"),
     Email: z.string().email({ message: "Not Valid" }),
-    Logo: IsUpdating?z.any().optional():z.instanceof(File,{message:"Required"})
+  
   })
 
   
@@ -85,7 +83,7 @@ const [SelectValues, SetSelectValues] = useState([{}])
       ContactNo: "",
       Email: "",
       TagLine: "",
-      Logo: undefined,
+   
     },
     resolver: zodResolver(FormSchema),
     mode: "all",
@@ -99,41 +97,17 @@ const [SelectValues, SetSelectValues] = useState([{}])
   };
 
 
-const FormQuery = useQuery({
-  queryKey:[QueryModels.Companies.QueryKey],
-  queryFn:async()=>{
-
-    return await Read<Prisma.CompaniesCreateInput[]>('/api/root/dashboard/FormAddCompany/getFormData')
-
-  }
-})
-
-const {data, isPending:SlelectValuePending} = FormQuery
-
-
-useEffect(()=>{
 
 
 
-  if(data){
 
-    setDefaultValues(data[0])
-    data.map((CompanyData)=>{
-  
-    
-        SetSelectValues([{value:"",label:"Reset Form",id:""},...SelectValues,{value:CompanyData.CompanyName,label:CompanyData.CompanyName,id:CompanyData.CompanyId}])
-
-    })
-   
-  }
-},[SlelectValuePending])
 
   const FormMutation = useMutation({
     mutationKey:[MutationModels.Companies.MutationKey],
     mutationFn: async ({ formData }: { formData: FormData }) => {
       //Create has been supplied by HOC. It comes from MttFetch
       return await Create(
-        IsUpdating?"/api/root/dashboard/FormAddCompany/UpdateFormData/": "/api/root/dashboard/FormAddCompany/", 
+       "/api/root/dashboard/FormAddCompany/saveFormData", 
         
         formData);
     },
@@ -152,15 +126,18 @@ useEffect(()=>{
       FormMethods.reset();
 
       // Resert MttImage - This clears input images on the UI
-      ImageReset("Logo");
-
-      FormQuery.refetch()
+   
       FormMethods.reset(defaultValues as FormType)
       //toast has been supplied by HOC. It comes from Shadcn
+     
+     
+
       toast({
         title: "SUCCESS",
         description: `${FormName} created successfully`,
       });
+
+      MttRedirect("/api/signout")
     },
   });
 
@@ -173,46 +150,6 @@ useEffect(()=>{
 
     <div>
 
-<IsLoading isLoading={SlelectValuePending}>
-        <MttSearchCombo
-        
-        
-        Onselect={((val)=>{ 
-      
-          if(val=="a238131f-8411-4170-87e6-187996fad640"){
-            ImageReset("Logo")
-            FormMethods.reset(defaultValues as FormType)
-
-            FormMethods.setValue("CompanyId",val)
-     
-if(data){
-  FormMethods.setValue("FileName",data[0].Logo)
-}
-
-          setIsupdating(true)
-          }else{
-
-            setIsupdating(false)
-            ImageReset("Logo")
-            FormMethods.reset({
-              CompanyName: "",
-              ContactPerson: "",
-              
-              ContactNo: "",
-              Email: "",
-              TagLine: "",
-              Logo: undefined,
-            })
-          }
-        })}
-          
-          placeholder="Choose Company"
-          SelectValues={
-            SelectValues as { value: string; label: string; id: string }[]
-          }
-          className="w-[250px]"
-        />
-        </IsLoading>
 
         <div className=" mtt-Alpha p-4 w-fit rounded-md">
       
@@ -272,13 +209,10 @@ if(data){
             />
           </div>
 
-          <div className=" mtt-center gap-4 !flex-col w-[250px]">
-            <MttImageDisplay wathcedValue={FormMethods.watch("Logo")} name="Logo" className=" h-[130px] " />
-            <MttImageFile name="Logo" label="Company Logo" />
-          </div>
+      
         </div>
         <IsLoading className="w-full mtt-center" isLoading={FormIsloading}>
-          <MttSubmit>{IsUpdating?"Update Data":"Save "}</MttSubmit>
+          <MttSubmit>{"Save "}</MttSubmit>
         </IsLoading>
       </MttForm>
     </div>
@@ -287,5 +221,5 @@ if(data){
   );
 };
 
-const FormAddClient = withUtilities(OriginalForm);
-export default FormAddClient;
+const FormAddCompany = withUtilities(OriginalForm);
+export default FormAddCompany;

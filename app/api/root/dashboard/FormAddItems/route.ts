@@ -4,7 +4,16 @@ import uuid4 from "uuid4";
 import SingletonPrisma from "@/components/mtt/Api/Prisma/singleton";
 import { Decimal } from "@prisma/client/runtime/library";
 import { ItemStatus, ItemTypeEnum } from "@prisma/client";
+import GetCompanyId from "@/components/mtt/Api/helpers/GetCompanyId";
 export const POST = async (req: NextRequest) => {
+
+  const CompanyId = await  GetCompanyId()
+
+console.log("ID TEST",CompanyId)
+if(!CompanyId){
+  return NextResponse.json({ message: "Unrecognized Company", status: 400 });
+}
+
   const data = await req.formData();
 
   const ItemName = data.get("ItemName") as string | null;
@@ -42,7 +51,8 @@ export const POST = async (req: NextRequest) => {
     ItemType:ItemType as ItemTypeEnum,
     Quantity:parseInt(Quantity) ,
     Amount: Amount as Decimal,
-    Description
+    Description,
+    CompanyId
    }
     },
   );

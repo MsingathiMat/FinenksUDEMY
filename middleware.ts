@@ -10,11 +10,14 @@ export async function middleware(req: NextRequest) {
 
   let isLoggedIn = false;
 
-  isLoggedIn = !!(await verifyToken (token));
+ 
+  const ActiveUser = (await verifyToken<ActiveUserType> (token));
 
-  const publicRoutes = ["/"];
+ 
+  isLoggedIn = !!ActiveUser
+  const publicRoutes = ["/","/companySetup"];
   const apiPrefix = "/api";
-  const authRoutes = ["/signin", "/signup", "api/signout"];
+  const authRoutes = ["/signin", "/signup", "api/signout","/companySetup"];
   const DEFAULT_LOGIN_REDIRECT = "/dashboard";
 
   // Determine if the user is logged in
@@ -28,15 +31,22 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, req.url));
   }
 
+
+  
   // Allow the request to continue if it's a public route or API route
   if (isPublicRoute || isApiRoute) {
     return NextResponse.next();
   }
 
+ 
   if (!isLoggedIn && !isPublicRoute && !isAuthRoute) {
     return NextResponse.redirect(new URL("/signin", req.url), 302);
   }
+
+ 
 }
+
+
 
 export const config = {
   matcher: [
