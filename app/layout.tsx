@@ -19,8 +19,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Mtt Components",
-  description: "Built with extension in mind",
+  title: "Countant",
+  description: "The secrete Accountant",
 };
 
 export default function RootLayout({

@@ -89,14 +89,14 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   const ClientQuery = useQuery({
     queryKey: [QueryModels.Clients.QueryKey],
     queryFn: async () => {
-      return Read<Items[]>("/api/root/dashboard/listOf/clients/");
+      return Read<Items[]>(QueryModels.Clients.ApiEndpoint);
     },
   });
 
   const CompQuery = useQuery({
     queryKey: [QueryModels.Items.QueryKey],
     queryFn: async () => {
-      return Read<Items[]>("/api/root/dashboard/listOf/items/");
+      return Read<Items[]>(QueryModels.Items.ApiEndpoint);
     },
   });
 

@@ -6,9 +6,11 @@ export const QueryModels = {
   },
   Items: {
     QueryKey: "Items",
+    ApiEndpoint:"/api/root/dashboard/listOf/items/"
   },
   Clients: {
     QueryKey: "Clients",
+     ApiEndpoint:"/api/root/dashboard/listOf/clients/"
   },
   Quotations: {
     QueryKey: "Quotations",
