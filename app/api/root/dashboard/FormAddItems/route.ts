@@ -9,7 +9,7 @@ export const POST = async (req: NextRequest) => {
 
   const CompanyId = await  GetCompanyId()
 
-console.log("ID TEST",CompanyId)
+
 if(!CompanyId){
   return NextResponse.json({ message: "Unrecognized Company", status: 400 });
 }

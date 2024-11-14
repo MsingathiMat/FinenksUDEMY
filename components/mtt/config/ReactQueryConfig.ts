@@ -24,6 +24,10 @@ export const QueryModels = {
 };
 
 export const MutationModels = {
+  FieldUpdater: {
+    MutationKey: "mtFieldUpdater",
+    ApiEndpoint:"/api/FieldUpdater/"
+  },
   Companies: {
     MutationKey: "mtCompany",
     Dependants:[QueryModels.Companies.QueryKey],

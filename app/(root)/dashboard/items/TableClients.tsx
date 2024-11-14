@@ -18,6 +18,11 @@ import MttImage from "@/components/mtt/components/MttImage";
 import { MttTable } from "@/components/mtt/components/MttTable";
 import withUtilities from "@/components/mtt/HOC/withUtilities";
 import { Items } from "@prisma/client";
+import { FilePenLine } from "lucide-react";
+import { MttPopup } from "@/components/mtt/components/MttPopup";
+import { Input } from "@/components/ui/input";
+import MttForm, { MttSubmit, MttTextField } from "@/components/mtt/components/mttForm/mttForm";
+import MttFieldUpdater from "@/components/mtt/components/MttFieldUpdater";
 
 
 
@@ -64,6 +69,21 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     {
       accessorKey: "ItemName",
       header: "name",
+
+      cell:(val)=><div className="mtt-center !justify-start gap-2">{val.getValue() as string} 
+      <MttPopup title="Edit Item Name" content={
+        
+      
+      
+        
+        <div className="w-full">
+<MttFieldUpdater UniqueValue={val.row.original.ItemId} RevalidateKey="Items" UniqueField="ItemId" tableName="Items" UpdatedField="ItemName" UpdatedValue={val.getValue() as string}/>
+
+        </div>
+        
+        }>
+      <FilePenLine className=" hover:cursor-pointer hover:text-Sec" size={15} />
+        </MttPopup></div>
     },
     {
       accessorKey: "ItemId",
