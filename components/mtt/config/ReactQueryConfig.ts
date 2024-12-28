@@ -1,5 +1,6 @@
 
 
+const aggregateEndpoint="/api/root/dashboard/aggregates/totalRecords/"
 export const QueryModels = {
   Companies: {
     QueryKey: "Company",
@@ -21,6 +22,24 @@ export const QueryModels = {
   UserCompany: {
     QueryKey: "UserCompany",
   },
+  aggregates:{
+    TotalQuotes:{
+      QueryKey: "TotalQuotes",
+       ApiEndpoint:aggregateEndpoint
+    },
+    TotalClients:{
+      QueryKey: "TotalClients",
+       ApiEndpoint:aggregateEndpoint
+    },
+    TotalItems:{
+      QueryKey: "TotalItems",
+       ApiEndpoint:aggregateEndpoint
+    },
+    TotalUsers:{
+      QueryKey: "TotalUsers",
+       ApiEndpoint:aggregateEndpoint
+    }
+  }
 };
 
 export const MutationModels = {

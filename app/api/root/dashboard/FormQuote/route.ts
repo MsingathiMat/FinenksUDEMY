@@ -7,10 +7,10 @@ import GetCompanyData from "@/components/mtt/Api/helpers/GetCompanyData";
 export const POST = async (req: NextRequest) => {
   const {ClientId,UserId,items} = await req.json();
 
-  const CompanyId = await  GetCompanyData()
+  const CompanyData = await  GetCompanyData()
 
 
-if(!CompanyId){
+if(!CompanyData){
   return NextResponse.json({ message: "Unrecognized Company", status: 400 });
 }
 
@@ -27,7 +27,7 @@ if(!CompanyId){
         ClientId,
         status:"CREATED",
 UserId,
-CompanyId:CompanyId,
+CompanyId:CompanyData.CompanyId as string,
 QuotationDetails:{
     create: items.map((item:QuoteRowType)=>({
         ItemId: item.ItemCode,
@@ -45,7 +45,7 @@ QuotationDetails:{
 
 
   if (!CreatedQuote) {
-    return NextResponse.json({ message: "Item not created", status: 500 });
+    return NextResponse.json({ message: "Quotation not created", status: 500 });
   }
 return NextResponse.json({message:"SUCCESS", payload:CreatedQuote},{status:201})
 };
