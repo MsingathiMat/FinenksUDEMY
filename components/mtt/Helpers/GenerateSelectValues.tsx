@@ -2,7 +2,7 @@
 import { Items } from '@prisma/client';
 import { SelectValueTypes } from '../Types/types';
 
-const GenerateSelectValues = ({ data,NameColumn,IdColumn }: { NameColumn:string,IdColumn:string, data:Items[]}):SelectValueTypes[] => {
+const GenerateSelectValues = ({ data,NameColumn,IdColumn }: { NameColumn:string,IdColumn:string, data:[]}):SelectValueTypes[] => {
  
  type ItemUnion = keyof Items
     const GeneratedSelectValues = data.map((ItemData) => ({

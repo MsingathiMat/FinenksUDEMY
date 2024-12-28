@@ -2,12 +2,12 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import SingletonPrisma from "@/components/mtt/Api/Prisma/singleton";
-import GetCompanyId from "@/components/mtt/Api/helpers/GetCompanyId";
+import GetCompanyData from "@/components/mtt/Api/helpers/GetCompanyData";
 
 export const POST = async (req: NextRequest) => {
   const {ClientId,UserId,items} = await req.json();
 
-  const CompanyId = await  GetCompanyId()
+  const CompanyId = await  GetCompanyData()
 
 
 if(!CompanyId){

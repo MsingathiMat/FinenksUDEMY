@@ -52,6 +52,7 @@ Input:'var(--Border)'
 		textPri: "var(--textPri)",
         textSec: "var(--textSec)",
 		textTert: "var(--textTert)",
+    
         background: "var(--Base)",
         foreground: "var(--ForeBase)",
         card: {

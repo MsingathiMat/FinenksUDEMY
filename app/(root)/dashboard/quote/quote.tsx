@@ -150,9 +150,10 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
       <div className=" px-[38px] mtt-center !justify-between w-full">
         <h4 className="text-2xl font-normal mb-4"> R{sumTotal.toFixed(2)}</h4>
 
-        <h3 className="text-right text-lg  ">QTNO: 00005</h3>
+        <h3 className="text-right text-lg  mtt-BaseShadeHover1 p-5  ">QTNO: 00005</h3>
       </div>
       <MttForm
+    
 isLoading={FormMutation.isPending}
         onSubmit={FormSubmit}
         Methods={FormMethods}

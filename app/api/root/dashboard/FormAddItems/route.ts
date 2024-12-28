@@ -4,13 +4,13 @@ import uuid4 from "uuid4";
 import SingletonPrisma from "@/components/mtt/Api/Prisma/singleton";
 import { Decimal } from "@prisma/client/runtime/library";
 import { ItemStatus, ItemTypeEnum } from "@prisma/client";
-import GetCompanyId from "@/components/mtt/Api/helpers/GetCompanyId";
+import GetCompanyData from "@/components/mtt/Api/helpers/GetCompanyData";
 export const POST = async (req: NextRequest) => {
 
-  const CompanyId = await  GetCompanyId()
+  const CompanyData = await  GetCompanyData()
 
 
-if(!CompanyId){
+if(!CompanyData){
   return NextResponse.json({ message: "Unrecognized Company", status: 400 });
 }
 
@@ -52,7 +52,7 @@ if(!CompanyId){
     Quantity:parseInt(Quantity) ,
     Amount: Amount as Decimal,
     Description,
-    CompanyId
+    CompanyId:CompanyData.CompanyId as string
    }
     },
   );

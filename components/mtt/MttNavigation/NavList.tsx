@@ -1,4 +1,4 @@
-import { Building2, CalendarCog, FileText, LayoutDashboard, ListTodo, Music2Icon, User } from "lucide-react";
+import { Building2, CalendarCog, FileText, LayoutDashboard, ListTodo, Music2Icon, User, Users } from "lucide-react";
 
 const basePath = "/dashboard";
 
@@ -37,6 +37,12 @@ export const MttNavItems = [
     icon: <Building2 />,
     path: "/company",
     label: "Company",
+    basePath,
+  },
+  {
+    icon: <Users />,
+    path: "/users",
+    label: "Users",
     basePath,
   },
 ];

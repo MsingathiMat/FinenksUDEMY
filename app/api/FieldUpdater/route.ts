@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import SingletonPrisma from "@/components/mtt/Api/Prisma/singleton";
 import { PrismaClient, Prisma } from "@prisma/client";
-import GetCompanyId from "@/components/mtt/Api/helpers/GetCompanyId";
+import GetCompanyData from "@/components/mtt/Api/helpers/GetCompanyData";
 
 // Create a type for all possible table names based on PrismaClient
 type TableName = keyof Omit<PrismaClient, '$connect' | '$disconnect' | '$on' | '$transaction' | '$use'> ;
 
 export const POST = async (req: NextRequest) => {
   
-  const CompanyId = await  GetCompanyId()
+  const CompanyId = await  GetCompanyData()
 
 
   if(!CompanyId){
@@ -16,7 +16,7 @@ export const POST = async (req: NextRequest) => {
   }
   
   try {
-    // Parse the request body
+    // Parse the request body ``  ` ` 
     const data = await req.json();
 
  

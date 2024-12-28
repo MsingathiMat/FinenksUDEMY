@@ -1,10 +1,9 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+
 import MttDashBar from "@/components/mtt/components/MttDashBar";
 import { MttStatsCard } from "@/components/mtt/components/MttStatsCard";
 import { Wallet2 } from "lucide-react";          
 import TableEvents from '@/components/table';
-import useActiveUser from '@/components/mtt/Hooks/useActiveUser';
 
 const Page = () => {
   

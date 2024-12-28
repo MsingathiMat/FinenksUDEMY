@@ -1,8 +1,7 @@
 "use client";
-import Textarea from "react-expanding-textarea";
-import React, { useEffect } from "react";
+
+import React from "react";
 import MttForm, {
-  MttSelect,
   MttSubmit,
   MttTextField,
 } from "@/components/mtt/components/mttForm/mttForm";
@@ -12,45 +11,43 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import withUtilities from "@/components/mtt/HOC/withUtilities";
-import { ActiveUserType, UtilitiesProp } from "@/components/mtt/Types/MttTypes";
-import { CompanyType, ItemStatus, ItemTypeEnum } from "@prisma/client";
-import useActiveUser from "@/components/mtt/Hooks/useActiveUser";
-import { MutationModels } from "@/components/mtt/config/ReactQueryConfig";
-import useMttMedia from "@/components/mtt/components/mttForm/mttMedia/useMttMedia";
+
+import MttArrowText from "@/components/mtt/components/MttArrowText";
+import { MttRedirect } from "@/components/mtt/Helpers/MttRedirect";
 
 const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   // Declare FORM NAME or Table name
-  const FormName = "Client";
-  const { MttImageFile, MttImageDisplay} = useMttMedia();
-  const {userData} = useActiveUser<ActiveUserType>()
+  const FormName = "User";
 
- 
   // Get(Destructure) all the methods that your form will need from  Utilities
   const {
     Create,
     toast,
-    UserId,
+   
     ImageReset,
     ObjectToFormData,
     IsLoading,
     QClient,
   } = Utilities;
 
-
-
   // Create a FormSchema
   const FormSchema = z
     .object({
-      ClientName: z.string().min(1, "Required"),
-      UserId: z.string().min(1, "Required"),
-      ContactNumber: z.string().min(1, "Required"),
-      ClientType: z.nativeEnum(CompanyType),
-      ContactPerson: z.string().min(1, "Required"),
-      CompanyEmail: z.string().min(1, "Required"),
-     
+      name: z.string().min(1, "Required"),
+      email: z.string().email({ message: "Not Valid" }),
+      password: z.string().min(1, "Required"),
+      passConfirm: z.string().min(1, "Required"),
+
     })
-    
-  ;
+    .superRefine((data, ctx) => {
+      if (data.password !== data.passConfirm) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["passConfirm"],
+          message: "Password Match",
+        });
+      }
+    });
 
   // Form Type
   type FormType = z.infer<typeof FormSchema>;
@@ -58,12 +55,11 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   // FormMethods
   const FormMethods = useForm<FormType>({
     defaultValues: {
-      ClientName: "",
-      UserId: UserId,
-      ContactPerson: "",
-      ContactNumber: "",
-      ClientType: undefined,
-      CompanyEmail:""
+      name: "",
+      email: "",
+      password: "",
+      passConfirm: "",
+    
     },
     resolver: zodResolver(FormSchema),
     mode: "all",
@@ -76,10 +72,10 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   };
 
   const FormMutation = useMutation({
-    mutationKey: [MutationModels.Items.MutationKey],
+    mutationKey: ["mtUsers"],
     mutationFn: async ({ formData }: { formData: FormData }) => {
       //Create has been supplied by HOC. It comes from MttFetch
-      return await Create("/api/root/dashboard/FormAddClient/", formData);
+      return await Create("/api/root/dashboard/companyUser/", formData);
     },
     onError: () => {
       //toast has been supplied by HOC. It comes from Shadcn
@@ -92,7 +88,7 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
       //QClient has been supplied by HOC. It comes from Shadcn
       QClient.invalidateQueries({ queryKey: ["getUsers"] });
 
-      //Reset form fields
+      // Reset form fields
       FormMethods.reset();
 
       // Resert MttImage - This clears input images on the UI
@@ -103,6 +99,8 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
         title: "SUCCESS",
         description: `${FormName} created successfully`,
       });
+
+      MttRedirect("/dashboard");
     },
   });
 
@@ -110,88 +108,67 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
 
   const readOnly = FormMutation.isPending;
   const FormIsloading = FormMutation.isPending;
-  const ItemType = FormMethods.watch("ItemType");
 
-  useEffect(()=>{
-FormMethods.setValue("Quantity",-1)
-
-  },[ItemType])
-
-  useEffect(()=>{
-  if(userData){
-    FormMethods.setValue("UserId",userData.activeId)
-  }
-    
-      },[userData])
-    
-  
-    
-    
-      return (
+  return (
     <div className=" mtt-Alpha p-4 w-fit rounded-md">
       <MttForm
-
+        title="Register"
+        indicator
         onSubmit={FormSubmit}
         Methods={FormMethods}
         className="  mtt-center gap-6 mt-2 !flex-col w-fit "
       >
         <div className="  mtt-center gap-6 mt-2 !flex-row w-fit  ">
           <div className=" mtt-center gap-4 !flex-col">
-           
-          <MttImageDisplay className=" absolute rounded-full -top-[50px] -right-[50px] w-[100px] h-[100px]" name="Profile" />
-          <MttImageDisplay className=" w-[100px] h-[100px]" name="ID" />
-          <MttImageFile name="Profile" label="Profile Image" />
-          <MttImageFile name="ID" label="ID Image" />
-
-          <MttTextField
+            <MttTextField
               readOnly={readOnly}
-              name="ClientName"
-              label="Client Name"
+              type="textInput"
+              Icon="user"
+              name="name"
+              label="User Name"
               className=""
-            />
-            <MttSelect
-              readOnly={readOnly}
-              name="ClientType"
-              label="Client Type"
-              Options={[
-                { value: "Company", label: "Company" },
-                { value: "Individual", label: "Individual" },
-              ]}
             />
             <MttTextField
               readOnly={readOnly}
-              name="ContactPerson"
-              label="Contact Person"
+              Icon="email"
+              name="email"
+              label="Email"
+              className=""
+            />
+
+            <MttTextField
+              readOnly={readOnly}
+              Icon="lock"
+              type="password"
+              name="password"
+              label="Password"
+              className=""
+            />
+
+            <MttTextField
+              readOnly={readOnly}
+              Icon="lock"
+              type="password"
+              name="passConfirm"
+              label="Confirm Password"
               className=""
             />
           </div>
 
-          <div className=" mtt-center gap-4 !flex-col">
-       
-            <MttTextField
-              readOnly={readOnly}
-              name="ContactNumber"
-              label="Contact Number"
-              className=""
-            />
+          <div className=" mtt-center gap-4 !flex-col w-[250px]">
+         
 
-            <MttTextField
-              readOnly={readOnly}
-              name="CompanyEmail"
-              label="Company Email"
-              className=""
-            />
-           
-          </div>
-          
-        </div>
-        <IsLoading className="w-full mtt-center" isLoading={FormIsloading}>
-              <MttSubmit>Add</MttSubmit>
+            <IsLoading className="w-full mtt-center" isLoading={FormIsloading}>
+              <MttSubmit>Submit</MttSubmit>
             </IsLoading>
+          </div>
+        </div>
+
+        <MttArrowText link="/signin" title="Sign In" />
       </MttForm>
     </div>
   );
 };
 
-const FormAddClient = withUtilities(OriginalForm);
-export default FormAddClient;
+const FormSignup = withUtilities(OriginalForm);
+export default FormSignup;

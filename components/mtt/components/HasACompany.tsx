@@ -7,6 +7,7 @@ import withUtilities from "../HOC/withUtilities";
 import { useAtom } from "jotai";
 import { UserCompany } from "../Atoms/AtomUserCompany";
 import FormAddCompany from "@/app/(root)/dashboard/company/FormAddCompany";
+import { Prisma } from "@prisma/client";
 
 const OriginalComp = ({
   Utilities,
@@ -19,13 +20,15 @@ const OriginalComp = ({
   const { Read } = Utilities;
   const { userData } = useActiveUser<ActiveUserType>();
 
+
+
   const [companySetup, setCompanySetup] = useState(false);
 
   const { data, isSuccess,refetch } = useQuery({
     queryKey: [QueryModels.UserCompany.QueryKey],
     queryFn: async () => {
       if (userData) {
-        return await Read("/api/root/dashboard/userCompany", { UserId: userData.activeId });
+        return await Read<Prisma.CompaniesCreateInput>("/api/root/dashboard/userCompany", { UserId: userData.activeId });
       }
       return null;
     },
@@ -41,9 +44,14 @@ const OriginalComp = ({
       refetch().then(()=>{
 
       
-        setUserCompany(data.UserCompany.Companies[0].CompanyName);
-   
+      if(data){
 
+    
+        setUserCompany(data?.CompanyName);
+      }
+        
+   
+       
       })
    
     }

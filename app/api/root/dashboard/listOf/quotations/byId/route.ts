@@ -1,14 +1,15 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import SingletonPrisma from "@/components/mtt/Api/Prisma/singleton";
-import GetCompanyId from "@/components/mtt/Api/helpers/GetCompanyId";
+import GetCompanyData from "@/components/mtt/Api/helpers/GetCompanyData";
 
 export const GET = async (req: NextRequest) => {
   
-  const CompanyId = await  GetCompanyId()
+  const DynamicRoute = req.nextUrl.searchParams.get('DynamicRoute') || null;
+  const CompanyData = await  GetCompanyData()
 
 
-  if(!CompanyId){
+  if(!CompanyData){
     return NextResponse.json({ message: "Unrecognized Company", status: 400 });
   }
   try {
@@ -22,7 +23,7 @@ export const GET = async (req: NextRequest) => {
     const quotation = await SingletonPrisma.quotations.findUnique({
       where: {
         QuotationId: QuotationId,
-        CompanyId // Find by the unique ID
+        CompanyId:CompanyData.CompanyId
       },
       include: {
         clients: true, // Assuming there's a related Client table

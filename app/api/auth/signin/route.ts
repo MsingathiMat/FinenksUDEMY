@@ -4,9 +4,11 @@
    import bcryptjs from "bcryptjs";
 import SingletonPrisma from "@/components/mtt/Api/Prisma/singleton";
 import { CreateCookieToken } from "@/components/mtt/Api/CreateCookieToken";
-import { ActiveUserType } from "@/components/mtt/Types/MttTypes";
-  
+import { console } from "inspector";
+
    export async function POST(request: NextRequest) {
+
+
      try {
        const data = await request.json();
    
@@ -24,6 +26,7 @@ import { ActiveUserType } from "@/components/mtt/Types/MttTypes";
       //  Find the user by email
        const ExistingUser = await SingletonPrisma.users.findFirst({ where: { email } });
    
+      
        if (!ExistingUser) {
          return NextResponse.json(
            { error: "Invalid email or password" },
@@ -56,7 +59,7 @@ import { ActiveUserType } from "@/components/mtt/Types/MttTypes";
       })
      
 
-     
+ 
 
      return CookieTokenResponse
      } catch (error) {

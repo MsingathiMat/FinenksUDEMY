@@ -22,7 +22,7 @@ const Layout = ({children}:{children:Readonly<React.ReactNode>}) => {
   const [CompanyName, ] = useAtom(UserCompany);
  const {userData} = useActiveUser<ActiveUserType>() 
 
- console.log("CN",CompanyName)
+
 
   const [companySetup, setCompanySetup] = useState(false);
 

@@ -52,6 +52,37 @@
     --ButtonFore:white;
   }
 
+  .dark{
+    --Base: #030907;
+    --ForeBase: #ffffff;
+    --BaseShade:#0B1915;
+    --BaseShade1:#10231D;
+    --BaseShade2:#132A23;
+    --BaseShade3:#173129;
+    --BaseShade4:#1C3A31;
+    --BaseShade5:#22453A;
+    --BaseShadeDark:#030907;
+ 
+    --Alpha:rgba(179,188,210,0.01);
+    --Alpha1:rgba(179,188,210,0.03);
+    --Alpha2:rgba(179,188,210,0.06);
+    --Alpha3:rgba(179,188,210,0.09);
+    --Alpha4:rgba(179,188,210,0.12);
+    --Alpha5:rgba(179,188,210,0.15);
+
+    --BaseShadeWhite:var(--BaseShade);
+    --BaseShade1WHite:var(--BaseShade1);
+    --BaseShade2WHite:var(--BaseShade2);
+    --BaseShade3White:var(--BaseShade3);
+    --BaseShade4White:var(--BaseShade4);
+    --BaseShade5White:var(--BaseShade5);
+    --BaseShadeDarkWhite:var(--BaseShadeDark);
+
+    --textPri:#fffcfc;
+    --textSec:#d0d0d0;
+    --textTert:#989898;
+  
+}
 :root{
     --Radius:0px;
     --LayoutGap:3px;
@@ -106,37 +137,7 @@ Button:hover{
     --HoverPri: var(--PriHover);
     --HoverSec:var(--SecHover);
 }
-.dark{
-    --Base: #030907;
-    --ForeBase: #ffffff;
-    --BaseShade:#0B1915;
-    --BaseShade1:#10231D;
-    --BaseShade2:#132A23;
-    --BaseShade3:#173129;
-    --BaseShade4:#1C3A31;
-    --BaseShade5:#22453A;
-    --BaseShadeDark:#030907;
- 
-    --Alpha:rgba(179,188,210,0.01);
-    --Alpha1:rgba(179,188,210,0.03);
-    --Alpha2:rgba(179,188,210,0.06);
-    --Alpha3:rgba(179,188,210,0.09);
-    --Alpha4:rgba(179,188,210,0.12);
-    --Alpha5:rgba(179,188,210,0.15);
 
-    --BaseShadeWhite:var(--BaseShade);
-    --BaseShade1WHite:var(--BaseShade1);
-    --BaseShade2WHite:var(--BaseShade2);
-    --BaseShade3White:var(--BaseShade3);
-    --BaseShade4White:var(--BaseShade4);
-    --BaseShade5White:var(--BaseShade5);
-    --BaseShadeDarkWhite:var(--BaseShadeDark);
-
-    --textPri:#fffcfc;
-    --textSec:#d0d0d0;
-    --textTert:#989898;
-  
-}
 
 
 .NavHover:hover~label{

@@ -1,9 +1,9 @@
 
-import React from 'react'
 import { getActiveUser } from './getActiveUser'
 import SingletonPrisma from '../Prisma/singleton'
+import { Prisma } from '@prisma/client'
 
-const GetCompanyId = async():Promise<string | null> => {
+const GetCompanyData = async():Promise<Prisma.CompaniesCreateInput | null> => {
  
     const user = await getActiveUser<ActiveUserType>()
 
@@ -24,10 +24,17 @@ const GetCompanyId = async():Promise<string | null> => {
 })
 
 
-
-return data.CompanyId
-
-  
+if(!data){
+    return null
 }
 
-export default GetCompanyId
+const CompanyData  = SingletonPrisma.companies.findUnique({
+  
+    where:{
+        CompanyId:data.CompanyId
+    }
+})
+
+return CompanyData
+}
+export default GetCompanyData

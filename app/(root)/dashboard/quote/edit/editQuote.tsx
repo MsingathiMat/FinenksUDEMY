@@ -77,6 +77,9 @@ const OriginalComponent = ({
           QuotationId,
         });
       },
+      refetchInterval:5000,
+      gcTime:0,
+      staleTime:0,
       enabled: !!QuotationId,
     });
   };
