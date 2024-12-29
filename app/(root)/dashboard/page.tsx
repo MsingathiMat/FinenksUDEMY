@@ -58,12 +58,16 @@ Read,
 
   const {data, isLoading}=TotalQuote
 
+  const TotalLoading = TotalItems.isLoading==true && TotalClients.isLoading==true && TotalQuote.isLoading==true && TotalUsers.isLoading==true
 
   return (
     <div className='w-full h-[calc(100vh-210px)] flex-1 mtt-center !flex-col gap-4 !items-start !justify-start'>
 
      <p>Snapshot</p> 
-     <MttDashBar 
+
+  
+  <MttDashBar 
+  isLoading={TotalLoading}
         link="/login" 
         title="Matthew" 
         description="Best Developer" 
@@ -74,7 +78,8 @@ Read,
           { label: "Users", value: TotalUsers.data as string },
           { label: "Items", value: TotalItems.data as string }
         ]}
-      />    
+      />   
+  
 
 <p>Financials</p> 
       <div className='mtt-center gap-4'>

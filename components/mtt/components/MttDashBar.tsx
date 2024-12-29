@@ -1,14 +1,15 @@
 
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Coins, EllipsisVertical } from 'lucide-react'
+
+
 import React from 'react'
 import MttPlainCard from './mttPlainCard'
 import MttImage from './MttImage'
 import MttArrowText from './MttArrowText'
+import IsLoading from './Isloading'
 
 
 
-const MttDashBar = ({title, description, link,src,statsItems}:{title:string, description:string, link:string,src:string,statsItems:{label:string, value:string}[]}) => {
+const MttDashBar = ({title, description, link,src,statsItems,isLoading=false}:{isLoading:boolean,title:string, description:string, link:string,src:string,statsItems:{label:string, value:string}[], }) => {
   return (
    
 
@@ -16,7 +17,7 @@ const MttDashBar = ({title, description, link,src,statsItems}:{title:string, des
     
 
 
-    // <MattPlainCard className=" CENTER relative w-full h-auto lg:h-[80px] !gap-10 p-2 ">
+<IsLoading isLoading={isLoading} className="w-full" >
     <MttPlainCard className=" relative  !bg-base1 gap-2  w-full !grid grid-col-2 sm:grid-cols-4   lg:grid-cols-6 gap-x-4">
 
 
@@ -73,7 +74,7 @@ statsItems.map((val,index)=>(
    
     </MttPlainCard>
 
-
+    </IsLoading>
   )
 }
 
