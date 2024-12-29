@@ -21,6 +21,9 @@ import { Quotations } from "@prisma/client";
 import { AlertQuoteEdit } from "./edit/AlertQuoteEdit";
 import EditQuote from "./edit/editQuote";
 import Link from "next/link";
+import { MttPopup } from "@/components/mtt/components/MttPopup";
+import InvoicePage from "../../(docRender)/pdfQuotation/page";
+import { FileMinus } from "lucide-react";
 
 
 type TypeEvent = {
@@ -131,8 +134,35 @@ cell:(val)=><p>{val.getValue().slice(0,6)}...</p>
         );
       },
     },
+
+    {
+      accessorKey: "status",
+      header: "PDF",
+      cell: () => {
+       
+        return (
+
+         <Link href="http://localhost:3000/pdfQuotation?QuoteId=90">View</Link>
+        //   <MttPopup
+        //   title="Quotation"
+          
+        //   content={
+        //     <div className="w-[93VW] h-[600px]">
+        //   <InvoicePage/>
+        //     </div>
+        //   }
+        // >
+        
+        // <FileMinus size={20} className=" hover:text-Pri hover:cursor-pointer" />
+        // </MttPopup>  
+        );
+      },
+    },
   ];
 
+
+
+ 
   // return <MtTable data={data ? data : []} columns={columns} />;
 
   return (

@@ -14,6 +14,7 @@ import MttIconTitle from '@/components/mtt/components/MtticonTitle'
 import HasACompany from '@/components/mtt/components/HasACompany'
 import { useAtom } from 'jotai'
 import { UserCompany } from '@/components/mtt/Atoms/AtomUserCompany'
+import { NavHeading } from '@/components/mtt/Atoms/MtNavAtom'
 
 
 
@@ -23,7 +24,7 @@ const Layout = ({children}:{children:Readonly<React.ReactNode>}) => {
  const {userData} = useActiveUser<ActiveUserType>() 
 
 
-
+const [PageHeading,] = useAtom(NavHeading)
   const [companySetup, setCompanySetup] = useState(false);
 
   useEffect(() => {
@@ -73,9 +74,11 @@ CompanyName?<p className=' font-bold'>{CompanyName}</p>:null
 
 <MttSideNavToggler/>
       </div>
+
+      
 <div className=' mtt-center w-full h-[60px] mt-10'>
 
-
+{PageHeading}
 <MttIconTitle leftAligned icon={<LayoutDashboardIcon size={25}/>} className=' text-[25px]' title={<MttNavHeader/>}/>       
           
 

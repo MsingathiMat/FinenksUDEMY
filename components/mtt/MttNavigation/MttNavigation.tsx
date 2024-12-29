@@ -41,48 +41,7 @@ function MttNavigation({
  
  
 }) {
-//   const Path = usePathname();
 
-
-
-
-// const [navItems] = useAtom(MttNavItemsATOM)
-// const [,setNavHeading] = useAtom(NavHeading)
-// const [isVisible] = useAtom(MttNavIsVisibleAtom)
-
-// const [expanded,setIsexpanded] = useAtom(MttNavIsExpandedAtom)
-
-// if(!collapsible){
-
-//   setIsexpanded(false)
-// }
-  
-
-// if(navItems){
-
-//   // console.log(`${navItems[1].basePath}${navItems[1].path} `)
-  
-//   const Active = navItems.filter((val)=>`${val.basePath}${val.path}`==Path)
-
-// if(!Active[0]){
-
-//   alert("You are using MttNav without route configuration, please look for the file 'NavList.tsx' and set your base path")
-// }
-
-//   setNavHeading(Active[0].label)
-
-
-
-// }
-// if (!navItems){
-
-//     return <p className=" bg-red-500 p-2">Undefined Nav item list</p>
-// }
-  
-//   if(!isVisible){
-
-//     return null
-//   }
 
 const Path = usePathname();
 
@@ -97,16 +56,16 @@ const Path = usePathname();
     }
   }, [collapsible, setIsexpanded]);
 
-  useEffect(() => {
-    if (navItems && navItems.length > 0) {
-      const Active = navItems.find((val) => `${val.basePath}${val.path}` === Path || Path.startsWith(`${val.basePath}${val.path}`));
-      if (!Active) {
-        alert("You are using MttNav without route configuration, please look for the file 'NavList.tsx' and set your base path");
-      } else {
-        setNavHeading(Active.label);
-      }
-    }
-  }, [Path, navItems, setNavHeading]);
+  // useEffect(() => {
+  //   if (navItems && navItems.length > 0) {
+  //     const Active = navItems.find((val) => `${val.basePath}${val.path}` === Path || Path.startsWith(`${val.basePath}${val.path}`));
+  //     if (!Active) {
+  //       alert("You are using MttNav without route configuration, please look for the file 'NavList.tsx' and set your base path");
+  //     } else {
+  //       setNavHeading(Active.label);
+  //     }
+  //   }
+  // }, [Path, navItems, setNavHeading]);
 
   if (!navItems) {
     return <p className="bg-red-500 p-2">Undefined Nav item list</p>;
