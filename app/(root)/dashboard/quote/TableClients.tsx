@@ -138,11 +138,11 @@ cell:(val)=><p>{val.getValue().slice(0,6)}...</p>
     {
       accessorKey: "status",
       header: "PDF",
-      cell: () => {
+      cell: (Val) => {
        
         return (
 
-         <Link href="http://localhost:3000/pdfQuotation?QuoteId=90">View</Link>
+         <Link href={`http://localhost:3000/pdfQuotation?QuoteId=${Val.row.original.QuotationId}`}>View</Link>
         //   <MttPopup
         //   title="Quotation"
           
