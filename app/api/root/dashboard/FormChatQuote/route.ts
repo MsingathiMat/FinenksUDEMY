@@ -4,13 +4,13 @@ import { NextRequest, NextResponse } from "next/server";
 import SingletonPrisma from "@/components/mtt/Api/Prisma/singleton";
 
 export const POST = async (req: NextRequest) => {
-  const {QuotationId,UserId,message} = await req.json();
+  const {QuotationId,UserId,Message} = await req.json();
 
 
 
 
 
-  if (!QuotationId || !UserId || !message ) {
+  if (!QuotationId || !UserId || !Message ) {
    
    
     return NextResponse.json({message:"Required UI fields missing"},{status:400});
@@ -22,7 +22,7 @@ export const POST = async (req: NextRequest) => {
     data:{
       UserId,
       QuotationId,
-      message,
+      Message,
 }
    
  })

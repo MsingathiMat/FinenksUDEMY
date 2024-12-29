@@ -74,7 +74,7 @@ model QuoteChats {
   Quotations Quotations @relation(fields: [QuotationId],references: [QuotationId])
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
-  message String
+  Message String
 }
 model QuotationDetails {
   QdId Int @unique @default(autoincrement())

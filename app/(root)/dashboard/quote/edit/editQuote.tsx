@@ -30,6 +30,8 @@ import Textarea from "react-expanding-textarea";
 import MttImage from "@/components/mtt/components/MttImage";
 import { useParams, useSearchParams } from "next/navigation";
 import IsLoading from "@/components/mtt/components/Isloading";
+import { format } from "date-fns";
+import MttChat from "@/components/mtt/components/MttChat";
 const OriginalComponent = ({
   Utilities,
 
@@ -47,11 +49,13 @@ const OriginalComponent = ({
     Read,
   } = Utilities;
 
+ 
+
   // Schema for form validation
   const FormSchema = z.object({
     QuotationId: z.string().min(1, "Required"),
     UserId: z.string().min(1, "Required"),
-    message: z.string().min(1, "Required"),
+    Message: z.string().min(1, "Required"),
   });
 
   const path = useSearchParams()
@@ -63,7 +67,7 @@ const OriginalComponent = ({
     defaultValues: {
       QuotationId: QuotationId?QuotationId:"",
       UserId: UserId,
-      message: "",
+      Message: "",
     },
     resolver: zodResolver(FormSchema),
   });
@@ -159,62 +163,25 @@ R{QuoteData && QuoteData.total}
         </div>
       </div>
 </IsLoading>
+
+{
+  QuoteData&&<MttChat ChatData={ QuoteData.QuoteChats} SignedInUserId={UserId}/>
+}
+
+
       <MttForm
         onSubmit={FormSubmit}
         Methods={FormMethods}
         className="space-y-4 !w-full   "
       >
-        {
-          QuoteData?<div className=" mtt-center gap-2 !items-start !flex-col  w-full">
-         
-         {
-
-QuoteData.QuoteChats.map((chat,index)=>(
-
-
-
-  <div key={chat.UserId}
-  className={cn(
-    index%2=== 0
-      ? "mr-auto"
-      : "ml-auto"
-  )}
->
-  <div className=" ml-auto">
-    {chat.Users.name}
-  </div>
-
-  <div 
-  
-  className={cn(" p-3 pr-4 rounded-[3px] h-[60px] mtt-center !justify-start gap-4",
-    chat.UserId === UserId
-      ? "mr-auto bg-green-100 dark:bg-green-300 "
-      : "ml-auto bg-blue-100 dark:bg-blue-300"
-  )}
- >
-
-<img
-      src={chat.Users.ProfileImage}
-      className=" shadow-md size-[35px] rounded-full"
-    />
-    <p className="text-gray-700">
-      {chat.message}
-    </p>
-   
-  </div>
-</div>
-))
-         }
-         
-        </div>:null
-        }
+       
 
         <div className=" relative mtt-center gap-2 w-full">
           <Textarea
             className=" px-4 pt-2 border border-input bg-Alpha w-full  ring-0 outline-none min-h-InputHeight p-1 text-[13px]"
             maxLength={300}
-            {...FormMethods.register("message")}
-            placeholder="Type a message "
+            {...FormMethods.register("Message")}
+            placeholder="Type a Message "
           />
 
           <IsLoading isLoading={FormMutation.isPending} className="w-[90px]">
@@ -228,7 +195,11 @@ QuoteData.QuoteChats.map((chat,index)=>(
           />
           <Mic className="hover:cursor-pointer hover:text-Pri " />
         </div>
+        
       </MttForm>
+
+
+      
     </div>
   );
 };

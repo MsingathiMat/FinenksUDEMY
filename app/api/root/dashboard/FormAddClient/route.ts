@@ -7,10 +7,10 @@ import GetCompanyData from "@/components/mtt/Api/helpers/GetCompanyData";
 
 export const POST = async (req: NextRequest) => {
 
-const CompanyId = await  GetCompanyData()
+const CompanyData = await  GetCompanyData()
 
 
-if(!CompanyId){
+if(!CompanyData){
   return NextResponse.json({ message: "Unrecognized Company", status: 400 });
 }
   const data = await req.formData();
@@ -45,7 +45,7 @@ if(!CompanyId){
       ContactNumber,
       CompanyEmail,
       UserId,
-      CompanyId
+      CompanyId:CompanyData.CompanyId as string
     },
   });
 
