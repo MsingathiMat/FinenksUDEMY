@@ -89,8 +89,6 @@ const OriginalComponent = ({
   };
 
   const { data: QuoteData, refetch, isPending } = FormQuery(QuotationId);
-
-
   useEffect(() => {
     if (UserId) {
       FormMethods.setValue("UserId", UserId);

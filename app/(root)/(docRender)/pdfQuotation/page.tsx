@@ -3,6 +3,7 @@
 import React from 'react';
 import { PDFDownloadLink, PDFViewer, Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { useSearchParams } from 'next/navigation';
+import withUtilities from '@/components/mtt/HOC/withUtilities';
 
 // Define types for invoice props
 interface InvoicePDFProps {
@@ -84,11 +85,26 @@ const styles = StyleSheet.create({
   },
 });
 
-const InvoicePage = () => {
+const OriginalComponent = ({
+  Utilities,
+
+}: {
+  Utilities: UtilitiesProp;
+
+}) => {
+  const {
+    UserId,
+    Create,
+    toast,
+    QClient,
+
+ 
+    Read,
+  } = Utilities;
 
     const path = useSearchParams()
 
-  const QuotationId= path.get("QuotationId")
+  const QuotationId= path.get("QuoteId")
   const invoiceData: InvoicePDFProps = {
     companyName: 'Tech Innovations',
     slogan: 'Innovating the Future',
@@ -111,7 +127,7 @@ const InvoicePage = () => {
         <Text style={styles.slogan}>{invoiceData.slogan}</Text>
         <Text style={styles.companyInfo}>Reg No: {invoiceData.registrationNumber}</Text>
 
-        <Text style={styles.invoiceInfo}>Invoice No: {invoiceData.invoiceNumber}</Text>
+        <Text style={styles.invoiceInfo}>Invoice No: {QuotationId}</Text>
         <Text style={styles.invoiceInfo}>Customer Name: {invoiceData.customerName}</Text>
 
         <View style={[styles.table, styles.tableRow]}>
@@ -141,7 +157,16 @@ const InvoicePage = () => {
     <div className="flex flex-col items-center justify-center h-[500px] w-full p-4 ">
      
       <div className="w-full h-[500px]">
-        <h2 className="text-lg font-semibold mb-2">Invoice Details</h2>
+       
+       <div className=' mtt-center !items-start !flex-col'>
+
+<h6 className=' !text-[18px] font-bold'>QUOTATION</h6>
+<div className=' mtt-center gap-4 h-[30px]'>
+<h6 className=' !text-[15px]'>NO: </h6>
+<h2 className="text-lg  !text-[13px] text-Pri"> {QuotationId}</h2>
+</div>
+       </div>
+       
 
         <div className="mt-4 h-full w-full ">
           <PDFViewer width="100%" height="100%">
@@ -155,4 +180,5 @@ const InvoicePage = () => {
   );
 };
 
+const InvoicePage = withUtilities(OriginalComponent)
 export default InvoicePage;
