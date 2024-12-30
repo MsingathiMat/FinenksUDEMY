@@ -4,6 +4,10 @@ import React from 'react';
 import { PDFDownloadLink, PDFViewer, Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { useSearchParams } from 'next/navigation';
 import withUtilities from '@/components/mtt/HOC/withUtilities';
+import { useQuery } from '@tanstack/react-query';
+import { QueryModels } from '@/components/mtt/config/ReactQueryConfig';
+import { useAtom } from 'jotai';
+import { UserCompany } from '@/components/mtt/Atoms/AtomUserCompany';
 
 // Define types for invoice props
 interface InvoicePDFProps {
@@ -57,11 +61,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   tableCol: {
+    fontSize:11,
     width: '25%',
     padding: 5,
   },
   tableHeader: {
-    backgroundColor: '#f0f0f0',
+    fontSize:13,
+    backgroundColor: '#f0f7f6',
     fontWeight: 'bold',
   },
   total: {
@@ -97,6 +103,7 @@ const OriginalComponent = ({
     Create,
     toast,
     QClient,
+  
 
  
     Read,
@@ -105,8 +112,32 @@ const OriginalComponent = ({
     const path = useSearchParams()
 
   const QuotationId= path.get("QuoteId")
+
+
+const [CompanyName, ] = useAtom(UserCompany);
+
+  const FormQuery = (QuotationId: string | null) => {
+    return useQuery({
+      queryKey: [QueryModels.QuotationById],
+      queryFn: async () => {
+        return Read("/api/root/dashboard/listOf/quotations/byId/", {
+          QuotationId,
+        });
+      },
+      refetchInterval:5000,
+      gcTime:0,
+      staleTime:0,
+      enabled: !!QuotationId,
+    });
+  };
+
+  const { data: QuoteData, refetch, isPending } = FormQuery(QuotationId);
+
+console.log(QuoteData)
+
+
   const invoiceData: InvoicePDFProps = {
-    companyName: 'Tech Innovations',
+    companyName: CompanyName,
     slogan: 'Innovating the Future',
     registrationNumber: '1234567890',
     invoiceNumber: 'INV12345',
@@ -131,20 +162,26 @@ const OriginalComponent = ({
         <Text style={styles.invoiceInfo}>Customer Name: {invoiceData.customerName}</Text>
 
         <View style={[styles.table, styles.tableRow]}>
-          <Text style={[styles.tableCol, styles.tableHeader]}>Description</Text>
+        <Text style={[styles.tableCol, styles.tableHeader]}>Item</Text>
+          <Text style={[styles.tableCol, styles.tableHeader,{width:400}]}>Description</Text>
           <Text style={[styles.tableCol, styles.tableHeader]}>Quantity</Text>
           <Text style={[styles.tableCol, styles.tableHeader]}>Price</Text>
           <Text style={[styles.tableCol, styles.tableHeader]}>Total</Text>
         </View>
 
-        {invoiceData.items.map((item, index) => (
-          <View key={index} style={styles.tableRow}>
-            <Text style={styles.tableCol}>{item.description}</Text>
-            <Text style={styles.tableCol}>{item.quantity}</Text>
-            <Text style={styles.tableCol}>{item.price.toFixed(2)}</Text>
-            <Text style={styles.tableCol}>{(item.quantity * item.price).toFixed(2)}</Text>
-          </View>
-        ))}
+{
+
+QuoteData?<>{QuoteData.QuotationDetails.map((item, index) => (
+  <View key={index} style={styles.tableRow}>
+      <Text style={styles.tableCol}>{item.Items.ItemName }</Text>
+    <Text style={[styles.tableCol,{width:400}]}>{item.Items.Description }</Text>
+    <Text style={styles.tableCol}>{ item.Quantity}</Text>
+    <Text style={styles.tableCol}>{item.Amount}</Text>
+    <Text style={styles.tableCol}>{parseInt(item.Amount)* parseInt(item.Quantity)}</Text>
+  </View>
+))}</> :""
+}
+       
 
         <Text style={styles.total}>Total: ${invoiceData.total.toFixed(2)}</Text>
         <Text style={styles.paymentTerms}>Payment Terms: {invoiceData.paymentTerms}</Text>
@@ -161,10 +198,24 @@ const OriginalComponent = ({
        <div className=' mtt-center !items-start !flex-col'>
 
 <h6 className=' !text-[18px] font-bold'>QUOTATION</h6>
+<div className=' mtt-center !items-start gap-6'>
+
 <div className=' mtt-center gap-4 h-[30px]'>
-<h6 className=' !text-[15px]'>NO: </h6>
+<h6 className=' !text-[15px]'>Client: </h6>
+
+{
+
+QuoteData?<h2 className="text-lg  !text-[13px] text-Pri"> {QuoteData.clients.ClientName}</h2>:""
+}
+
+</div>
+
+<div className=' mtt-center gap-4 h-[30px]'>
+<h6 className=' !text-[15px]'>Quote No: </h6>
 <h2 className="text-lg  !text-[13px] text-Pri"> {QuotationId}</h2>
 </div>
+</div>
+
        </div>
        
 

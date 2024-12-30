@@ -75,7 +75,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
 
   const { data, isPending } = TableQuery;
 
-  console.log(data)
+
   const columns: ColumnDef<Quotations>[] = [
 
     {

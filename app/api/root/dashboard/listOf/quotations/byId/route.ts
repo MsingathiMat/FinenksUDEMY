@@ -23,15 +23,20 @@ export const GET = async (req: NextRequest) => {
     const quotation = await SingletonPrisma.quotations.findUnique({
       where: {
         QuotationId: QuotationId,
-        CompanyId:CompanyData.CompanyId
+        CompanyId: CompanyData.CompanyId
       },
       include: {
         clients: true, // Assuming there's a related Client table
-        user: true,    // Assuming there's a related User table
-        QuotationDetails: true, // Include details for the specific quotation
-        QuoteChats:{
+        user: true, 
+       // Assuming there's a related User table
+        QuotationDetails: {
           include:{
-            Users:true
+            Items:true
+          }
+        },
+        QuoteChats: {
+          include: {
+            Users: true
           }
         }
       }

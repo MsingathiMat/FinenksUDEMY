@@ -82,8 +82,11 @@ model QuotationDetails {
   QdId Int @unique @default(autoincrement())
 QuotationId String
   Quote Quotations @relation(fields: [QuotationId],references: [QuotationId])
-ItemId String
-Items Items @relation(fields: [ItemId],references: [ItemId])
+ItemId String 
+
+  
+  Items Items @relation(fields: [ItemId], references: [ItemId])
+
 Quantity Int
 Amount Decimal
 
@@ -108,17 +111,17 @@ model Items {
   ItemStatus  ItemStatus
   Quantity    Int
   Amount      Decimal
-
+QuotationDetails QuotationDetails[]
   UserId String
 
-  QuotationDetails QuotationDetails[]
+ Company Companies @relation(fields: [CompanyId], references: [CompanyId])
 
   user      Users?       @relation(fields: [UserId], references: [UserId])
   Type      ItemTypeEnum @default(SERVICE)
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
       CompanyId String
-  Company Companies @relation(fields: [CompanyId], references: [CompanyId])
+
   
 }
 
