@@ -142,7 +142,7 @@ cell:(val)=><p>{val.getValue().slice(0,6)}...</p>
        
         return (
 
-         <Link href={`http://localhost:3000/pdfQuotation?QuoteId=${Val.row.original.QuotationId}`}>View</Link>
+         <Link href={`/pdfQuotation?QuoteId=${Val.row.original.QuotationId}`}>View</Link>
         //   <MttPopup
         //   title="Quotation"
           
