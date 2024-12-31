@@ -129,10 +129,21 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   const InvoiceDocument = QuotationData && (
     <Document>
       <Page size="A4" style={styles.page}>
-        <View style={[styles.tableRow]}>
-          <Text style={[styles.tableCol, styles.tableHeader]}>QUOTATION</Text>
-          <Text style={styles.invoiceInfo}>QT Code: {QuotationId}</Text>
-        </View>
+       
+<View style={{
+    flexDirection: 'row', // Enables flexbox layout
+    justifyContent: 'space-between', // Aligns children with space between them
+    alignItems: 'center', // Vertically centers children
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: 'gray',
+    borderBottomStyle: 'solid',
+    marginBottom:40
+  }}>
+
+<Text style={[styles.tableCol, styles.tableHeader]}>QUOTATION</Text>
+<Text style={styles.invoiceInfo}>QT code: {QuotationId}</Text>
+</View>
         <Text style={styles.header}>{QuotationData.CompanyName}</Text>
         <Text style={styles.slogan}>{QuotationData.Slogan}</Text>
         <Text style={styles.companyInfo}>Reg No: {QuotationData.total}</Text>
