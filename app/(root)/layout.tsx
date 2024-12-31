@@ -20,7 +20,7 @@ import { NavHeading } from '@/components/mtt/Atoms/MtNavAtom'
 
 const Layout = ({children}:{children:Readonly<React.ReactNode>}) => {
  
-  const [CompanyName, ] = useAtom(UserCompany);
+  const [CompanyData, ] = useAtom(UserCompany);
  const {userData} = useActiveUser<ActiveUserType>() 
 
 
@@ -55,7 +55,7 @@ const [PageHeading,] = useAtom(NavHeading)
 </div>
 
 {
-CompanyName?<p className=' font-bold'>{CompanyName}</p>:null
+CompanyData?<p className=' font-bold'>{CompanyData.CompanyName}</p>:null
 }
 
 {

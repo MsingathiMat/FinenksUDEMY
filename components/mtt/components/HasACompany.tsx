@@ -46,8 +46,8 @@ const OriginalComp = ({
       
       if(data){
 
-    
-        setUserCompany(data?.CompanyName);
+   
+        setUserCompany(data);
       }
         
    
