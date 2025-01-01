@@ -19,8 +19,9 @@ interface InvoicePDFProps {
   Email:string ,
   paymentTerms: string,
   bankDetails: string,
-  ContactNumber:string
- 
+  ContactNumber:string,
+  SecondaryCompanyName: string,
+  SecondaryCompanyAddress: string
 }
 
 // Define styles for the invoice PDF
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
   },
   companyInfo: {
     fontSize: 10,
-    marginBottom: 10,
+   color:'#444444'
   },
   invoiceInfo: {
     fontSize: 12,
@@ -67,6 +68,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
     width: '25%',
     padding: 5,
+    color:'#212121'
   },
   tableHeader: {
     fontSize: 13,
@@ -82,6 +84,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   bankDetails: {
+    marginTop: 20,
     fontSize: 12,
   },
   pageNumber: {
@@ -128,6 +131,8 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
         ContactNumber:CompanyData.ContactNo,
         paymentTerms: 'Due within 30 days',
         bankDetails: 'Bank Name: ABC Bank, Account No: 123456789',
+        SecondaryCompanyName: 'Secondary Company Name',
+        SecondaryCompanyAddress: '123 Secondary Street, City, Country'
       });
     }
   }, [QuoteData, CompanyData]);
@@ -137,9 +142,9 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
       <Page size="A4" style={styles.page}>
        
 <View style={{
-    flexDirection: 'row', // Enables flexbox layout
-    justifyContent: 'space-between', // Aligns children with space between them
-    alignItems: 'center', // Vertically centers children
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: 'gray',
@@ -150,35 +155,48 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
 <Text style={[styles.tableCol, styles.tableHeader]}>QUOTATION</Text>
 <Text style={styles.invoiceInfo}>QT code: {QuotationId}</Text>
 </View>
-        <Text style={{}}>{QuotationData.CompanyName}</Text>
-        <Text style={styles.slogan}>{QuotationData.Slogan}</Text>
-        <Text style={styles.companyInfo}>Email : {QuotationData.Email}</Text>
-        <Text style={styles.companyInfo}>Contact Person: {QuotationData.ContactPerson}</Text>
-        <Text style={styles.companyInfo}>Contact Number: {QuotationData.ContactNumber}</Text>
-        <View style={[styles.table, styles.tableRow]}>
-          <Text style={[styles.tableCol, styles.tableHeader]}>Item</Text>
-          <Text style={[styles.tableCol, styles.tableHeader, { width: 400 }]}>Description</Text>
-          <Text style={[styles.tableCol, styles.tableHeader]}>Quantity</Text>
-          <Text style={[styles.tableCol, styles.tableHeader]}>Price</Text>
-          <Text style={[styles.tableCol, styles.tableHeader]}>Total</Text>
-        </View>
+<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+  <View>
+    <Text style={{}}>{QuotationData.CompanyName}</Text>
+    <Text style={styles.slogan}>{QuotationData.Slogan}</Text>
+    <Text style={styles.companyInfo}>Email : {QuotationData.Email}</Text>
+    <Text style={styles.companyInfo}>Contact Person: {QuotationData.ContactPerson}</Text>
+    <Text style={styles.companyInfo}>Contact Number: {QuotationData.ContactNumber}</Text>
+  </View>
 
-        {QuoteData?.QuotationDetails.map((item, index) => {
+  <View>
+    <Text style={{}}>{QuoteData.clients.ClientName}</Text>
+    <Text style={styles.slogan}>{QuotationData.Slogan}</Text>
+    <Text style={styles.companyInfo}>Email : {QuotationData.Email}</Text>
+    <Text style={styles.companyInfo}>Contact Person: {QuotationData.ContactPerson}</Text>
+    <Text style={styles.companyInfo}>Contact Number: {QuotationData.ContactNumber}</Text>
+  </View>
 
-          return (
-            <View key={index} style={styles.tableRow}>
-              <Text style={styles.tableCol}>{item.Items.ItemName}</Text>
-              <Text style={[styles.tableCol, { width: 400 }]}>{item.Items.Description}</Text>
-              <Text style={styles.tableCol}>{item.Quantity}</Text>
-              <Text style={styles.tableCol}>{item.Amount}</Text>
-              <Text style={styles.tableCol}>{parseInt(item.Amount) * parseInt(item.Quantity)}</Text>
-            </View>
-          )
-        })}
+</View>
 
-       
-        <Text style={styles.paymentTerms}>Payment Terms: {QuotationData.paymentTerms}</Text>
-        <Text style={styles.bankDetails}>Bank Details: {QuotationData.bankDetails}</Text>
+<View style={[styles.table, styles.tableRow]}>
+  <Text style={[styles.tableCol, styles.tableHeader]}>Item</Text>
+  <Text style={[styles.tableCol, styles.tableHeader, { width: 400 }]}>Description</Text>
+  <Text style={[styles.tableCol, styles.tableHeader]}>Quantity</Text>
+  <Text style={[styles.tableCol, styles.tableHeader]}>Price</Text>
+  <Text style={[styles.tableCol, styles.tableHeader]}>Total</Text>
+</View>
+
+
+
+{QuoteData?.QuotationDetails.map((item, index) => {
+  return (
+    <View key={index} style={styles.tableRow}>
+      <Text style={styles.tableCol}>{item.Items.ItemName}</Text>
+      <Text style={[styles.tableCol, { width: 400 }]}>{item.Items.Description}</Text>
+      <Text style={styles.tableCol}>{item.Quantity}</Text>
+      <Text style={styles.tableCol}>{item.Amount}</Text>
+      <Text style={styles.tableCol}>{parseInt(item.Amount) * parseInt(item.Quantity)}</Text>
+    </View>
+  )
+})}
+<Text style={styles.paymentTerms}>Payment Terms: {QuotationData.paymentTerms}</Text>
+<Text style={styles.bankDetails}>Bank Details: {QuotationData.bankDetails}</Text>
       </Page>
     </Document>
   );
