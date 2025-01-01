@@ -12,13 +12,15 @@ import IsLoading from '@/components/mtt/components/Isloading';
 
 // Define types for invoice props
 interface InvoicePDFProps {
-  CompanyName: string;
-  Slogan: string;
-  ContactPerson: string;
-  Client: string;
-  total: number;
-  paymentTerms: string;
-  bankDetails: string;
+  CompanyName: string,
+  Slogan:string,
+  ContactPerson: string,
+  Client: string,
+  Email:string ,
+  paymentTerms: string,
+  bankDetails: string,
+  ContactNumber:string
+ 
 }
 
 // Define styles for the invoice PDF
@@ -35,6 +37,7 @@ const styles = StyleSheet.create({
   slogan: {
     fontSize: 12,
     fontStyle: 'italic',
+    color:'gray',
     marginBottom: 10,
   },
   companyInfo: {
@@ -55,6 +58,7 @@ const styles = StyleSheet.create({
   table: {
     width: '100%',
     marginBottom: 20,
+    marginTop:20
   },
   tableRow: {
     flexDirection: 'row',
@@ -97,6 +101,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   const [CompanyData] = useAtom(UserCompany);
   const [QuotationData, setQuotationData] = useState<InvoicePDFProps | null>(null);
 
+  const [Subtotal, SetSubtotal] = useState<number>(0)
   const FormQuery = (QuotationId: string | null) => {
     return useQuery({
       queryKey: [QueryModels.QuotationById],
@@ -119,7 +124,8 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
         Slogan: CompanyData.TagLine || 'No Tagline',
         ContactPerson: CompanyData.ContactPerson || 'No Contact Person',
         Client: QuoteData.clients.ClientName || 'No Client',
-        total: 100.0,
+        Email:CompanyData.Email ,
+        ContactNumber:CompanyData.ContactNo,
         paymentTerms: 'Due within 30 days',
         bankDetails: 'Bank Name: ABC Bank, Account No: 123456789',
       });
@@ -144,11 +150,11 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
 <Text style={[styles.tableCol, styles.tableHeader]}>QUOTATION</Text>
 <Text style={styles.invoiceInfo}>QT code: {QuotationId}</Text>
 </View>
-        <Text style={styles.header}>{QuotationData.CompanyName}</Text>
+        <Text style={{}}>{QuotationData.CompanyName}</Text>
         <Text style={styles.slogan}>{QuotationData.Slogan}</Text>
-        <Text style={styles.companyInfo}>Reg No: {QuotationData.total}</Text>
-        <Text style={styles.invoiceInfo}>Customer Name: {QuotationData.Client}</Text>
-
+        <Text style={styles.companyInfo}>Email : {QuotationData.Email}</Text>
+        <Text style={styles.companyInfo}>Contact Person: {QuotationData.ContactPerson}</Text>
+        <Text style={styles.companyInfo}>Contact Number: {QuotationData.ContactNumber}</Text>
         <View style={[styles.table, styles.tableRow]}>
           <Text style={[styles.tableCol, styles.tableHeader]}>Item</Text>
           <Text style={[styles.tableCol, styles.tableHeader, { width: 400 }]}>Description</Text>
@@ -157,17 +163,20 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
           <Text style={[styles.tableCol, styles.tableHeader]}>Total</Text>
         </View>
 
-        {QuoteData?.QuotationDetails.map((item, index) => (
-          <View key={index} style={styles.tableRow}>
-            <Text style={styles.tableCol}>{item.Items.ItemName}</Text>
-            <Text style={[styles.tableCol, { width: 400 }]}>{item.Items.Description}</Text>
-            <Text style={styles.tableCol}>{item.Quantity}</Text>
-            <Text style={styles.tableCol}>{item.Amount}</Text>
-            <Text style={styles.tableCol}>{parseInt(item.Amount) * parseInt(item.Quantity)}</Text>
-          </View>
-        ))}
+        {QuoteData?.QuotationDetails.map((item, index) => {
 
-        <Text style={styles.total}>Total: ${QuotationData.total.toFixed(2)}</Text>
+          return (
+            <View key={index} style={styles.tableRow}>
+              <Text style={styles.tableCol}>{item.Items.ItemName}</Text>
+              <Text style={[styles.tableCol, { width: 400 }]}>{item.Items.Description}</Text>
+              <Text style={styles.tableCol}>{item.Quantity}</Text>
+              <Text style={styles.tableCol}>{item.Amount}</Text>
+              <Text style={styles.tableCol}>{parseInt(item.Amount) * parseInt(item.Quantity)}</Text>
+            </View>
+          )
+        })}
+
+       
         <Text style={styles.paymentTerms}>Payment Terms: {QuotationData.paymentTerms}</Text>
         <Text style={styles.bankDetails}>Bank Details: {QuotationData.bankDetails}</Text>
       </Page>
