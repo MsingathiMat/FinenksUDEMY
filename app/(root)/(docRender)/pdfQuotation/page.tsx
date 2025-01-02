@@ -166,9 +166,9 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
 
   <View>
     <Text style={{}}>{QuoteData.clients.ClientName}</Text>
-    <Text style={styles.slogan}>{QuotationData.Slogan}</Text>
-    <Text style={styles.companyInfo}>Email : {QuotationData.Email}</Text>
-    <Text style={styles.companyInfo}>Contact Person: {QuotationData.ContactPerson}</Text>
+    <Text style={styles.slogan}>{QuoteData.clients.client}</Text>
+    <Text style={styles.companyInfo}>Email : {QuoteData.clients.CompanyEmail}</Text>
+    <Text style={styles.companyInfo}>Contact Person: {QuoteData.clients.CompanyEmail}</Text>
     <Text style={styles.companyInfo}>Contact Number: {QuotationData.ContactNumber}</Text>
   </View>
 
@@ -195,8 +195,32 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     </View>
   )
 })}
+
+<View style={{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: 'gray',
+    borderBottomStyle: 'solid',
+    
+  }}></View>
+<Text style={{marginLeft:'auto', fontSize:14, marginTop:10,marginRight:50}}>R {QuoteData.total}</Text>
+
+<View style={{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: 'gray',
+    borderBottomStyle: 'solid',
+    marginBottom:40
+  }}></View>
 <Text style={styles.paymentTerms}>Payment Terms: {QuotationData.paymentTerms}</Text>
 <Text style={styles.bankDetails}>Bank Details: {QuotationData.bankDetails}</Text>
+
       </Page>
     </Document>
   );
