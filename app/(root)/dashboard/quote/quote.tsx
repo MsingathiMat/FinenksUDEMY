@@ -52,7 +52,7 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     ),
   });
 
-  const [CompanyId,] = useAtom(UserCompany);
+  const [CompanyData,] = useAtom(UserCompany);
   const FormName = "Quotation"
   type FormType = z.infer<typeof FormSchema>;
   const FormMethods = useForm<FormType>({
@@ -74,11 +74,11 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     if (UserId) {
       FormMethods.setValue("UserId", UserId);
     }
-    if (CompanyId) {
-      FormMethods.setValue("CompanyId", CompanyId);
+    if (CompanyData) {
+      FormMethods.setValue("CompanyId", CompanyData.CompanyId as string);
     }
 
-  }, [UserId,CompanyId]);
+  }, [UserId,CompanyData]);
 
   const { control, handleSubmit, watch } = FormMethods;
   const { fields, append, remove } = useFieldArray({
@@ -153,7 +153,7 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
         <h3 className="text-right text-lg  mtt-BaseShadeHover1 p-5  ">QTNO: 00005</h3>
       </div>
       <MttForm
-    
+    debugMode
 isLoading={FormMutation.isPending}
         onSubmit={FormSubmit}
         Methods={FormMethods}

@@ -127,7 +127,7 @@ import LiftOfitemsSelect from "@/components/AppComponents/ListOfSelects/ListOfIt
             <MttForm
          
           
-       
+       debugMode
               onSubmit={FormSubmit}
               Methods={FormMethods}
               className="  mtt-center gap-6 mt-2 !flex-col w-fit "
