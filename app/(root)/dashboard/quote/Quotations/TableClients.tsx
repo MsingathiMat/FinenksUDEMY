@@ -18,8 +18,8 @@ import MttImage from "@/components/mtt/components/MttImage";
 import { MttTable } from "@/components/mtt/components/MttTable";
 import withUtilities from "@/components/mtt/HOC/withUtilities";
 import { Quotations } from "@prisma/client";
-import { AlertQuoteEdit } from "./edit/AlertQuoteEdit";
-import EditQuote from "./edit/editQuote";
+import { AlertQuoteEdit } from "../Create/edit/AlertQuoteEdit";
+import EditQuote from "../Create/edit/editQuote";
 import Link from "next/link";
 import { MttPopup } from "@/components/mtt/components/MttPopup";
 import InvoicePage from "../../(docRender)/pdfQuotation/page";
@@ -172,8 +172,8 @@ cell:(val)=><p>{val.getValue().slice(0,6)}...</p>
   );
 };
 
-const TableClients = withUtilities(OriginalComponent);
-export default TableClients;
+const TableQuotations = withUtilities(OriginalComponent);
+export default TableQuotations;
     
           
           

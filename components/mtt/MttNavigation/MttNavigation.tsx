@@ -162,7 +162,7 @@ topItem? <div className="mtt-center flex-col ">
               {expanded?
               
               navItem.subMenu.length>0?
-              <Accordion type="single" collapsible className="w-full">
+              <Accordion type="single" collapsible className="w-full h-fit mtt-center">
               <AccordionItem value="item-1">
                       <AccordionTrigger>
                       <div className={cn(" dark:!text-white ",`${Path}`.startsWith(ActivePath) ?  " !text-Pri dark:!text-Pri" : " ")}>  {navItem.icon}</div>

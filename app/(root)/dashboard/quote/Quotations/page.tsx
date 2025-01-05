@@ -1,10 +1,11 @@
 import React from 'react'
-import TableClients from '../create/TableClients'
+import TableQuotations from './TableClients'
+
 
 const page = () => {
   return (
     <div>
-      <TableClients/>
+  <TableQuotations/>
     </div>
   )
 }
