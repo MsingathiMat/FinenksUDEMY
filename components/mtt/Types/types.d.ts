@@ -100,6 +100,7 @@ declare global {
       path: string;
       label: string;
       basePath: string;
+      subMenu:string[]
     };
     
     type UploadedImageProps = {
