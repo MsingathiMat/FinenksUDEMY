@@ -115,7 +115,7 @@ cell:(val)=><p>{val.getValue().slice(0,6)}...</p>
 
 // </AlertQuoteEdit>
 
-<Link href={`/dashboard/quote/edit?QuotationId=${QID}`}>Chat</Link>
+<Link className="hover:text-Pri" href={`/dashboard/quote/Chat?QuotationId=${QID}`}>Chat</Link>
           // <Select
           //   onValueChange={() => {
           //     setActive(val.row.original.id);
@@ -142,7 +142,7 @@ cell:(val)=><p>{val.getValue().slice(0,6)}...</p>
        
         return (
 
-         <Link href={`/pdfQuotation?QuoteId=${Val.row.original.QuotationId}`}>View</Link>
+         <Link className="hover:text-Pri" href={`/dashboard/quote/quotePdf?QuoteId=${Val.row.original.QuotationId}`}>View</Link>
         //   <MttPopup
         //   title="Quotation"
           
