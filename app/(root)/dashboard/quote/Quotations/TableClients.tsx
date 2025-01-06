@@ -24,6 +24,7 @@ import Link from "next/link";
 import { MttPopup } from "@/components/mtt/components/MttPopup";
 import InvoicePage from "../../(docRender)/pdfQuotation/page";
 import { FileMinus } from "lucide-react";
+import { MttRedirect } from "@/components/mtt/Helpers/MttRedirect";
 
 
 type TypeEvent = {
@@ -49,6 +50,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     TableMutationActivate.mutate({ EventId });
   };
 
+ 
   const TableQuery = useQuery({
     queryKey: [QueryModels.Quotations.QueryKey],
     queryFn: async () => {
@@ -104,60 +106,54 @@ cell:(val)=><p>{val.getValue().slice(0,6)}...</p>
       accessorKey: "total",
       header: "total",
     },
-    {
-      accessorKey: "status",
-      header: "Action",
-      cell: (val) => {
-        const QID = val.row.original.QuotationId;
-        return (
+    
 
-          // <AlertQuoteEdit  title="Quotation Chats" content={<EditQuote QuotationId={IsActive}/>}>
+  
 
-// </AlertQuoteEdit>
+      {
+          accessorKey: "status",
+          header: "Action",
+          cell: (val) => {
+            const IsActive = val.getValue();
+            return (
+              <Select
+                onValueChange={(SelectedItem) => {
+                
+                  if(SelectedItem=="pdf"){
+                    MttRedirect(`/dashboard/quote/quotePdf?QuoteId=${val.row.original.QuotationId}`)
 
-<Link className="hover:text-Pri" href={`/dashboard/quote/Chat?QuotationId=${QID}`}>Chat</Link>
-          // <Select
-          //   onValueChange={() => {
-          //     setActive(val.row.original.id);
-          //   }}
-          // >
-          //   <SelectTrigger className="w-auto">
-          //     <SelectValue placeholder={IsActive ? "ACTIVE" : "INACTIVE"} />
-          //   </SelectTrigger>
-          //   <SelectContent>
-          //   <SelectItem value="ACTIVE">
+                  }
 
+                  if(SelectedItem=="chat"){
+                    MttRedirect(`/dashboard/quote/Chat?QuoteId=${val.row.original.QuotationId}`)
 
-          //   </SelectItem>
-          //   </SelectContent>
-          // </Select>
-        );
-      },
-    },
+                  }
 
-    {
-      accessorKey: "status",
-      header: "PDF",
-      cell: (Val) => {
+                
+                }}
+              >
+                <SelectTrigger className="w-auto">
+                  <SelectValue placeholder="Action" />
+                </SelectTrigger>
+                <SelectContent>
+                <SelectItem value="pdf">
+
+<p className="hover:text-Pri hover:cursor-pointer">   View Pdf</p>
        
-        return (
+                </SelectItem>
+               
+                <SelectItem   value="chat">
 
-         <Link className="hover:text-Pri" href={`/dashboard/quote/quotePdf?QuoteId=${Val.row.original.QuotationId}`}>View</Link>
-        //   <MttPopup
-        //   title="Quotation"
-          
-        //   content={
-        //     <div className="w-[93VW] h-[600px]">
-        //   <InvoicePage/>
-        //     </div>
-        //   }
-        // >
-        
-        // <FileMinus size={20} className=" hover:text-Pri hover:cursor-pointer" />
-        // </MttPopup>  
-        );
-      },
-    },
+                <p className="hover:text-Pri hover:cursor-pointer"> Chats</p>
+                </SelectItem>
+                </SelectContent>
+
+                
+                
+              </Select>
+            );
+          },
+        },
   ];
 
 

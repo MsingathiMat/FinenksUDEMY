@@ -58,9 +58,11 @@ const OriginalComponent = ({
     Message: z.string().min(1, "Required"),
   });
 
+
+  const [QuotationId, SetQuotationId] = useState<string | null>(null)
   const path = useSearchParams()
 
-  const QuotationId= path.get("QuotationId")
+
   const FormName = "Message";
   type FormType = z.infer<typeof FormSchema>;
   const FormMethods = useForm<FormType>({
@@ -89,7 +91,21 @@ const OriginalComponent = ({
   };
 
   const { data: QuoteData, refetch, isPending } = FormQuery(QuotationId);
+  
+  useEffect(()=>{
+    if(!path){
+      alert("No Quotation Id")
+      return
+    }
+
+    const QuotationId= path.get("QuoteId")
+
+    SetQuotationId(QuotationId)
+  },[path])
   useEffect(() => {
+
+  
+
     if (UserId) {
       FormMethods.setValue("UserId", UserId);
     }
