@@ -276,7 +276,7 @@ if(field.Description!=="" && field.Description!==undefined && field.Description!
       />
     </td>
     <td className="p-2  w-[100px] font-bold text-gray-500 text-[18px] ">
-      R{(items[index].quantity || 1) * items[index].amount}
+      { `${CompanyData?.Currency as string} ${(items[index].quantity || 1) * items[index].amount}` }
     </td>
     <td className="p-2 w-[50px]">
       {fields.length > 1 && (

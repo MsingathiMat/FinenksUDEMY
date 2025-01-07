@@ -138,11 +138,7 @@ FormMethods.setValue("Quantity",-1)
         <div className="  mtt-center gap-6 mt-2 !flex-row w-fit  ">
           <div className=" mtt-center gap-4 !flex-col">
            
-          <MttImageDisplay className=" absolute rounded-full -top-[50px] -right-[50px] w-[100px] h-[100px]" name="Profile" />
-          <MttImageDisplay className=" w-[100px] h-[100px]" name="ID" />
-          <MttImageFile name="Profile" label="Profile Image" />
-          <MttImageFile name="ID" label="ID Image" />
-
+       
           <MttTextField
               readOnly={readOnly}
               name="ClientName"

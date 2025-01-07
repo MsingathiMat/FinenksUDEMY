@@ -164,7 +164,7 @@ const [SelectValues, SetSelectValues] = useState([{}])
         <div className=" mtt-Alpha p-4 w-fit rounded-md">
       
       <MttForm
-
+debugMode
         onSubmit={FormSubmit}
         Methods={FormMethods}
         className="  mtt-center gap-6 mt-2 !flex-col w-fit "
@@ -245,6 +245,13 @@ const [SelectValues, SetSelectValues] = useState([{}])
               readOnly={readOnly}
               name="PaymentTerms"
               label="Payment Terms"
+              className=""
+            />
+
+<MttTextField
+              readOnly={readOnly}
+              name="BankAccount"
+              label="Bank Account"
               className=""
             />
           </div>

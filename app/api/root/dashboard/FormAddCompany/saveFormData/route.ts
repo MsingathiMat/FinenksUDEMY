@@ -12,8 +12,15 @@ export const POST = async (req: NextRequest) => {
   const ContactNo = data.get("ContactNo") as string | null;
   const Email = data.get("Email") as string | null;
 
+  const Currency = data.get("Currency") as string | null;
+  const BankName = data.get("BankName") as string | null;
+  const BankType = data.get("BankType") as string | null;
+  const BankAccount = data.get("BankAccount") as string | null;
+  const PaymentTerms = data.get("Email") as string | null;
 
-  if (!CompanyName || !ContactPerson || !ContactNo || !Email || !TagLine || !UserId) {
+  if (!CompanyName || !ContactPerson || !ContactNo || !Email || !TagLine || !UserId ||
+    !Currency || !BankName || !BankType || !BankAccount || !PaymentTerms 
+  ) {
     return NextResponse.json({
       error: "Some UI inputs not received",
     });
@@ -21,7 +28,7 @@ export const POST = async (req: NextRequest) => {
 
 
 
-
+  
   // Mock file path for demonstration
   const filePath = "/me.png";
   if (!filePath) {
@@ -50,6 +57,7 @@ export const POST = async (req: NextRequest) => {
           ContactNo,
           Email,
           Logo: filePath,
+          Currency,BankName,BankType,BankAccount,PaymentTerms 
         },
       });
 

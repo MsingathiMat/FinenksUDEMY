@@ -86,6 +86,8 @@ const styles = StyleSheet.create({
   bankDetails: {
     marginTop: 20,
     fontSize: 12,
+    fontWeight:'extrabold',
+    color:'#07c6bb'
   },
   pageNumber: {
     position: 'absolute',
@@ -141,8 +143,8 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
         Client: QuoteData.clients.ClientName || 'No Client',
         Email:CompanyData.Email ,
         ContactNumber:CompanyData.ContactNo,
-        paymentTerms: 'Due within 30 days',
-        bankDetails: 'Bank Name: ABC Bank, Account No: 123456789',
+        paymentTerms: CompanyData.PaymentTerms,
+        bankDetails: `BANK: ${CompanyData.BankName} | ACC NO: ${CompanyData.BankAccount} | ACC TYPE: ${CompanyData.BankType} `,
         SecondaryCompanyName: 'Secondary Company Name',
         SecondaryCompanyAddress: '123 Secondary Street, City, Country'
       });
@@ -230,9 +232,17 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     borderBottomStyle: 'solid',
     marginBottom:40
   }}></View>
-<Text style={styles.paymentTerms}>Payment Terms: {QuotationData.paymentTerms}</Text>
-<Text style={styles.bankDetails}>Bank Details: {QuotationData.bankDetails}</Text>
 
+
+<View>
+    <Text style={{fontSize:13}}>Payment Terms:</Text>
+    <Text style={styles.slogan}>{QuotationData.paymentTerms}</Text>
+    </View>
+
+    <View>
+    <Text  style={{fontSize:13}}>Bank Details:</Text>
+    <Text style={styles.slogan}>{QuotationData.bankDetails}</Text>
+    </View>
       </Page>
     </Document>
   );
