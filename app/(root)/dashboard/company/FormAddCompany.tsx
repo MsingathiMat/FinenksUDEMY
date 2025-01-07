@@ -60,6 +60,11 @@ const [SelectValues, SetSelectValues] = useState([{}])
   
     CompanyId:z.any().optional(),
     CompanyName: z.string().min(1, "Required"),
+    Currency: z.string().min(1, "Required"),
+    BankName :z.string().min(1, "Required"),
+    BankType :z.string().min(1, "Required"),
+    BankAccount :z.string().min(1, "Required"),
+    PaymentTerms :z.string().min(1, "Required"),
     ContactPerson: z.string().min(1, "Required"),
     Type: z.enum(["Company", "Individual"]),
     ContactNo: z.string().min(1, "Required"),
@@ -83,6 +88,11 @@ const [SelectValues, SetSelectValues] = useState([{}])
       ContactNo: "",
       Email: "",
       TagLine: "",
+      BankName :"",
+      BankType :"",
+      BankAccount :"",
+      PaymentTerms :"",
+      
    
     },
     resolver: zodResolver(FormSchema),
@@ -209,6 +219,35 @@ const [SelectValues, SetSelectValues] = useState([{}])
             />
           </div>
 
+
+          <div className=" mtt-center gap-4 !flex-col">
+            <MttTextField
+              readOnly={readOnly}
+              name="Currency"
+              label="Currency"
+              className=""
+            />
+            <MttTextField
+              readOnly={readOnly}
+              name="BankName"
+              label="Bank Name"
+              className=""
+            />
+
+            <MttTextField
+              readOnly={readOnly}
+              name="BankType"
+              label="Account Type"
+              className=""
+            />
+
+<MttTextField
+              readOnly={readOnly}
+              name="PaymentTerms"
+              label="Payment Terms"
+              className=""
+            />
+          </div>
       
         </div>
         <IsLoading className="w-full mtt-center" isLoading={FormIsloading}>

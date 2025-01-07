@@ -37,6 +37,11 @@ model Companies {
   ContactNo     String
   Logo          String
   CompanyName   String
+  Currency String
+  BankName String
+  BankType String
+  BankAccount String
+  PaymentTerms String
   Type          CompanyType @default(Company)
   Email         String      @unique
   TagLine       String
