@@ -39,6 +39,7 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
 
   // Schema for form validation
   const FormSchema = z.object({
+    QuotationId: z.string().min(1, "Required"),
     ClientId: z.string().min(1, "Required"),
     UserId: z.string().min(1, "Required"),
     CompanyId: z.string().min(1, "Required"),
@@ -48,7 +49,7 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
         Description: z.string().min(1, "Required"),
         Quantity: z.number().min(1, "Required"),
         Amount: z.number().min(1, "Required"),
-        inputEnabled: z.boolean(),
+        inputEnabled: z.boolean().optional(),
       })
     ),
   });
@@ -73,7 +74,7 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
 
 
 
-  const [QuotationId, SetQuotationId] = useState<string | null>(null)
+  
   const path = useSearchParams()
   useEffect(()=>{
     if(!path){
@@ -83,8 +84,8 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
 
     const QuotationId= path.get("QuoteId")
 
-  
-    SetQuotationId(QuotationId)
+  FormMethods.setValue("QuotationId",QuotationId as string)
+   
   },[path])
   const TableQuery = (QuotationId: string | null) => {
       return useQuery({
@@ -94,14 +95,17 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
             QuotationId,
           });
         },
-        refetchInterval:5000,
+       
         gcTime:0,
         staleTime:0,
         enabled: !!QuotationId,
       });
     };
-const { data:QuoteData, isPending:QuotePanding } = TableQuery(QuotationId);
-console.log(QuoteData)  
+const { data:QuoteData, isPending:QuotePanding } = TableQuery(FormMethods.getValues("QuotationId"));
+
+
+console.log(QuoteData)
+
 useEffect(() => {
     if (UserId) {
       FormMethods.setValue("UserId", UserId);
@@ -121,12 +125,6 @@ useEffect(() => {
   )
 
  }
-    
- 
-
-
-
-
 
     if (CompanyData) {
       FormMethods.setValue("CompanyId", CompanyData.CompanyId as string);
@@ -166,10 +164,7 @@ useEffect(() => {
     mutationKey:[MutationModels.Quotations.MutationKey],
     mutationFn: async (data:FormType ) => {
       //Create has been supplied by HOC. It comes from MttFetch
-      return await Create(
-       "/api/root/dashboard/FormQuote/", 
-        
-       data);
+      return await Create("/api/root/dashboard/Quotations/update", data);
     },
     onError: () => {
       //toast has been supplied by HOC. It comes from Shadcn
@@ -204,10 +199,13 @@ useEffect(() => {
       <div className=" px-[38px] mtt-center !justify-between w-full">
         <h4 className="text-2xl font-normal mb-4"> {`${CompanyData?.Currency as string} ${sumTotal.toFixed(2)}`}</h4>
 
-        
+        <p className=" "><span className="font-bold mr-4">Quote ID: </span>{FormMethods.getValues("QuotationId")}</p>
       </div>
+
+     
       <MttForm
     
+    debugMode
 isLoading={FormMutation.isPending}
         onSubmit={FormSubmit}
         Methods={FormMethods}
@@ -378,7 +376,7 @@ if(field.Description!=="" && field.Description!==undefined && field.Description!
         {/* Submit Button */}
         <div className="text-right mt-4 absolute right-10 bottom-5">
           <IsLoading isLoading={false}>
-            <MttSubmit>Create </MttSubmit>
+            <MttSubmit>Update </MttSubmit>
           </IsLoading>
         </div>
       </MttForm>

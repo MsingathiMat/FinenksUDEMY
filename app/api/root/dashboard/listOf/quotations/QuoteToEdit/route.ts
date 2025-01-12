@@ -27,9 +27,10 @@ export const GET = async (req: NextRequest) => {
           QuotationId: QuotationId,
           CompanyId: CompanyData.CompanyId
         },
+        
         include: {
-          clients: true, // Assuming there's a related Client table
-          user: true, 
+        
+         
          // Assuming there's a related User table
           QuotationDetails: {
             include:{
@@ -39,6 +40,7 @@ export const GET = async (req: NextRequest) => {
        
           
         }
+        
       });
 
       const flattenedQuotations = {
