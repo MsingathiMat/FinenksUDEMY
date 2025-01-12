@@ -13,6 +13,9 @@ export const GET = async (req: NextRequest) => {
     return NextResponse.json({ message: "Unrecognized Company", status: 400 });
   }
   try {
+
+
+    
     const quotations = await SingletonPrisma.quotations.findMany({
       where:{
         CompanyId:CompanyData.CompanyId

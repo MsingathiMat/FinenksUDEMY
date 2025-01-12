@@ -24,6 +24,7 @@ import uuid4 from "uuid4";
 import Link from "next/link";
 import { useAtom } from "jotai";
 import { UserCompany } from "@/components/mtt/Atoms/AtomUserCompany";
+import { useSearchParams } from "next/navigation";
 
 const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   const {
@@ -43,10 +44,10 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     CompanyId: z.string().min(1, "Required"),
     items: z.array(
       z.object({
-        ItemCode: z.string().min(1, "Required"),
+        ItemId: z.string().min(1, "Required"),
         Description: z.string().min(1, "Required"),
-        quantity: z.number().min(1, "Required"),
-        amount: z.number().min(1, "Required"),
+        Quantity: z.number().min(1, "Required"),
+        Amount: z.number().min(1, "Required"),
         inputEnabled: z.boolean(),
       })
     ),
@@ -59,10 +60,10 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     defaultValues: {
       items: [
         {
-          ItemCode: uuid4(),
+          ItemId: uuid4(),
           Description: "No chosen item",
-          quantity: 1,
-          amount: 0,
+          Quantity: 1,
+          Amount: 0,
           inputEnabled: true,
         },
       ],
@@ -70,10 +71,61 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     resolver: zodResolver(FormSchema),
   });
 
-  useEffect(() => {
+  // const TableQuery = useQuery({
+  //   queryKey: [QueryModels.Quotations.QueryKey],
+  //   queryFn: async () => {
+  //     return await Read("/api/root/dashboard/listOf/quotations/QuoteToEdit");
+  //   },
+  //   gcTime: 0,
+  //   staleTime: 0,
+  // });
+
+  const [QuotationId, SetQuotationId] = useState<string | null>(null)
+  const path = useSearchParams()
+  useEffect(()=>{
+    if(!path){
+      alert("No Quotation Id")
+      return
+    }
+
+    const QuotationId= path.get("QuoteId")
+
+  
+    SetQuotationId(QuotationId)
+  },[path])
+  const TableQuery = (QuotationId: string | null) => {
+      return useQuery({
+        queryKey: [QueryModels.QuotationById],
+        queryFn: async () => {
+          return Read("/api/root/dashboard/listOf/quotations/QuoteToEdit", {
+            QuotationId,
+          });
+        },
+        refetchInterval:5000,
+        gcTime:0,
+        staleTime:0,
+        enabled: !!QuotationId,
+      });
+    };
+const { data:QuoteData, isPending:QuotePanding } = TableQuery(QuotationId);
+console.log(QuoteData)  
+useEffect(() => {
     if (UserId) {
       FormMethods.setValue("UserId", UserId);
     }
+
+
+ if(!QuotePanding){
+
+  FormMethods.setValue("items",
+
+    QuoteData.QuotationDetails
+  )
+ }
+    
+
+
+
     if (CompanyData) {
       FormMethods.setValue("CompanyId", CompanyData.CompanyId as string);
     }
@@ -144,7 +196,7 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   FormMutation.mutate(data)
   };
 
- 
+   
   return (
     <div className="  mtt-Alpha w-full mtt-center !flex-col !items-start !justify-start pt-8">
       <div className=" px-[38px] mtt-center !justify-between w-full">
@@ -162,6 +214,7 @@ isLoading={FormMutation.isPending}
         <IsLoading className=" mtt-center mr-auto" isLoading={ClientPending}>
           {ClientData && (
             <MttComboSearch
+           
               className=" w-[150px]"
               name="ClientId"
               label="Client"
@@ -196,12 +249,14 @@ isLoading={FormMutation.isPending}
 
 if(field.Description!=="" && field.Description!==undefined && field.Description!==null){
 
+  console.log(field.ItemId)
   return (
     <tr key={field.id}>
     <td className="p-2 w-[200px] ">
       <IsLoading className=" mtt-center" isLoading={isPending}>
         {data && (
           <MttComboSearch
+          InitialValue={field.ItemId}
             className=" w-[150px]"
             callBack={(val) => {
               const selectedItem = data.find(
@@ -213,11 +268,11 @@ if(field.Description!=="" && field.Description!==undefined && field.Description!
                   selectedItem.Description
                 );
                 FormMethods.setValue(
-                  `items.${index}.amount`,
+                  `items.${index}.Amount`,
                   parseInt(selectedItem.Amount.toString())
                 );
                 FormMethods.setValue(
-                  `items.${index}.quantity`,
+                  `items.${index}.Quantity`,
                   1
                 );
                 FormMethods.setValue(
@@ -226,7 +281,7 @@ if(field.Description!=="" && field.Description!==undefined && field.Description!
                 );
               }
             }}
-            name={`items.${index}.ItemCode`}
+            name={`items.${index}.ItemId`}
             label=""
             placeholder="Choose Client"
             SelectValues={GenerateSelectValues({
@@ -254,7 +309,7 @@ if(field.Description!=="" && field.Description!==undefined && field.Description!
             ? " !border-none text-gray-500"
             : ""
         )}
-        name={`items.${index}.quantity`}
+        name={`items.${index}.Quantity`}
         type="number"
         min="1"
         label=""
@@ -263,7 +318,7 @@ if(field.Description!=="" && field.Description!==undefined && field.Description!
     </td>
     <td className="p-2  w-[100px] ">
       <MttTextField
-        name={`items.${index}.amount`}
+        name={`items.${index}.Amount`}
         className={cn(
           " !w-[100px] ",
           items[index].inputEnabled
@@ -276,7 +331,7 @@ if(field.Description!=="" && field.Description!==undefined && field.Description!
       />
     </td>
     <td className="p-2  w-[100px] font-bold text-gray-500 text-[18px] ">
-      { `${CompanyData?.Currency as string} ${(items[index].quantity || 1) * items[index].amount}` }
+      { `${CompanyData?.Currency as string} ${(items[index].Quantity || 1) * items[index].Amount}` }
     </td>
     <td className="p-2 w-[50px]">
       {fields.length > 1 && (

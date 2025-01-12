@@ -461,7 +461,7 @@ function MttTextField({
 
 function MttComboSearch({
   className,
-
+  InitialValue,
   name,
   label,
   placeholder,
@@ -472,6 +472,7 @@ callBack,
   placeholder: string;
   label: string;
   className?: string;
+  InitialValue?:string
   callBack?:(val:string)=>void;
   Icon?: IconType;
   readOnly?: boolean;
@@ -491,6 +492,7 @@ callBack,
       <LabelWrapper name={name} error={errors?.[name]?.message} label={label}>
         <div className="relative">
           <MttSearchCombo
+          InitialValue={InitialValue}
             placeholder={placeholder}
             className={className}
             SelectValues={SelectValues}

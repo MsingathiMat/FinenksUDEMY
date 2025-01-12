@@ -54,7 +54,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   const TableQuery = useQuery({
     queryKey: [QueryModels.Quotations.QueryKey],
     queryFn: async () => {
-      return await Read<TypeEvent[]>("/api/root/dashboard/listOf/quotations/");
+      return await Read("/api/root/dashboard/listOf/quotations/");
     },
     gcTime: 0,
     staleTime: 0,
@@ -129,6 +129,11 @@ cell:(val)=><p>{val.getValue().slice(0,6)}...</p>
 
                   }
 
+                  if(SelectedItem=="edit"){
+                    MttRedirect(`/dashboard/quote/Edit?QuoteId=${val.row.original.QuotationId}`)
+
+                  }
+
                 
                 }}
               >
@@ -145,6 +150,12 @@ cell:(val)=><p>{val.getValue().slice(0,6)}...</p>
                 <SelectItem   value="chat">
 
                 <p className="hover:text-Pri hover:cursor-pointer"> Chats</p>
+                </SelectItem>
+
+                <SelectItem value="edit">
+
+<p className="hover:text-Pri hover:cursor-pointer">   Edit</p>
+       
                 </SelectItem>
                 </SelectContent>
 

@@ -220,7 +220,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     borderBottomStyle: 'solid',
     
   }}></View>
-<Text style={{marginLeft:'auto', fontSize:14, marginTop:10,marginRight:50}}>R {QuoteData.total}</Text>
+<Text style={{marginLeft:'auto', fontSize:14, marginTop:10,marginRight:50}}>{`${CompanyData?.Currency} ${QuoteData.total}`}</Text>
 
 <View style={{
     flexDirection: 'row',
