@@ -71,14 +71,7 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     resolver: zodResolver(FormSchema),
   });
 
-  // const TableQuery = useQuery({
-  //   queryKey: [QueryModels.Quotations.QueryKey],
-  //   queryFn: async () => {
-  //     return await Read("/api/root/dashboard/listOf/quotations/QuoteToEdit");
-  //   },
-  //   gcTime: 0,
-  //   staleTime: 0,
-  // });
+
 
   const [QuotationId, SetQuotationId] = useState<string | null>(null)
   const path = useSearchParams()
@@ -121,8 +114,17 @@ useEffect(() => {
 
     QuoteData.QuotationDetails
   )
+
+  FormMethods.setValue("ClientId",
+
+    QuoteData.ClientId
+  )
+
  }
     
+ 
+
+
 
 
 
@@ -156,7 +158,7 @@ useEffect(() => {
 
   const { data: ClientData, isPending: ClientPending } = ClientQuery;
   const items = watch('items');
-  const sumTotal = items.filter((val)=>val.Description!=="" && val.Description!==null && val.Description!==undefined ).reduce((sum, item) => sum + (item.quantity || 0) * item.amount, 0);
+  const sumTotal = items.filter((val)=>val.Description!=="" && val.Description!==null && val.Description!==undefined ).reduce((sum, item) => sum + (item.Quantity || 0) * item.Amount, 0);
 
 
   
@@ -200,7 +202,7 @@ useEffect(() => {
   return (
     <div className="  mtt-Alpha w-full mtt-center !flex-col !items-start !justify-start pt-8">
       <div className=" px-[38px] mtt-center !justify-between w-full">
-        <h4 className="text-2xl font-normal mb-4"> R{sumTotal.toFixed(2)}</h4>
+        <h4 className="text-2xl font-normal mb-4"> {`${CompanyData?.Currency as string} ${sumTotal.toFixed(2)}`}</h4>
 
         
       </div>
@@ -212,9 +214,9 @@ isLoading={FormMutation.isPending}
         className="space-y-4 w-full "
       >
         <IsLoading className=" mtt-center mr-auto" isLoading={ClientPending}>
-          {ClientData && (
+          {ClientData &&  !QuotePanding && (
             <MttComboSearch
-           
+           InitialValue={QuoteData.ClientId}
               className=" w-[150px]"
               name="ClientId"
               label="Client"
@@ -249,7 +251,7 @@ isLoading={FormMutation.isPending}
 
 if(field.Description!=="" && field.Description!==undefined && field.Description!==null){
 
-  console.log(field.ItemId)
+
   return (
     <tr key={field.id}>
     <td className="p-2 w-[200px] ">
