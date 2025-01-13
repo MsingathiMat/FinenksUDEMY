@@ -45,12 +45,14 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     UserId: z.string().min(1, "Required"),
     CompanyId: z.string().min(1, "Required"),
     items: z.array(
-      z.object({
-        ItemId: z.string(),
-        Description: z.string(),
-        Quantity: z.number(),
-        inputEnabled: z.boolean().optional(),
-      })
+      // z.object({
+      //   ItemId: z.string(),
+      //   Description: z.string(),
+      //   Quantity: z.number(),
+      //   inputEnabled: z.boolean().optional(),
+      //   Amount: z.string().optional()
+      // })
+      z.any()
     ),
   });
 
@@ -196,7 +198,7 @@ console.log(QuoteData)
      
       <MttForm
     
-  
+    debugMode
 isLoading={FormMutation.isPending}
         onSubmit={FormSubmit}
         Methods={FormMethods}

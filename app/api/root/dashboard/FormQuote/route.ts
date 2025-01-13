@@ -29,7 +29,7 @@ if(!CompanyData){
 UserId,
 CompanyId:CompanyData.CompanyId as string,
 QuotationDetails:{
-    create: items.map((item:QuoteRowType)=>({
+    create: items.map((item)=>({
         ItemId: item.ItemCode,
         Quantity: item.quantity,
         Amount: item.amount,
