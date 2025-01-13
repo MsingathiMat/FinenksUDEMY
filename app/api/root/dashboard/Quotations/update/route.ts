@@ -5,7 +5,6 @@ import GetCompanyData from "@/components/mtt/Api/helpers/GetCompanyData";
 export const POST = async (req: NextRequest) => {
   try {
     const data = await req.json();
-
     const CompanyData = await GetCompanyData();
     const { ClientId, UserId, items, QuotationId } = data;
 
@@ -22,15 +21,20 @@ export const POST = async (req: NextRequest) => {
 
     const prisma = SingletonPrisma;
 
-    // Use a single transaction for deletion and insertion
     const result = await prisma.$transaction(async (transaction) => {
-      // Delete existing quotation details
+      // Update the `ClientId` in the `Quotations` table
+      const updatedQuotation = await transaction.quotations.update({
+        where: { QuotationId },
+        data: { ClientId },
+      });
+
+      // Delete existing `QuotationDetails` for the given `QuotationId`
       await transaction.quotationDetails.deleteMany({
         where: { QuotationId },
       });
 
-      // Add new quotation details
-      const inserted = await transaction.quotationDetails.createMany({
+      // Create new `QuotationDetails` entries
+      const insertedDetails = await transaction.quotationDetails.createMany({
         data: items
           .filter((detail) => detail.Amount !== undefined) // Filter out items with undefined Amount
           .map((detail) => ({
@@ -41,12 +45,15 @@ export const POST = async (req: NextRequest) => {
           })),
       });
 
-      return inserted;
+      return { updatedQuotation, insertedDetails };
     });
 
     return NextResponse.json({ result }, { status: 201 });
   } catch (error) {
     console.error("Transaction failed.", error);
-    return NextResponse.json({ message: "Transaction failed", error }, { status: 400 });
+    return NextResponse.json(
+      { message: "Transaction failed", error },
+      { status: 400 }
+    );
   }
 };
