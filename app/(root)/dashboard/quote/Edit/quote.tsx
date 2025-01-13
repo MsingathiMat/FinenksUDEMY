@@ -25,6 +25,7 @@ import Link from "next/link";
 import { useAtom } from "jotai";
 import { UserCompany } from "@/components/mtt/Atoms/AtomUserCompany";
 import { useSearchParams } from "next/navigation";
+import { MttRedirect } from "@/components/mtt/Helpers/MttRedirect";
 
 const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   const {
@@ -45,10 +46,9 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     CompanyId: z.string().min(1, "Required"),
     items: z.array(
       z.object({
-        ItemId: z.string().min(1, "Required"),
-        Description: z.string().min(1, "Required"),
-        Quantity: z.number().min(1, "Required"),
-        Amount: z.number().min(1, "Required"),
+        ItemId: z.string(),
+        Description: z.string(),
+        Quantity: z.number(),
         inputEnabled: z.boolean().optional(),
       })
     ),
@@ -58,17 +58,7 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   const FormName = "Quotation"
   type FormType = z.infer<typeof FormSchema>;
   const FormMethods = useForm<FormType>({
-    defaultValues: {
-      items: [
-        {
-          ItemId: uuid4(),
-          Description: "No chosen item",
-          Quantity: 1,
-          Amount: 0,
-          inputEnabled: true,
-        },
-      ],
-    },
+ 
     resolver: zodResolver(FormSchema),
   });
 
@@ -77,36 +67,7 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   
   const path = useSearchParams()
   useEffect(()=>{
-    if(!path){
-      alert("No Quotation Id")
-      return
-    }
 
-    const QuotationId= path.get("QuoteId")
-
-  FormMethods.setValue("QuotationId",QuotationId as string)
-   
-  },[path])
-  const TableQuery = (QuotationId: string | null) => {
-      return useQuery({
-        queryKey: [QueryModels.QuotationById],
-        queryFn: async () => {
-          return Read("/api/root/dashboard/listOf/quotations/QuoteToEdit", {
-            QuotationId,
-          });
-        },
-       
-        gcTime:0,
-        staleTime:0,
-        enabled: !!QuotationId,
-      });
-    };
-const { data:QuoteData, isPending:QuotePanding } = TableQuery(FormMethods.getValues("QuotationId"));
-
-
-console.log(QuoteData)
-
-useEffect(() => {
     if (UserId) {
       FormMethods.setValue("UserId", UserId);
     }
@@ -129,8 +90,35 @@ useEffect(() => {
     if (CompanyData) {
       FormMethods.setValue("CompanyId", CompanyData.CompanyId as string);
     }
+    if(!path){
+      alert("No Quotation Id")
+      return
+    }
 
-  }, [UserId,CompanyData]);
+    const QuotationId= path.get("QuoteId")
+
+  FormMethods.setValue("QuotationId",QuotationId as string)
+   
+  },[path,UserId,CompanyData])
+  const TableQuery = (QuotationId: string | null) => {
+      return useQuery({
+        queryKey: [QueryModels.QuotationById],
+        queryFn: async () => {
+          return Read("/api/root/dashboard/listOf/quotations/QuoteToEdit", {
+            QuotationId,
+          });
+        },
+       
+        gcTime:0,
+        staleTime:0,
+        enabled: !!QuotationId,
+      });
+    };
+const { data:QuoteData, isPending:QuotePanding } = TableQuery(FormMethods.getValues("QuotationId"));
+
+
+console.log(QuoteData)
+
 
   const { control, handleSubmit, watch } = FormMethods;
   const { fields, append, remove } = useFieldArray({
@@ -156,7 +144,7 @@ useEffect(() => {
 
   const { data: ClientData, isPending: ClientPending } = ClientQuery;
   const items = watch('items');
-  const sumTotal = items.filter((val)=>val.Description!=="" && val.Description!==null && val.Description!==undefined ).reduce((sum, item) => sum + (item.Quantity || 0) * item.Amount, 0);
+  const sumTotal = items?items.filter((val)=>val.Description!=="" && val.Description!==null && val.Description!==undefined ).reduce((sum, item) => sum + (item.Quantity || 0) * item.Amount, 0):0;
 
 
   
@@ -186,10 +174,13 @@ useEffect(() => {
         title: "SUCCESS",
         description: `${FormName} created successfully`,
       });
+      const QuotationId= path.get("QuoteId")
+      MttRedirect(`/dashboard/quote/Edit?QuoteId=${QuotationId}`)
     },
   });
   const FormSubmit: SubmitHandler<FormType> = (data) => {
 
+   
   FormMutation.mutate(data)
   };
 
@@ -205,7 +196,7 @@ useEffect(() => {
      
       <MttForm
     
-    debugMode
+  
 isLoading={FormMutation.isPending}
         onSubmit={FormSubmit}
         Methods={FormMethods}
@@ -251,7 +242,8 @@ if(field.Description!=="" && field.Description!==undefined && field.Description!
 
 
   return (
-    <tr key={field.id}>
+<>
+{items? <tr key={field.id}>
     <td className="p-2 w-[200px] ">
       <IsLoading className=" mtt-center" isLoading={isPending}>
         {data && (
@@ -344,7 +336,10 @@ if(field.Description!=="" && field.Description!==undefined && field.Description!
         </button>
       )}
     </td>
-  </tr>
+  </tr>:null}
+</>
+   
+   
                 )
 }
               
@@ -358,10 +353,10 @@ if(field.Description!=="" && field.Description!==undefined && field.Description!
           <div
             onClick={() =>
               append({
-                ItemCode: uuid4(),
+                ItemId: undefined,
                 Description: "No item chosen",
-                quantity: 1,
-                amount: 0,
+                Quantity: 0,
+                Amount: 0,
                 inputEnabled: true,
               })
             }
