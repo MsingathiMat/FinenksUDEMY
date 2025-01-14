@@ -148,12 +148,12 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   return (
     <div className="  mtt-Alpha w-full mtt-center !flex-col !items-start !justify-start pt-8">
       <div className=" px-[38px] mtt-center !justify-between w-full">
-        <h4 className="text-2xl font-normal mb-4"> R{sumTotal.toFixed(2)}</h4>
+        <h4 className="text-2xl font-normal mb-4"> {`${CompanyData?.Currency as string}`}{sumTotal.toFixed(2)}</h4>
 
         
       </div>
       <MttForm
-    debugMode
+  
 isLoading={FormMutation.isPending}
         onSubmit={FormSubmit}
         Methods={FormMethods}

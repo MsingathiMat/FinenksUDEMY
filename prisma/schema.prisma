@@ -70,18 +70,19 @@ model QuoteChats {
 }
 
 model Quotations {
-  status      DocStatus @default(CREATED)
-  QuotationId String    @unique @default(uuid())
-  UserId      String
-  user        Users   @relation(fields: [UserId], references: [UserId])
-  ClientId String
-  clients Clients @relation(fields: [ClientId], references: [ClientId])
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  QuotationDetails QuotationDetails[]
-  QuoteChats QuoteChats[]
-  CompanyId String
-  Company Companies @relation(fields: [CompanyId], references: [CompanyId])
+  status            DocStatus         @default(CREATED)
+  QuotationId       String            @id @default(uuid())
+  UserId            String
+  user              Users             @relation(fields: [UserId], references: [UserId])
+  ClientId          String
+  clients           Clients           @relation(fields: [ClientId], references: [ClientId])
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  QuotationDetails  QuotationDetails[]
+  QuoteChats        QuoteChats[]
+  CompanyId         String
+  Company           Companies         @relation(fields: [CompanyId], references: [CompanyId])
+  Invoices          Invoices[]        // One-to-many relationship with Invoices
 }
 model QuotationDetails {
   QdId Int @unique @default(autoincrement())
@@ -96,16 +97,34 @@ Quantity Int
 Amount Decimal
 
 }
-model Invoices {
-  InvoiceId String    @unique @default(uuid())
-  status    DocStatus @default(CREATED)
-  UserId    String
 
-  user      Users?   @relation(fields: [UserId], references: [UserId])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-    CompanyId String
-  Company Companies @relation(fields: [CompanyId], references: [CompanyId])
+
+
+model Invoices {
+  InvoiceId         String            @id @default(uuid())
+  status            DocStatus         @default(CREATED)
+  UserId            String
+  QuotationId       String
+  Quotations        Quotations        @relation(fields: [QuotationId], references: [QuotationId]) // Many-to-one relationship with Quotations
+  CompanyId         String
+  Company           Companies         @relation(fields: [CompanyId], references: [CompanyId])
+  user              Users?            @relation(fields: [UserId], references: [UserId])
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  ClientId          String
+  clients           Clients           @relation(fields: [ClientId], references: [ClientId])
+  InvoiceDetails    InvoiceDetails[]
+}
+
+model InvoiceDetails {
+  IdId Int @unique @default(autoincrement())
+InvoiceId String
+  Invoice Invoices @relation(fields: [InvoiceId],references: [InvoiceId])
+ItemId String 
+  Items Items @relation(fields: [ItemId], references: [ItemId])
+Quantity Int
+Amount Decimal
+
 }
 
 model Items {
@@ -117,6 +136,7 @@ model Items {
   Quantity    Int
   Amount      Decimal
 QuotationDetails QuotationDetails[]
+InvoiceDetails InvoiceDetails[]
   UserId String
 
  Company Companies @relation(fields: [CompanyId], references: [CompanyId])
@@ -140,7 +160,7 @@ model Clients {
 
   UserId String
   Quotations Quotations[]
-
+ Invoice Invoices[]
   user Users? @relation(fields: [UserId], references: [UserId])
 
   createdAt DateTime @default(now())

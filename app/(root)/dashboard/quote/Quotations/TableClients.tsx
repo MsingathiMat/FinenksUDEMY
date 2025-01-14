@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/select";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { UtilitiesProp } from "@/components/mtt/Types/MttTypes";
 import { MutationModels, QueryModels } from "@/components/mtt/config/ReactQueryConfig";
@@ -75,8 +75,66 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     },
   });
 
+
+  
   const { data, isPending } = TableQuery;
 
+
+
+  const [selectedQuotationId, setSelectedQuotationId] = useState<string | null>(
+    null
+  );
+
+  const { data: quoteData, isLoading: isQuoteLoading } = useQuery({
+    queryKey: ["quotationById", selectedQuotationId],
+    queryFn: async () => {
+      return Read("/api/root/dashboard/listOf/quotations/QuoteToEdit", {
+        QuotationId: selectedQuotationId,
+      });
+    },
+    enabled: !!selectedQuotationId,
+
+    
+  });
+
+  const Mut = useMutation({
+    mutationKey:["CreateInvoice"],
+    mutationFn: async () => {
+      //Create has been supplied by HOC. It comes from MttFetch
+      return await Create(
+      `/api/root/dashboard/Invoice/create`, 
+        
+      quoteData);
+    },
+    onError: () => {
+      //toast has been supplied by HOC. It comes from Shadcn
+      toast({
+        title: "ERROR",
+        description: `Failed to create Invoice`,
+      });
+    },
+    onSuccess: () => {
+      //QClient has been supplied by HOC. It comes from Shadcn
+      QClient.invalidateQueries({ queryKey: MutationModels.Quotations.Dependants });
+  
+      //Reset form fields
+      // FormMethods.reset();
+  
+   
+  
+      toast({
+        title: "SUCCESS",
+        description: `Invoice created successfully`,
+      });
+    },
+  });
+
+
+  useEffect(() => {
+    if (selectedQuotationId && quoteData) {
+      Mut.mutate()
+    }
+  }, [quoteData])
 
   const columns: ColumnDef<Quotations>[] = [
 
@@ -134,6 +192,13 @@ cell:(val)=><p>{val.getValue().slice(0,6)}...</p>
 
                   }
 
+                  if(SelectedItem=="convert"){
+                
+                  
+                    setSelectedQuotationId(val.row.original.QuotationId)
+                 
+                  }
+
                 
                 }}
               >
@@ -155,6 +220,12 @@ cell:(val)=><p>{val.getValue().slice(0,6)}...</p>
                 <SelectItem value="edit">
 
 <p className="hover:text-Pri hover:cursor-pointer">   Edit</p>
+       
+                </SelectItem>
+
+                <SelectItem value="convert">
+
+<p className="hover:text-Pri hover:cursor-pointer">  Convert</p>
        
                 </SelectItem>
                 </SelectContent>

@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import MttForm, {
-
+  MttComboSearch,
   MttSelect,
   MttSubmit,
   MttTextField,
@@ -11,23 +11,25 @@ import MttForm, {
 import { SubmitHandler, useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {  useMutation } from "@tanstack/react-query";
+import { queryOptions, useMutation, useQuery } from "@tanstack/react-query";
 import withUtilities from "@/components/mtt/HOC/withUtilities";
-
+import { ActiveUserType, UtilitiesProp } from "@/components/mtt/Types/MttTypes";
 import useActiveUser from "@/components/mtt/Hooks/useActiveUser";
-import { MutationModels } from "@/components/mtt/config/ReactQueryConfig";
-
+import { MutationModels, QueryModels } from "@/components/mtt/config/ReactQueryConfig";
+import { Prisma } from "@prisma/client";
+import { MttSearchCombo } from "@/components/mtt/components/mttSearchCombo";
 import { MttRedirect } from "@/components/mtt/Helpers/MttRedirect";
 
 
 const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
  
-
+const [SelectValues, SetSelectValues] = useState([{}])
 
   // Declare FORM NAME or Table name
   const FormName = "Company";
 
   //Current User ID
+
   const { userData } = useActiveUser<ActiveUserType>();
   // Get(Destructure) all the methods that your form will need from  Utilities
 
@@ -39,16 +41,17 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
 
     
   }, [userData]);
- 
   const {
     Create,
 
     toast,
- 
+    MttImageFile,
+    MttImageDisplay,
+    ImageReset,
     ObjectToFormData,
     IsLoading,
     QClient,
-
+    Read
   } = Utilities;
 
 
@@ -74,7 +77,9 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   
   // Form Type
   type FormType = z.infer<typeof FormSchema>;
+  const [defaultValues, setDefaultValues]= useState<FormType | null>(null)
 
+ 
   // FormMethods
   const FormMethods = useForm<FormType>({
     defaultValues: {
@@ -113,7 +118,7 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     mutationFn: async ({ formData }: { formData: FormData }) => {
       //Create has been supplied by HOC. It comes from MttFetch
       return await Create(
-       "/api/root/dashboard/FormAddCompany/saveFormData", 
+       "/api/root/dashboard/Company/Update/", 
         
         formData);
     },
@@ -133,7 +138,10 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
 
       // Resert MttImage - This clears input images on the UI
    
-    
+      FormMethods.reset(defaultValues as FormType)
+      //toast has been supplied by HOC. It comes from Shadcn
+     
+     
 
       toast({
         title: "SUCCESS",
@@ -149,7 +157,37 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   const FormIsloading = FormMutation.isPending;
 
 
-   
+    const FormQuery = () => {
+      return useQuery({
+        queryKey: [QueryModels.QuotationById],
+        queryFn: async () => {
+          return Read("/api/root/dashboard/Company/ById");
+        },
+     
+
+       
+      });
+    };
+
+    const {data:CompanyData,isSuccess}= FormQuery()
+
+    useEffect(() => {
+      if (isSuccess && CompanyData) {
+        // Assuming CompanyData has the required structure
+        const { CompanyName, ContactPerson, Type, ContactNo, Email, TagLine, Currency, BankName, BankType, PaymentTerms, BankAccount } = CompanyData;
+        FormMethods.setValue("CompanyName", CompanyName || "");
+        FormMethods.setValue("ContactPerson", ContactPerson || "");
+        FormMethods.setValue("Type", Type || "Company"); // Default to "Company"
+        FormMethods.setValue("ContactNo", ContactNo || "");
+        FormMethods.setValue("Email", Email || "");
+        FormMethods.setValue("TagLine", TagLine || "");
+        FormMethods.setValue("Currency", Currency || "");
+        FormMethods.setValue("BankName", BankName || "");
+        FormMethods.setValue("BankType", BankType || "");
+        FormMethods.setValue("PaymentTerms", PaymentTerms || "");
+        FormMethods.setValue("BankAccount", BankAccount || "");
+      }
+    }, [isSuccess, CompanyData, FormMethods]);
   return (
 
     <div>
@@ -174,8 +212,9 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
               label="Company Name"
               className=""
             />
-           <MttSelect
-             
+            {
+              CompanyData?<MttSelect
+              InitialValue={CompanyData.Type}
                 readOnly={readOnly}
                 name="Type"
                 label="Select Type"
@@ -183,7 +222,8 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
                   { value: "Company", label: "Company" },
                   { value: "Individual", label: "Individual" },
                 ]}
-              />
+              />:null
+            }
             <MttTextField
               readOnly={readOnly}
               name="ContactPerson"
@@ -262,5 +302,5 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   );
 };
 
-const FormAddCompany = withUtilities(OriginalForm);
-export default FormAddCompany;
+const FormUpdateCompany = withUtilities(OriginalForm);
+export default FormUpdateCompany;
