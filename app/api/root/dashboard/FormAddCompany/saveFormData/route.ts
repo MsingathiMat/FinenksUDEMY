@@ -16,7 +16,7 @@ export const POST = async (req: NextRequest) => {
   const BankName = data.get("BankName") as string | null;
   const BankType = data.get("BankType") as string | null;
   const BankAccount = data.get("BankAccount") as string | null;
-  const PaymentTerms = data.get("Email") as string | null;
+  const PaymentTerms = data.get("PaymentTerms") as string | null;
 
   if (!CompanyName || !ContactPerson || !ContactNo || !Email || !TagLine || !UserId ||
     !Currency || !BankName || !BankType || !BankAccount || !PaymentTerms 
