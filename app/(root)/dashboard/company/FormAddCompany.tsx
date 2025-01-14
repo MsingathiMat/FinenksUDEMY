@@ -118,7 +118,7 @@ const [SelectValues, SetSelectValues] = useState([{}])
     mutationFn: async ({ formData }: { formData: FormData }) => {
       //Create has been supplied by HOC. It comes from MttFetch
       return await Create(
-       "/api/root/dashboard/FormAddCompany/saveFormData", 
+       "/api/root/dashboard/Company/Update/", 
         
         formData);
     },
@@ -161,11 +161,9 @@ const [SelectValues, SetSelectValues] = useState([{}])
       return useQuery({
         queryKey: [QueryModels.QuotationById],
         queryFn: async () => {
-          return Read("/api/root/dashboard/Company/ById/");
+          return Read("/api/root/dashboard/Company/ById");
         },
-       
-        gcTime:0,
-        staleTime:0,
+     
 
        
       });
