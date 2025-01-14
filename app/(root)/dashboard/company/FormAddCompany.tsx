@@ -51,6 +51,7 @@ const [SelectValues, SetSelectValues] = useState([{}])
     ObjectToFormData,
     IsLoading,
     QClient,
+    Read
   } = Utilities;
 
 
@@ -156,6 +157,39 @@ const [SelectValues, SetSelectValues] = useState([{}])
   const FormIsloading = FormMutation.isPending;
 
 
+    const FormQuery = () => {
+      return useQuery({
+        queryKey: [QueryModels.QuotationById],
+        queryFn: async () => {
+          return Read("/api/root/dashboard/Company/ById/");
+        },
+       
+        gcTime:0,
+        staleTime:0,
+
+       
+      });
+    };
+
+    const {data:CompanyData,isSuccess}= FormQuery()
+
+    useEffect(() => {
+      if (isSuccess && CompanyData) {
+        // Assuming CompanyData has the required structure
+        const { CompanyName, ContactPerson, Type, ContactNo, Email, TagLine, Currency, BankName, BankType, PaymentTerms, BankAccount } = CompanyData;
+        FormMethods.setValue("CompanyName", CompanyName || "");
+        FormMethods.setValue("ContactPerson", ContactPerson || "");
+        FormMethods.setValue("Type", Type || "Company"); // Default to "Company"
+        FormMethods.setValue("ContactNo", ContactNo || "");
+        FormMethods.setValue("Email", Email || "");
+        FormMethods.setValue("TagLine", TagLine || "");
+        FormMethods.setValue("Currency", Currency || "");
+        FormMethods.setValue("BankName", BankName || "");
+        FormMethods.setValue("BankType", BankType || "");
+        FormMethods.setValue("PaymentTerms", PaymentTerms || "");
+        FormMethods.setValue("BankAccount", BankAccount || "");
+      }
+    }, [isSuccess, CompanyData, FormMethods]);
   return (
 
     <div>
@@ -164,7 +198,7 @@ const [SelectValues, SetSelectValues] = useState([{}])
         <div className=" mtt-Alpha p-4 w-fit rounded-md">
       
       <MttForm
-debugMode
+
         onSubmit={FormSubmit}
         Methods={FormMethods}
         className="  mtt-center gap-6 mt-2 !flex-col w-fit "
@@ -180,15 +214,18 @@ debugMode
               label="Company Name"
               className=""
             />
-            <MttSelect
-              readOnly={readOnly}
-              name="Type"
-              label="Select Type"
-              Options={[
-                { value: "Company", label: "Company" },
-                { value: "Individual", label: "Individual" },
-              ]}
-            />
+            {
+              CompanyData?<MttSelect
+              InitialValue={CompanyData.Type}
+                readOnly={readOnly}
+                name="Type"
+                label="Select Type"
+                Options={[
+                  { value: "Company", label: "Company" },
+                  { value: "Individual", label: "Individual" },
+                ]}
+              />:null
+            }
             <MttTextField
               readOnly={readOnly}
               name="ContactPerson"

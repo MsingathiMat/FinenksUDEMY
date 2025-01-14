@@ -568,6 +568,82 @@ function MttSubmitAlternative({
 
 
 
+// function MttSelect({
+//   readOnly,
+//   className,
+//   name,
+//   label,
+//   Options,
+//   placeholder,
+// }: {
+//   name: string;
+//   label: string;
+//   Options: OptionType[];
+//   className?: string;
+//   placeholder?: string;
+//   readOnly?: boolean;
+// }) {
+//   const { control } = useFormContext();
+//   return (
+//     <div className="relative mtt-center flex-col gap-1 w-full">
+//       <Controller
+//         name={name}
+//         control={control}
+//         rules={{ required: { value: true, message: "Select required" } }}
+//         render={({ field, formState: { errors } }) => (
+//           <LabelWrapper
+//             name={name}
+//             className=" "
+//             error={errors?.[name]?.message}
+//             label={label}
+//           >
+//             <RadixSelect.Root
+//               onValueChange={readOnly ? undefined : field.onChange} // Disable changing value when readOnly
+//               value={field.value}
+//             >
+//               <RadixSelect.Trigger
+//                 className={cn(
+//                   " mtt-BaseShadeHover5White group text-textPri rounded-md   h-InputHeight !border-input  w-full border text-[13px] px-3 py-2 flex justify-between items-center",
+//                   readOnly ? "cursor-not-allowed opacity-50" : ""
+//                 )}
+//                 disabled={readOnly} // Disable the trigger if readOnly is true
+//               >
+//                 <RadixSelect.Value
+//                   placeholder={placeholder || "Select an option..."}
+//                   className="group-hover:!text-black"
+//                 />
+//                 <RadixSelect.Icon className="text-textPri ">
+//                   <ChevronDown size={15} />
+//                 </RadixSelect.Icon>
+//               </RadixSelect.Trigger>
+
+//               <RadixSelect.Portal>
+//                 <RadixSelect.Content
+//                   className=" bg-BaseShadeWhite border-input border rounded-md "
+//                   position="popper"
+//                   sideOffset={4}
+//                 >
+//                   <RadixSelect.Viewport className="p-4 w-full">
+//                     {Options?.map((value) => (
+//                       <RadixSelect.Item
+//                         key={value.value}
+//                         value={value.value}
+//                         className=" text-textPri rounded-md  outline-none px-2 w-full text-[13px] hover:bg-BaseShadeDark focus:bg-Pri focus:text-white h-fit cursor-pointer p-1"
+//                       >
+//                         <RadixSelect.ItemText>{value.label}</RadixSelect.ItemText>
+//                       </RadixSelect.Item>
+//                     ))}
+//                   </RadixSelect.Viewport>
+//                 </RadixSelect.Content>
+//               </RadixSelect.Portal>
+//             </RadixSelect.Root>
+//           </LabelWrapper>
+//         )}
+//       />
+//     </div>
+//   );
+// }
+
 function MttSelect({
   readOnly,
   className,
@@ -575,6 +651,7 @@ function MttSelect({
   label,
   Options,
   placeholder,
+  InitialValue,
 }: {
   name: string;
   label: string;
@@ -582,14 +659,17 @@ function MttSelect({
   className?: string;
   placeholder?: string;
   readOnly?: boolean;
+  InitialValue?: string; // Optional prop for the initial value
 }) {
   const { control } = useFormContext();
+
   return (
     <div className="relative mtt-center flex-col gap-1 w-full">
       <Controller
         name={name}
         control={control}
         rules={{ required: { value: true, message: "Select required" } }}
+        defaultValue={InitialValue || ""} // Set the initial value here
         render={({ field, formState: { errors } }) => (
           <LabelWrapper
             name={name}
@@ -603,7 +683,7 @@ function MttSelect({
             >
               <RadixSelect.Trigger
                 className={cn(
-                  " mtt-BaseShadeHover5White group text-textPri rounded-md   h-InputHeight !border-input  w-full border text-[13px] px-3 py-2 flex justify-between items-center",
+                  "mtt-BaseShadeHover5White group text-textPri rounded-md h-InputHeight !border-input w-full border text-[13px] px-3 py-2 flex justify-between items-center",
                   readOnly ? "cursor-not-allowed opacity-50" : ""
                 )}
                 disabled={readOnly} // Disable the trigger if readOnly is true
@@ -612,14 +692,14 @@ function MttSelect({
                   placeholder={placeholder || "Select an option..."}
                   className="group-hover:!text-black"
                 />
-                <RadixSelect.Icon className="text-textPri ">
+                <RadixSelect.Icon className="text-textPri">
                   <ChevronDown size={15} />
                 </RadixSelect.Icon>
               </RadixSelect.Trigger>
 
               <RadixSelect.Portal>
                 <RadixSelect.Content
-                  className=" bg-BaseShadeWhite border-input border rounded-md "
+                  className="bg-BaseShadeWhite border-input border rounded-md"
                   position="popper"
                   sideOffset={4}
                 >
@@ -628,7 +708,7 @@ function MttSelect({
                       <RadixSelect.Item
                         key={value.value}
                         value={value.value}
-                        className=" text-textPri rounded-md  outline-none px-2 w-full text-[13px] hover:bg-BaseShadeDark focus:bg-Pri focus:text-white h-fit cursor-pointer p-1"
+                        className="text-textPri rounded-md outline-none px-2 w-full text-[13px] hover:bg-BaseShadeDark focus:bg-Pri focus:text-white h-fit cursor-pointer p-1"
                       >
                         <RadixSelect.ItemText>{value.label}</RadixSelect.ItemText>
                       </RadixSelect.Item>
@@ -643,7 +723,6 @@ function MttSelect({
     </div>
   );
 }
-
 
 type MttRadioGroupProps={
 

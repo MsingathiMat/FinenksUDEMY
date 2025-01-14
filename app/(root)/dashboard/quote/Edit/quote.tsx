@@ -45,13 +45,6 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     UserId: z.string().min(1, "Required"),
     CompanyId: z.string().min(1, "Required"),
     items: z.array(
-      // z.object({
-      //   ItemId: z.string(),
-      //   Description: z.string(),
-      //   Quantity: z.number(),
-      //   inputEnabled: z.boolean().optional(),
-      //   Amount: z.string().optional()
-      // })
       z.any()
     ),
   });
@@ -102,7 +95,7 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   FormMethods.setValue("QuotationId",QuotationId as string)
    
   },[path,UserId,CompanyData])
-  const TableQuery = (QuotationId: string | null) => {
+  const FormQuery = (QuotationId: string | null) => {
       return useQuery({
         queryKey: [QueryModels.QuotationById],
         queryFn: async () => {
@@ -116,10 +109,10 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
         enabled: !!QuotationId,
       });
     };
-const { data:QuoteData, isPending:QuotePanding } = TableQuery(FormMethods.getValues("QuotationId"));
+const { data:QuoteData, isPending:QuotePanding } = FormQuery(FormMethods.getValues("QuotationId"));
 
 
-console.log(QuoteData)
+
 
 
   const { control, handleSubmit, watch } = FormMethods;
@@ -178,6 +171,8 @@ console.log(QuoteData)
       });
       const QuotationId= path.get("QuoteId")
       MttRedirect(`/dashboard/quote/Edit?QuoteId=${QuotationId}`)
+
+      // FormQuery(FormMethods.getValues("QuotationId")).refetch()
     },
   });
   const FormSubmit: SubmitHandler<FormType> = (data) => {
@@ -198,7 +193,7 @@ console.log(QuoteData)
      
       <MttForm
     
-    debugMode
+
 isLoading={FormMutation.isPending}
         onSubmit={FormSubmit}
         Methods={FormMethods}
