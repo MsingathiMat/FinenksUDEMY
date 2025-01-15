@@ -141,30 +141,45 @@ function MttTable<TData, TValue>({
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {/* Checkbox for selecting individual row */}
-                <TableCell>
-                  <input
-                   className="hover:cursor-pointer bg-red-400"
-                    type="checkbox"
-                    checked={!!selectedRowIds[row.id]}
-                    onChange={() => toggleRowSelection(row.id)}
-                  />
-                </TableCell>
-                {row.getVisibleCells().map((cell) => {
-                  const className = cell.column.columnDef.meta as string
-                  return (
-                    <TableCell key={cell.id} className={className}>
+            table.getRowModel().rows.map((row) => {
+
+              const statusCell = row.getVisibleCells().find(
+                (cell) => cell.column.id === "status"
+              );
+              const isStatusCreated = statusCell?.getValue() === "CONVERTED";
+        
+
+              return (
+              
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+
+                  className={isStatusCreated?"text-red-500":""}
+                >
+                  {/* Checkbox for selecting individual row */}
+                  <TableCell>
+                    <input
+                     className="hover:cursor-pointer bg-red-400"
+                      type="checkbox"
+                      checked={!!selectedRowIds[row.id]}
+                      onChange={() => toggleRowSelection(row.id)}
+                    />
+                  </TableCell>
+                  {row.getVisibleCells().map((cell) => {
+                    const meta = cell.column.columnDef.meta as {Class:string, ConditionalClass:string}
+                    return (
+                      <TableCell 
+                      key={cell.id} 
+                      
+                    >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
-                  )
-                })}
-              </TableRow>
-            ))
+                    )
+                  })}
+                </TableRow>
+              )
+            })
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">

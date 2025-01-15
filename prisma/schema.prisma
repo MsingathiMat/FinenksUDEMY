@@ -176,6 +176,7 @@ enum ItemStatus {
 
 enum DocStatus {
   CREATED
+  CONVERTED
   PARTIAL
   CLOSED
   VOID

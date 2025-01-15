@@ -141,16 +141,19 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     {
       accessorFn: row=>row.clients.ClientName,
       header: "Client Name",
+      meta: {Class:"", ConditionalClass:" text-red-500"}
     },
     {
       accessorKey:"user",
       header: "User Name",
-   cell:row=>row.getValue().name
+   cell:row=>row.getValue().name,
+   meta: {Class:"", ConditionalClass:" text-red-500"}
     },
    {
 accessorKey: "QuotationId",
 header: "QT ID",
-cell:(val)=><p>{val.getValue().slice(0,6)}...</p>
+cell:(val)=><p>{val.getValue().slice(0,6)}...</p>,
+meta: {Class:"", ConditionalClass:" text-red-500"}
    },
    
   
@@ -158,11 +161,13 @@ cell:(val)=><p>{val.getValue().slice(0,6)}...</p>
     {
       accessorKey: "status",
       header: "Status",
+      meta: {Class:"", ConditionalClass:" text-red-500"}
   
     },
     {
       accessorKey: "total",
       header: "total",
+      meta: {Class:"", ConditionalClass:" text-red-500"}
     },
     
 
@@ -235,6 +240,7 @@ cell:(val)=><p>{val.getValue().slice(0,6)}...</p>
               </Select>
             );
           },
+           meta: {Class:"", ConditionalClass:" text-red-500"}
         },
   ];
 
