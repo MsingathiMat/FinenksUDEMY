@@ -114,9 +114,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
       queryFn: async () => {
         return Read('/api/root/dashboard/listOf/quotations/byId/', { QuotationId });
       },
-      refetchInterval: 5000,
-      gcTime: 0,
-      staleTime: 0,
+     
       enabled: !!QuotationId,
     });
   };
