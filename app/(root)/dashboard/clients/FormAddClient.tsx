@@ -94,7 +94,7 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
 
       //Reset form fields
       FormMethods.reset();
-
+      FormMethods.setValue("UserId",userData.activeId)
       // Resert MttImage - This clears input images on the UI
       ImageReset("imageUrl");
 

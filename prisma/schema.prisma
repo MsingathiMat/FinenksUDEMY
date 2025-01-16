@@ -21,6 +21,7 @@ model Users {
   Quotations    Quotations[]
   Clients       Clients[]
   QuoteChats QuoteChats[]
+  InvoiceChats InvoiceChats[]
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
 CompanyId String @default("NONE")
@@ -69,6 +70,18 @@ model QuoteChats {
   Message String
 }
 
+
+model InvoiceChats {
+
+  InvoiceChatId Int @unique @default(autoincrement())
+  UserId String
+  Users Users @relation(fields: [UserId],references: [UserId])
+  InvoiceId String
+  Invoices Invoices @relation(fields: [InvoiceId],references: [InvoiceId])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  Message String
+}
 model Quotations {
   status            DocStatus         @default(CREATED)
   QuotationId       String            @id @default(uuid())
@@ -114,6 +127,7 @@ model Invoices {
   ClientId          String
   clients           Clients           @relation(fields: [ClientId], references: [ClientId])
   InvoiceDetails    InvoiceDetails[]
+   InvoiceChats        InvoiceChats[]
 }
 
 model InvoiceDetails {

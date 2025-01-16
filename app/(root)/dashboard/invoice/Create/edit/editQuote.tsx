@@ -58,11 +58,9 @@ const OriginalComponent = ({
     Message: z.string().min(1, "Required"),
   });
 
-
-  const [QuotationId, SetQuotationId] = useState<string | null>(null)
   const path = useSearchParams()
 
-
+  const QuotationId= path.get("QuotationId")
   const FormName = "Message";
   type FormType = z.infer<typeof FormSchema>;
   const FormMethods = useForm<FormType>({
@@ -91,21 +89,7 @@ const OriginalComponent = ({
   };
 
   const { data: QuoteData, refetch, isPending } = FormQuery(QuotationId);
-  
-  useEffect(()=>{
-    if(!path){
-      alert("No Quotation Id")
-      return
-    }
-
-    const QuotationId= path.get("QuoteId")
-
-    SetQuotationId(QuotationId)
-  },[path])
   useEffect(() => {
-
-  
-
     if (UserId) {
       FormMethods.setValue("UserId", UserId);
     }
@@ -142,8 +126,7 @@ const OriginalComponent = ({
 
       //Reset form fields
       FormMethods.reset();
-      FormMethods.setValue("UserId", UserId);
-      FormMethods.setValue("QuotationId", QuotationId as string);
+
     },
   });
   const FormSubmit: SubmitHandler<FormType> = (data) => {
@@ -185,7 +168,6 @@ R{QuoteData && QuoteData.total}
 
 
       <MttForm
-   
         onSubmit={FormSubmit}
         Methods={FormMethods}
         className="space-y-4 !w-full   "

@@ -33,6 +33,13 @@ export const MttNavItems = [
   },
   {
     icon: <FileText />,
+    path: "/invoice",
+    label: "Invoice",
+    basePath,
+    subMenu:["Create", "Invoices"]
+  },
+  {
+    icon: <FileText />,
     path: "/quote",
     label: "Quote",
     basePath,

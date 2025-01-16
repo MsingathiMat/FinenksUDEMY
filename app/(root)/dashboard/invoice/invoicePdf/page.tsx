@@ -9,6 +9,7 @@ import { QueryModels } from '@/components/mtt/config/ReactQueryConfig';
 import { useAtom } from 'jotai';
 import { UserCompany } from '@/components/mtt/Atoms/AtomUserCompany';
 import IsLoading from '@/components/mtt/components/Isloading';
+import { Invoices } from '@prisma/client';
 
 // Define types for invoice props
 interface InvoicePDFProps {
@@ -106,20 +107,20 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   const [CompanyData] = useAtom(UserCompany);
   const [QuotationData, setQuotationData] = useState<InvoicePDFProps | null>(null);
 
-  const [QuotationId,SetQuotationId] = useState<string | null>(null)
+  const [InvoiceId,SetInvoiceId] = useState<string | null>(null)
   const [Subtotal, SetSubtotal] = useState<number>(0)
-  const FormQuery = (QuotationId: string | null) => {
+  const FormQuery = (InvoiceId: string | null) => {
     return useQuery({
       queryKey: [QueryModels.QuotationById],
       queryFn: async () => {
-        return Read('/api/root/dashboard/listOf/quotations/byId/', { QuotationId });
+        return Read<Invoices>('/api/root/dashboard/Invoice/byId/', { InvoiceId });
       },
      
-      enabled: !!QuotationId,
+      enabled: !!InvoiceId,
     });
   };
 
-  const { data: QuoteData, isLoading } = FormQuery(QuotationId);
+  const { data: InvoiceData, isLoading } = FormQuery(InvoiceId);
 
   useEffect(() => {
 
@@ -130,15 +131,15 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
       return
     }
 
-    const QuotationId = path.get('QuoteId');
+    const InvoiceId = path.get('InvoiceId');
 
-    SetQuotationId(QuotationId);
-    if (QuoteData && CompanyData) {
+    SetInvoiceId(InvoiceId);
+    if (InvoiceData && CompanyData) {
       setQuotationData({
         CompanyName: CompanyData.CompanyName || 'No Company',
         Slogan: CompanyData.TagLine || 'No Tagline',
         ContactPerson: CompanyData.ContactPerson || 'No Contact Person',
-        Client: QuoteData.clients.ClientName || 'No Client',
+        Client: InvoiceData.clients.ClientName || 'No Client',
         Email:CompanyData.Email ,
         ContactNumber:CompanyData.ContactNo,
         paymentTerms: CompanyData.PaymentTerms,
@@ -147,7 +148,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
         SecondaryCompanyAddress: '123 Secondary Street, City, Country'
       });
     }
-  }, [QuoteData, CompanyData]);
+  }, [InvoiceData, CompanyData]);
 
   const InvoiceDocument = QuotationData && (
     <Document>
@@ -164,8 +165,8 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     marginBottom:40
   }}>
 
-<Text style={[styles.tableCol, styles.tableHeader]}>QUOTATION</Text>
-<Text style={styles.invoiceInfo}>QT code: {QuotationId}</Text>
+<Text style={[styles.tableCol, styles.tableHeader]}>INVOICE</Text>
+<Text style={styles.invoiceInfo}>INV CODE: {InvoiceId}</Text>
 </View>
 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
   <View>
@@ -177,10 +178,10 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   </View>
 
   <View>
-    <Text style={{}}>{QuoteData.clients.ClientName}</Text>
-    <Text style={styles.slogan}>{QuoteData.clients.client}</Text>
-    <Text style={styles.companyInfo}>Email : {QuoteData.clients.CompanyEmail}</Text>
-    <Text style={styles.companyInfo}>Contact Person: {QuoteData.clients.ContactPerson}</Text>
+    <Text style={{}}>{InvoiceData.clients.ClientName}</Text>
+    <Text style={styles.slogan}>{InvoiceData.clients.client}</Text>
+    <Text style={styles.companyInfo}>Email : {InvoiceData.clients.CompanyEmail}</Text>
+    <Text style={styles.companyInfo}>Contact Person: {InvoiceData.clients.ContactPerson}</Text>
     <Text style={styles.companyInfo}>Contact Number: {QuotationData.ContactNumber}</Text>
   </View>
 
@@ -196,7 +197,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
 
 
 
-{QuoteData?.QuotationDetails.map((item, index) => {
+{InvoiceData?.InvoiceDetails.map((item, index) => {
   return (
     <View key={index} style={styles.tableRow}>
       <Text style={styles.tableCol}>{item.Items.ItemName}</Text>
@@ -218,7 +219,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     borderBottomStyle: 'solid',
     
   }}></View>
-<Text style={{marginLeft:'auto', fontSize:14, marginTop:10,marginRight:50}}>{`${CompanyData?.Currency} ${QuoteData.total}`}</Text>
+<Text style={{marginLeft:'auto', fontSize:14, marginTop:10,marginRight:50}}>{`${CompanyData?.Currency} ${InvoiceData.total}`}</Text>
 
 <View style={{
     flexDirection: 'row',
