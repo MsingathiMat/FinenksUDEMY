@@ -14,7 +14,7 @@ model Users {
   emailVerified DateTime?
   ProfileImage  String?
   password      String?      @db.VarChar(80)
-  role          Role         @default(USER)
+  role          Role         @default(ADMIN)
   Companies     Companies[]
   Items         Items[]
   Invoices      Invoices[]

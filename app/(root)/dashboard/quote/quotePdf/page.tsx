@@ -175,7 +175,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
        style={{ width: 50, height: 50,  objectFit: "contain"}}
      />
 <Text style={[styles.tableCol, styles.tableHeader]}>QUOTATION</Text>
-<Text style={[styles.invoiceInfo]}>QT code: {QuotationId}</Text>
+<Text style={[styles.invoiceInfo]}>QT CODE: {QuotationId}</Text>
 </View>
 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
   <View>

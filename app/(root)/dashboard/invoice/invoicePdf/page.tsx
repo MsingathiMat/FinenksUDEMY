@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { PDFDownloadLink, PDFViewer, Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import { PDFDownloadLink, PDFViewer, Document, Page, Text, View, StyleSheet, Image, Font } from '@react-pdf/renderer';
 import { useSearchParams } from 'next/navigation';
 import withUtilities from '@/components/mtt/HOC/withUtilities';
 import { useQuery } from '@tanstack/react-query';
@@ -100,6 +100,10 @@ const styles = StyleSheet.create({
   },
 });
 
+Font.register({
+  family: 'Noto Sans',
+  src: '/fonts/NotoSans-Regular.ttf', // Replace with the path to your font file
+});
 const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   const { Read } = Utilities;
   const path = useSearchParams();
@@ -165,6 +169,12 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     marginBottom:40
   }}>
 
+    <Image
+           
+           src={CompanyData?.Logo}
+           style={{ width: 50, height: 50,  objectFit: "contain"}}
+         />
+
 <Text style={[styles.tableCol, styles.tableHeader]}>INVOICE</Text>
 <Text style={styles.invoiceInfo}>INV CODE: {InvoiceId}</Text>
 </View>
@@ -219,7 +229,13 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     borderBottomStyle: 'solid',
     
   }}></View>
-<Text style={{marginLeft:'auto', fontSize:14, marginTop:10,marginRight:50}}>{`${CompanyData?.Currency} ${InvoiceData.total}`}</Text>
+<Text  style={{
+    marginLeft: 'auto',
+    fontSize: 14,
+    marginTop: 10,
+    marginRight: 50,
+    fontFamily: 'Noto Sans',
+  }}>{`${CompanyData?.Currency} ${InvoiceData.total}`}</Text>
 
 <View style={{
     flexDirection: 'row',
