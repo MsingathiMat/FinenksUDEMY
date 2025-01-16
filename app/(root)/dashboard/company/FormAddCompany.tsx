@@ -63,6 +63,7 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     BankType :z.string().min(1, "Required"),
     BankAccount :z.string().min(1, "Required"),
     PaymentTerms :z.string().min(1, "Required"),
+    Logo :z.string().optional(),
     ContactPerson: z.string().min(1, "Required"),
     Type: z.enum(["Company", "Individual"]),
     ContactNo: z.string().min(1, "Required"),
@@ -88,6 +89,7 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
       BankType :"",
       BankAccount :"",
       PaymentTerms :"",
+      Logo:"",
       
    
     },
@@ -172,6 +174,13 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
               readOnly={readOnly}
               name="CompanyName"
               label="Company Name"
+              className=""
+            />
+
+<MttTextField
+              readOnly={readOnly}
+              name="Logo"
+              label="Logo Link"
               className=""
             />
            <MttSelect

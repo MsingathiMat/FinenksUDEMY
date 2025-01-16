@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { PDFDownloadLink, PDFViewer, Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import { PDFDownloadLink, PDFViewer, Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 import { useSearchParams } from 'next/navigation';
 import withUtilities from '@/components/mtt/HOC/withUtilities';
 import { useQuery } from '@tanstack/react-query';
@@ -9,6 +9,7 @@ import { QueryModels } from '@/components/mtt/config/ReactQueryConfig';
 import { useAtom } from 'jotai';
 import { UserCompany } from '@/components/mtt/Atoms/AtomUserCompany';
 import IsLoading from '@/components/mtt/components/Isloading';
+import { Companies } from '@prisma/client';
 
 // Define types for invoice props
 interface InvoicePDFProps {
@@ -140,6 +141,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
         ContactPerson: CompanyData.ContactPerson || 'No Contact Person',
         Client: QuoteData.clients.ClientName || 'No Client',
         Email:CompanyData.Email ,
+        Logo:CompanyData.Logo,
         ContactNumber:CompanyData.ContactNo,
         paymentTerms: CompanyData.PaymentTerms,
         bankDetails: `BANK: ${CompanyData.BankName} | ACC NO: ${CompanyData.BankAccount} | ACC TYPE: ${CompanyData.BankType} `,
@@ -152,20 +154,28 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   const InvoiceDocument = QuotationData && (
     <Document>
       <Page size="A4" style={styles.page}>
-       
-<View style={{
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: 'gray',
-    borderBottomStyle: 'solid',
-    marginBottom:40
-  }}>
+    
+      <View
+  style={{
+    flexDirection: 'row', // Lays out children in a row
+    gap: 10, // Adds consistent spacing between children
+    alignItems: 'center', // Centers children vertically
+    justifyContent: 'space-between', // Aligns children to the left
+    paddingBottom: 10, // Adds padding at the bottom
+    borderBottomWidth: 1, // Adds a bottom border
+    borderBottomColor: 'gray', // Bottom border color
+    borderBottomStyle: 'solid', // Bottom border style
+    marginBottom: 40, // Adds margin below the container
+  }}
+>
 
+<Image
+       
+       src={QuotationData.Logo}
+       style={{ width: 50, height: 50,  objectFit: "contain"}}
+     />
 <Text style={[styles.tableCol, styles.tableHeader]}>QUOTATION</Text>
-<Text style={styles.invoiceInfo}>QT code: {QuotationId}</Text>
+<Text style={[styles.invoiceInfo]}>QT code: {QuotationId}</Text>
 </View>
 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
   <View>

@@ -17,9 +17,10 @@ export const POST = async (req: NextRequest) => {
   const BankType = data.get("BankType") as string | null;
   const BankAccount = data.get("BankAccount") as string | null;
   const PaymentTerms = data.get("PaymentTerms") as string | null;
+  const Logo = data.get("Logo") as string | null;
 
   if (!CompanyName || !ContactPerson || !ContactNo || !Email || !TagLine || !UserId ||
-    !Currency || !BankName || !BankType || !BankAccount || !PaymentTerms 
+    !Currency || !BankName || !BankType || !BankAccount || !PaymentTerms || !Logo 
   ) {
     return NextResponse.json({
       error: "Some UI inputs not received",
@@ -28,12 +29,7 @@ export const POST = async (req: NextRequest) => {
 
 
 
-  
-  // Mock file path for demonstration
-  const filePath = "/me.png";
-  if (!filePath) {
-    return NextResponse.json({ error: "No file path", status: 500 });
-  }
+
 
   // Check if the company already exists
   const CompanyExist = await SingletonPrisma.companies.findUnique({
@@ -56,8 +52,9 @@ export const POST = async (req: NextRequest) => {
           TagLine,
           ContactNo,
           Email,
-          Logo: filePath,
-          Currency,BankName,BankType,BankAccount,PaymentTerms 
+          Logo: Logo,
+          Currency,BankName,BankType,BankAccount,PaymentTerms ,
+         
         },
       });
 

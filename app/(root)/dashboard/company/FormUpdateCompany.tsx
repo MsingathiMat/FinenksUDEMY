@@ -16,7 +16,7 @@ import withUtilities from "@/components/mtt/HOC/withUtilities";
 import { ActiveUserType, UtilitiesProp } from "@/components/mtt/Types/MttTypes";
 import useActiveUser from "@/components/mtt/Hooks/useActiveUser";
 import { MutationModels, QueryModels } from "@/components/mtt/config/ReactQueryConfig";
-import { Prisma } from "@prisma/client";
+import { Companies, Prisma } from "@prisma/client";
 import { MttSearchCombo } from "@/components/mtt/components/mttSearchCombo";
 import { MttRedirect } from "@/components/mtt/Helpers/MttRedirect";
 
@@ -71,6 +71,7 @@ const [SelectValues, SetSelectValues] = useState([{}])
     ContactNo: z.string().min(1, "Required"),
     TagLine: z.string().min(1, "Required"),
     Email: z.string().email({ message: "Not Valid" }),
+    Logo:z.string().min(1, "Required"),
   
   })
 
@@ -93,6 +94,7 @@ const [SelectValues, SetSelectValues] = useState([{}])
       BankType :"",
       BankAccount :"",
       PaymentTerms :"",
+      Logo:""
       
    
     },
@@ -161,7 +163,7 @@ const [SelectValues, SetSelectValues] = useState([{}])
       return useQuery({
         queryKey: [QueryModels.QuotationById],
         queryFn: async () => {
-          return Read("/api/root/dashboard/Company/ById");
+          return Read<Companies>("/api/root/dashboard/Company/ById");
         },
      
 
@@ -174,7 +176,7 @@ const [SelectValues, SetSelectValues] = useState([{}])
     useEffect(() => {
       if (isSuccess && CompanyData) {
         // Assuming CompanyData has the required structure
-        const { CompanyName, ContactPerson, Type, ContactNo, Email, TagLine, Currency, BankName, BankType, PaymentTerms, BankAccount } = CompanyData;
+        const { Logo,CompanyName, ContactPerson, Type, ContactNo, Email, TagLine, Currency, BankName, BankType, PaymentTerms, BankAccount } = CompanyData;
         FormMethods.setValue("CompanyName", CompanyName || "");
         FormMethods.setValue("ContactPerson", ContactPerson || "");
         FormMethods.setValue("Type", Type || "Company"); // Default to "Company"
@@ -186,6 +188,7 @@ const [SelectValues, SetSelectValues] = useState([{}])
         FormMethods.setValue("BankType", BankType || "");
         FormMethods.setValue("PaymentTerms", PaymentTerms || "");
         FormMethods.setValue("BankAccount", BankAccount || "");
+        FormMethods.setValue("Logo", Logo || "");
       }
     }, [isSuccess, CompanyData, FormMethods]);
   return (
@@ -210,6 +213,13 @@ const [SelectValues, SetSelectValues] = useState([{}])
               readOnly={readOnly}
               name="CompanyName"
               label="Company Name"
+              className=""
+            />
+
+<MttTextField
+              readOnly={readOnly}
+              name="Logo"
+              label="Logo Link"
               className=""
             />
             {
