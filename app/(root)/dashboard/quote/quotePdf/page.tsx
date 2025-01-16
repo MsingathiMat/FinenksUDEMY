@@ -171,7 +171,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
 
 <Image
        
-       src={QuotationData.Logo}
+       src={CompanyData?.Logo}
        style={{ width: 50, height: 50,  objectFit: "contain"}}
      />
 <Text style={[styles.tableCol, styles.tableHeader]}>QUOTATION</Text>

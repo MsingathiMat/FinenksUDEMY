@@ -36,7 +36,7 @@ model Companies {
   user          Users?      @relation(fields: [UserId], references: [UserId])
   ContactPerson String
   ContactNo     String
-  Logo          String
+    Logo String? @db.VarChar(800)
   CompanyName   String
   Currency String
   BankName String
