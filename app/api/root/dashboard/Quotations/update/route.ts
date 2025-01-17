@@ -5,9 +5,9 @@ import GetCompanyData from "@/components/mtt/Api/helpers/GetCompanyData";
 export const POST = async (req: NextRequest) => {
   try {
     const data = await req.json();
-    const CompanyData = await GetCompanyData();
+    
     const { ClientId, UserId, items, QuotationId } = data;
-
+    const CompanyData = await GetCompanyData();
     if (!CompanyData) {
       return NextResponse.json({ message: "Unrecognized Company", status: 400 });
     }

@@ -10,6 +10,8 @@ import { useAtom } from 'jotai';
 import { UserCompany } from '@/components/mtt/Atoms/AtomUserCompany';
 import IsLoading from '@/components/mtt/components/Isloading';
 import { Companies } from '@prisma/client';
+import { Loader } from 'lucide-react';
+import LoadingProgress from '@/components/mtt/components/Loader';
 
 // Define types for invoice props
 interface InvoicePDFProps {
@@ -207,6 +209,11 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
 
 
 {QuoteData?.QuotationDetails.map((item, index) => {
+
+
+if (!CompanyData || !CompanyData.Logo) {
+  return <p key={2}>Loading....</p>; // Render nothing or a loading placeholder if data is invalid
+}
   return (
     <View key={index} style={styles.tableRow}>
       <Text style={styles.tableCol}>{item.Items.ItemName}</Text>
@@ -229,6 +236,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     
   }}></View>
 <Text style={{marginLeft:'auto', fontSize:14, marginTop:10,marginRight:50}}>{`${CompanyData?.Currency} ${QuoteData.total}`}</Text>
+
 
 <View style={{
     flexDirection: 'row',

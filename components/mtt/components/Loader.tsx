@@ -3,7 +3,7 @@ import React from 'react'
 import { PuffLoader, PulseLoader } from 'react-spinners'
 import { mttJsStyle } from '../styles/funcCss'
 
-function Loader({IsLoading, size,color}:{IsLoading:boolean, size?:number, color?:string}) {
+function LoadingProgress({IsLoading, size,color}:{IsLoading:boolean, size?:number, color?:string}) {
   return (
     <div>
       <PuffLoader
@@ -18,4 +18,4 @@ function Loader({IsLoading, size,color}:{IsLoading:boolean, size?:number, color?
   )
 }
 
-export default Loader
+export default LoadingProgress

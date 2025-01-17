@@ -37,6 +37,7 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
       email: z.string().email({ message: "Not Valid" }),
       password: z.string().min(1, "Required"),
       passConfirm: z.string().min(1, "Required"),
+      role: z.string().min(1, "Required"),
 
     })
     .superRefine((data, ctx) => {
@@ -59,6 +60,7 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
       email: "",
       password: "",
       passConfirm: "",
+      role:"USER"
     
     },
     resolver: zodResolver(FormSchema),
@@ -75,7 +77,7 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     mutationKey: ["mtUsers"],
     mutationFn: async ({ formData }: { formData: FormData }) => {
       //Create has been supplied by HOC. It comes from MttFetch
-      return await Create("/api/root/dashboard/companyUser/", formData);
+      return await Create("/api/root/dashboard/Users/Create", formData);
     },
     onError: () => {
       //toast has been supplied by HOC. It comes from Shadcn
@@ -112,6 +114,7 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   return (
     <div className=" mtt-Alpha p-4 w-fit rounded-md">
       <MttForm
+   
         title="Register"
         indicator
         onSubmit={FormSubmit}
@@ -170,5 +173,5 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   );
 };
 
-const FormSignup = withUtilities(OriginalForm);
-export default FormSignup;
+const FormAddUser = withUtilities(OriginalForm);
+export default FormAddUser;

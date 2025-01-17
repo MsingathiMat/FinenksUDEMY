@@ -117,9 +117,9 @@ export const POST = async (req: NextRequest) => {
   const name = data.get("name") as string | null;
   const password = data.get("password") as string | null;
   const email = data.get("email") as string | null;
+  const role = data.get("role") as string | null;
 
-
-  if (!name || !email || !password) {
+  if (!name || !email || !password || !role)  {
     return NextResponse.json({
       error: "Name, email, password, and image must be supplied",
     });
@@ -142,6 +142,7 @@ export const POST = async (req: NextRequest) => {
       email,
       password: UserPassword,
       ProfileImage: filePath,
+      role : role as "ADMIN" | "USER"
     },
   });
 

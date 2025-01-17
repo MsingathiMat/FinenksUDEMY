@@ -37,6 +37,7 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
       email: z.string().email({ message: "Not Valid" }),
       password: z.string().min(1, "Required"),
       passConfirm: z.string().min(1, "Required"),
+      role: z.string().min(1, "Required"),
 
     })
     .superRefine((data, ctx) => {
@@ -59,6 +60,7 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
       email: "",
       password: "",
       passConfirm: "",
+      role:"ADMIN"
     
     },
     resolver: zodResolver(FormSchema),
@@ -112,6 +114,7 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   return (
     <div className=" mtt-Alpha p-4 w-fit rounded-md">
       <MttForm
+   
         title="Register"
         indicator
         onSubmit={FormSubmit}

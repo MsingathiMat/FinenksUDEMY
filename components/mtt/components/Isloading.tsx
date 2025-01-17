@@ -3,7 +3,8 @@
 import React from 'react'
 
 import { cn } from '@/lib/utils'
-import Loader from './Loader'
+
+import LoadingProgress from './Loader'
 
 
 function IsLoading({children, size, isLoading,className}:{children:React.ReactNode,size?:number, isLoading:boolean,className?:string}) {
@@ -17,7 +18,7 @@ function IsLoading({children, size, isLoading,className}:{children:React.ReactNo
 
       {
       
-      isLoading?<Loader size={size} IsLoading={isLoading}/>:children
+      isLoading?<LoadingProgress size={size} IsLoading={isLoading}/>:children
       
       }
       </div>

@@ -24,7 +24,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   const [selectedQuotationId, setSelectedQuotationId] = useState<string | null>(null);
 
   const TableQuery = useQuery({
-    queryKey: ["convertedQuote"],
+    queryKey: [QueryModels.Quotations.QueryKey],
     queryFn: async () => {
       return await Read("/api/root/dashboard/Quotations/Tables/TableUnconvertedQuote");
     },
@@ -32,20 +32,13 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     staleTime: 0,
   });
 
-  const { data: quoteData, isLoading: isQuoteLoading } = useQuery({
-    queryKey: [""],
-    queryFn: async () => {
-      return Read("/api/root/dashboard/Quotations/Tables/TableUnconvertedQuote", {
-        QuotationId: selectedQuotationId,
-      });
-    },
-    enabled: !!selectedQuotationId,
-    gcTime:0
-  });
+
+
+  
 
   const Mut = useMutation({
     mutationKey: ["CreateInvoice"],
-    mutationFn: async () => {
+    mutationFn: async (quoteData) => {
       return await Create(`/api/root/dashboard/Invoice/create`, quoteData);
     },
     onError: () => {
@@ -55,7 +48,8 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
       });
     },
     onSuccess: () => {
-      QClient.invalidateQueries({ queryKey: MutationModels.Quotations.Dependants });
+    
+      TableQuery.refetch()
       toast({
         title: "SUCCESS",
         description: `Invoice created successfully`,
@@ -113,15 +107,19 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
               }
 
               if (SelectedItem === "convert") {
-                setSelectedQuotationId(val.row.original.QuotationId);
+             
 
                 // Trigger mutation directly after selecting "convert"
                 const quoteDataResult = await Read(
-                  "/api/root/dashboard/listOf/quotations/QuoteToEdit",
+                  "/api/root/dashboard/listOf/quotations/byId",
                   { QuotationId: val.row.original.QuotationId }
                 );
+
+            
                 if (quoteDataResult) {
                   Mut.mutate(quoteDataResult);
+
+                
                 }
               }
             }}
@@ -157,6 +155,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   );
 };
 
-const TableUnconvertedQuotes = withUtilities(OriginalComponent);
-export default TableUnconvertedQuotes;
+const TableQuotations = withUtilities(OriginalComponent);
+export default TableQuotations;
+
 

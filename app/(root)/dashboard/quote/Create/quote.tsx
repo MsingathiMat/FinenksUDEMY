@@ -131,7 +131,8 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
       //Reset form fields
       FormMethods.reset();
 
-   
+      FormMethods.setValue("UserId", UserId);
+      FormMethods.setValue("CompanyId", CompanyData.CompanyId as string);
 
       toast({
         title: "SUCCESS",
@@ -153,7 +154,7 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
         
       </div>
       <MttForm
-  
+
 isLoading={FormMutation.isPending}
         onSubmit={FormSubmit}
         Methods={FormMethods}
