@@ -24,13 +24,7 @@ export const MttNavItems = [
     basePath,
     subMenu:["Create","Items"]
   },
-  {
-    icon: <CalendarCog />,
-    path: "/chat",
-    label: "Chat",
-    basePath,
-    subMenu:[]
-  },
+ 
   {
     icon: <FileText />,
     path: "/invoice",
