@@ -113,35 +113,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   
   const { Read, Create, toast, QClient, IsLoading } = Utilities;
 
-  // const setActive = (EventId: string) => {
-  //   TableMutationActivate.mutate({ EventId });
-  // };
-
-  // const TableQuery = useQuery({
-  //   queryKey: [QueryModels.Events.QueryKey],
-  //   queryFn: async () => {
-  //     return await Read<TypeEvent[]>("/api/tables/getAllEvents");
-  //   },
-  //   gcTime: 0,
-  //   staleTime: 0,
-  // });
-
-  // const TableMutationActivate = useMutation({
-  //   mutationKey: [MutationModels.EventUpdateStatus.MutationKey],
-  //   mutationFn: async ({ EventId }: { EventId: string }) => {
-  //     return await Create("/api/tables/TableEvents/UpdateStatus/", { EventId });
-  //   },
-  //   onSettled: () => {
-  //     QClient.invalidateQueries({
-  //       queryKey: [MutationModels.Event.Dependants],
-  //     });
-  //   },
-  //   onSuccess: () => {
-  //     toast({ title: "SUCCESSFUL", description: "Event status updated" });
-  //   },
-  // });
-
-  // const { data, isPending } = TableQuery;
+ 
 
   const columns: ColumnDef<TypeEvent>[] = [
     {
@@ -200,7 +172,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     },
   ];
 
-  // return <MtTable data={data ? data : []} columns={columns} />;
+ 
 
   return (
     <IsLoading className="w-full" isLoading={false}>
@@ -209,8 +181,8 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   );
 };
 
-const TableEvents = withUtilities(OriginalComponent);
-export default TableEvents;
+const TableClients = withUtilities(OriginalComponent);
+export default TableClients;
     
           
           

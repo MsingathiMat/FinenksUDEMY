@@ -63,7 +63,7 @@ CompanyData?<p className=' font-bold'>{CompanyData.CompanyName}</p>:null
   
   
   <div className=' mtt-center gap-1'>
-    <MttAvatar  title="User" AvatarItems={AvatarItems} user={{imageSrc:userData?.activeImagePath}}/>
+    <MttAvatar  title="User" AvatarItems={AvatarItems} user={{imageSrc:CompanyData?.Logo?CompanyData?.Logo:(userData?.activeImagePath)}}/>
 
     <p>{userData?.activeName}</p>
   </div>

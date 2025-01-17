@@ -187,5 +187,5 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   );
 };
 
-const TableClients = withUtilities(OriginalComponent);
-export default TableClients;
+const TableItems = withUtilities(OriginalComponent);
+export default TableItems;

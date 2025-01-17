@@ -6,8 +6,9 @@ import { QueryModels } from "../config/ReactQueryConfig";
 import withUtilities from "../HOC/withUtilities";
 import { useAtom } from "jotai";
 import { UserCompany } from "../Atoms/AtomUserCompany";
-import FormAddCompany from "@/app/(root)/dashboard/company/FormAddCompany";
+
 import { Prisma } from "@prisma/client";
+import FormAddCompany from "@/app/(root)/dashboard/company/Components/FormAddCompany";
 
 const OriginalComp = ({
   Utilities,

@@ -15,14 +15,14 @@ export const MttNavItems = [
     path: "/clients",
     label: "Client",
     basePath,
-    subMenu:[]
+    subMenu:["Create","Clients"]
   },
   {
     icon: <ListTodo />,
     path: "/items",
     label: "Items",
     basePath,
-    subMenu:[]
+    subMenu:["Create","Items"]
   },
   {
     icon: <CalendarCog />,
@@ -50,7 +50,7 @@ export const MttNavItems = [
     path: "/company",
     label: "Company",
     basePath,
-    subMenu:[]
+    subMenu:["Edit"]
   },
   {
     icon: <Users />,

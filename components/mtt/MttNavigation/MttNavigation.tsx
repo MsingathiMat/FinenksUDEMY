@@ -118,7 +118,7 @@ topItem? <div className="mtt-center flex-col ">
 </div>:null
 }
        
-       <div className={cn("  mtt-center flex-col !justify-start   gap-4  h-full flex-1 pr-6",expanded?"!items-start":null)}>
+       <div className={cn("  mtt-center flex-col !justify-start   h-full flex-1 pr-6",expanded?"!items-start":null)}>
 
         
        {navItems.map((navItem, index) => {
@@ -162,9 +162,9 @@ topItem? <div className="mtt-center flex-col ">
               {expanded?
               
               navItem.subMenu.length>0?
-              <Accordion type="single" collapsible className="w-full h-fit mtt-center">
+              <Accordion type="single" collapsible className="w-full h-fit mtt-center ">
               <AccordionItem value="item-1">
-                      <AccordionTrigger>
+                      <AccordionTrigger className="p-0 !pt-5">
                       <div className={cn(" dark:!text-white ",`${Path}`.startsWith(ActivePath) ?  " !text-Pri dark:!text-Pri" : " ")}>  {navItem.icon}</div>
                       <p className={cn("pl-2 text-xs dark:group-hover:text-Pri", `${Path}`.startsWith(ActivePath) ?  " text-Pri":null)}>{navItem.label}</p>
              
@@ -188,7 +188,7 @@ href={
     
 }
 
-className={cn("",expanded?" ml-5 group mtt-center !justify-start ":null)}
+className={cn("",expanded?" ml-5 group mtt-center !justify-start  ":null)}
 >
 <p key={index} className={cn("pl-2 text-xs hover:text-Pri pt-2  w-full", `${Path}` == `${ActivePath}/${Item}` ?  " text-Pri":null)}>{Item}</p>
 
@@ -206,7 +206,7 @@ className={cn("",expanded?" ml-5 group mtt-center !justify-start ":null)}
                      
                       </AccordionContent>
                     </AccordionItem>
-                  </Accordion>:         <>      <div className={cn(" dark:!text-white ",Path == `${ActivePath}` ?  " !text-Pri dark:!text-Pri" : " ")}>  {navItem.icon}</div>
+                  </Accordion>:         <div className="pt-5 mtt-center">      <div className={cn(" dark:!text-white  ",Path == `${ActivePath}` ?  " !text-Pri dark:!text-Pri" : " ")}>  {navItem.icon}</div>
                   <Link
               key={index}
               href={
@@ -221,7 +221,7 @@ className={cn("",expanded?" ml-5 group mtt-center !justify-start ":null)}
   <p className={cn("pl-2 text-xs dark:group-hover:text-Pri hover:cursor-pointer", Path == `${ActivePath}` ?  " text-Pri":null)}>{navItem.label}</p>
             </Link>
             
-     </>
+     </div>
               
               :
               
