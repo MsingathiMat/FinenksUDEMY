@@ -18,7 +18,7 @@ const MttDashBar = ({title, description, link,src,statsItems,isLoading=false}:{i
 
 
 <IsLoading isLoading={isLoading} className="w-full" >
-    <MttPlainCard className=" relative  !bg-base1 gap-2  w-full !grid grid-col-2 sm:grid-cols-4   lg:grid-cols-6 gap-x-4">
+    <MttPlainCard className=" relative  !bg-base1 gap-2  w-full !grid grid-col-2 sm:grid-cols-4   lg:grid-cols-7 gap-x-4">
 
 
 <div className=" mtt-center gap-2  col-span-2 sm:col-span-4 lg:col-span-2 mr-auto">

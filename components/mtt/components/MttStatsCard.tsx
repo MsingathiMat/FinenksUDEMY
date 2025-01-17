@@ -6,22 +6,24 @@ import MttArrowText from "./MttArrowText"
 
 
 
-export function MttStatsCard({className,title, description, icon}:{className?:string,title:string, description:string, icon:React.ReactNode}) {
+export function MttStatsCard({className,title, description, icon, LinkTo}:{className?:string,title:string, description:string, icon:React.ReactNode,LinkTo?:string}) {
   return (
     <MttPlainCard className={cn(" w-fit min-w-[150px] ",className)}>
       <div>
-       <div className=" mtt-center !justify-between w-full mtt-textSec mb-1 ">
-
+       <div className=" mtt-center gap-3 w-full mtt-textSec mb-1 ">
+       {icon}
       
        <h1 className=" text-[25px] ">{title} </h1>
 
-{icon}
+
 
        </div>
 
-     
+     {
+      LinkTo?<MttArrowText className="!text-MtBgDark"  title={description } link={LinkTo}/>:null
+     }
       
-      <MttArrowText className="!text-MtBgDark"  title={description } link="/log"/>
+      
       </div>
    
     </MttPlainCard>

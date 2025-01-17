@@ -4,6 +4,8 @@ import TableInvoices from './TableInvoices'
 
 
 const page = () => {
+
+  
   return (
     <div>
  <TableInvoices/>

@@ -1,5 +1,6 @@
 import React from 'react'
-import TableQuotations from './TableClients'
+import TableQuotations from './TableQuotations'
+
 
 
 const page = () => {

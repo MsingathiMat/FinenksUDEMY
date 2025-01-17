@@ -17,6 +17,8 @@ import { MttTable } from "@/components/mtt/components/MttTable";
 import withUtilities from "@/components/mtt/HOC/withUtilities";
 import { Invoices } from "@prisma/client";
 import { MttRedirect } from "@/components/mtt/Helpers/MttRedirect";
+import { MttStatsCard } from "@/components/mtt/components/MttStatsCard";
+import { Wallet2 } from "lucide-react";
 
 const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   const { Read, Create, toast, QClient, IsLoading } = Utilities;
@@ -33,6 +35,17 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     gcTime: 0,
     staleTime: 0,
   });
+
+  const TotalInvoiceAmount = useQuery({
+    queryKey: ["TotalInvoiceAmount"],
+    queryFn: async () => {
+      return await Read("/api/root/dashboard/Invoice/AllTotals");
+    },
+    gcTime: 0,
+    staleTime: 0,
+  });
+
+  const {data:TotalInvoices, isLoading:TotalInvoiceLoading}=TotalInvoiceAmount
 
   const TableMutationActivate = useMutation({
     mutationKey: [MutationModels.Clients.MutationKey],
@@ -173,6 +186,17 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
 
   return (
     <IsLoading className="w-full" isLoading={isPending}>
+
+<div className="ml-auto w-full mtt-center !justify-end mb-8">
+
+<IsLoading  isLoading={TotalInvoiceLoading}>
+
+{
+ TotalInvoiceLoading?null: <MttStatsCard  className='' title={`R${TotalInvoices.totalAmount}`} description="Total Income" icon={<Wallet2 />} />
+}
+
+ </IsLoading>
+</div>
       <MttTable data={data || []} columns={columns} />
     </IsLoading>
   );

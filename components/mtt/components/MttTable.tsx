@@ -93,7 +93,7 @@ function MttTable<TData, TValue>({
         <div className=" w-full CENTER !justify-start gap-4 mb-4 sm:mb-0">
         <MttSearchField className='bg-gray-700' onTextChange={(val)=>setGlobalFilter(val)} />
         <div className="py-4">
-        <Button
+        {/* <Button
         className="hidden sm:block"
           onClick={() => {
             const selectedData = getSelectedRowData()
@@ -102,7 +102,7 @@ function MttTable<TData, TValue>({
           disabled={Object.keys(selectedRowIds).length === 0} // Disable button if no rows are selected
         >
           Alert Selected Rows
-        </Button>
+        </Button> */}
       </div>
         </div>
      <div className=" w-full flex-1">
