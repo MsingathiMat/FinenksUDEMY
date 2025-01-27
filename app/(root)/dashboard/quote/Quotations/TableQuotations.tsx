@@ -150,7 +150,10 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
 
   return (
     <IsLoading className="w-full" isLoading={isPending}>
-      <MttTable data={data ? data : []} columns={columns} />
+   <IsLoading className="w-full" isLoading={Mut.isPending}>
+
+   <MttTable data={data ? data : []} columns={columns} />
+   </IsLoading>
     </IsLoading>
   );
 };

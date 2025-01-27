@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils'
 import React from 'react'
 import { format } from "date-fns";
-const MttChat = ({SignedInUserId, ChatData}:{SignedInUserId:string, ChatData:[{UserId:string,Message:string,createdAt:string,Users:{name:string}}]}) => {
+const MttChat = ({SignedInUserId, ChatData}:{SignedInUserId:string, ChatData:[{UserId:string,Message:string,createdAt:string,Users:{name:string,ProfileImage?:string}}]}) => {
 
    
   return (
@@ -38,7 +38,7 @@ const MttChat = ({SignedInUserId, ChatData}:{SignedInUserId:string, ChatData:[{U
                    <div className="relative    h-full w-full mtt-center !justify-start gap-4 px-5">
                      {/* Profile Image */}
                      <img
-                      src={chat.Users.ProfileImage}
+                      src={chat.Users.ProfileImage || "https://i.pinimg.com/736x/3b/73/48/3b73483fa5af06e3ba35f4f71e541e7a.jpg"}
                       className="shadow-md size-[35px] rounded-full"
                     />
                     {/* Message */}

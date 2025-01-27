@@ -26,6 +26,7 @@ const OriginalComp = ({
   const [companySetup, setCompanySetup] = useState(false);
 
   const { data, isSuccess,refetch } = useQuery({
+    
     queryKey: [QueryModels.UserCompany.QueryKey],
     queryFn: async () => {
       if (userData) {

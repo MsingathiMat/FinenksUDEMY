@@ -57,6 +57,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     },
   });
 
+  const [QuotebyIdLoading, setQuotebyIdLoading] = useState<boolean>(false)
   const { data, isPending } = TableQuery;
 
   const columns: ColumnDef<Quotations>[] = [
@@ -108,19 +109,26 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
 
               if (SelectedItem === "convert") {
              
-
+                setQuotebyIdLoading(true)
                 // Trigger mutation directly after selecting "convert"
                 const quoteDataResult = await Read(
                   "/api/root/dashboard/listOf/quotations/byId",
                   { QuotationId: val.row.original.QuotationId }
                 );
 
-            
+                
                 if (quoteDataResult) {
-                  Mut.mutate(quoteDataResult);
+                 
+                  Mut.mutateAsync(quoteDataResult).finally(()=>{
+                    setQuotebyIdLoading(false)
+                  }
+                    
+                  );
 
                 
                 }
+                setQuotebyIdLoading(false)
+
               }
             }}
           >
@@ -150,8 +158,11 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
 
   return (
     <IsLoading className="w-full" isLoading={isPending}>
+      <IsLoading className="w-full" isLoading={Mut.isPending}>
+   
       <MttTable data={data ? data : []} columns={columns} />
-    </IsLoading>
+      </IsLoading>
+       </IsLoading>
   );
 };
 

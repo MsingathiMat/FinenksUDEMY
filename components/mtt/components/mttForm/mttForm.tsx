@@ -76,9 +76,10 @@ export default function MttForm<T extends FieldValues>({
   debugMode
 }: {
   Methods: UseFormReturn<T, any, undefined>;
+  onSubmit: (data: T) => void;
   children: React.ReactNode;
   debugMode?:boolean;
-  onSubmit: (data: T) => void;
+  
   className?: string;
   title?: string;
   indicator?: boolean;

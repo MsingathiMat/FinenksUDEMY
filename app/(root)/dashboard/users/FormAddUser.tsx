@@ -14,6 +14,7 @@ import withUtilities from "@/components/mtt/HOC/withUtilities";
 
 import MttArrowText from "@/components/mtt/components/MttArrowText";
 import { MttRedirect } from "@/components/mtt/Helpers/MttRedirect";
+import useMttMedia from "@/components/mtt/components/mttForm/mttMedia/useMttMedia";
 
 const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   // Declare FORM NAME or Table name
@@ -111,6 +112,7 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   const readOnly = FormMutation.isPending;
   const FormIsloading = FormMutation.isPending;
 
+  const { MttImageFile, MttImageDisplay} = useMttMedia();
   return (
     <div className=" mtt-Alpha p-4 w-fit rounded-md">
       <MttForm
@@ -138,7 +140,7 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
               label="Email"
               className=""
             />
-
+ <MttImageFile name="ID" label="ID Image" />
             <MttTextField
               readOnly={readOnly}
               Icon="lock"

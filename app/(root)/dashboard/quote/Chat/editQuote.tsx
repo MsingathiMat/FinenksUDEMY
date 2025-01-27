@@ -32,6 +32,7 @@ import { useParams, useSearchParams } from "next/navigation";
 import IsLoading from "@/components/mtt/components/Isloading";
 import { format } from "date-fns";
 import MttChat from "@/components/mtt/components/MttChat";
+import MttChatReply from "@/components/mtt/components/MttChatReply";
 const OriginalComponent = ({
   Utilities,
 
@@ -57,14 +58,14 @@ const OriginalComponent = ({
     UserId: z.string().min(1, "Required"),
     Message: z.string().min(1, "Required"),
   });
-
+  type FormType = z.infer<typeof FormSchema>;
 
   const [QuotationId, SetQuotationId] = useState<string | null>(null)
   const path = useSearchParams()
 
 
   const FormName = "Message";
-  type FormType = z.infer<typeof FormSchema>;
+
   const FormMethods = useForm<FormType>({
     defaultValues: {
       QuotationId: QuotationId?QuotationId:"",
@@ -115,37 +116,71 @@ const OriginalComponent = ({
     }
   }, [UserId]);
 
+
   const FormMutation = useMutation({
     mutationKey: [MutationModels.QuotationChat.MutationKey],
     mutationFn: async (data: FormType) => {
-      //Create has been supplied by HOC. It comes from MttFetch
+      // Create has been supplied by HOC. It comes from MttFetch
       return await Create(
         "/api/root/dashboard/FormChatQuote/",
-
         data
       );
     },
-    onError: () => {
-      //toast has been supplied by HOC. It comes from Shadcn
+    onMutate: async (data: FormType) => {
+      // Cancel any outgoing refetches to prevent overwriting optimistic updates
+      await QClient.cancelQueries({
+        queryKey: ["QuotationById"],
+      });
+  
+      // Snapshot the previous value
+      const previousQuoteData = QClient.getQueryData(["QuotationById"]);
+  
+      // Optimistically update the chat list
+      QClient.setQueryData(["QuotationById"], (old: any) => {
+        if (!old) return old;
+        return {
+          ...old,
+          QuoteChats: [
+            ...old.QuoteChats,
+            {
+              id: uuid4(), // Generate a temporary ID
+              Message: data.Message,
+              UserId: data.UserId,
+              createdAt: new Date().toISOString(),
+            },
+          ],
+        };
+      });
+  
+      // Return a context object with the snapshotted value
+      return { previousQuoteData };
+    },
+    onError: (error, data, context) => {
+      // Rollback to the previous state if mutation fails
+      if (context?.previousQuoteData) {
+        QClient.setQueryData(["QuotationById"], context.previousQuoteData);
+      }
       toast({
         title: "ERROR",
         description: `Failed to create ${FormName}`,
       });
     },
-    onSuccess: () => {
-    
+    onSettled: () => {
+      // Refetch the data to ensure the UI matches the server state
       QClient.invalidateQueries({
         queryKey: ["QuotationById"],
       });
-
-      refetch()
-
-      //Reset form fields
+      refetch();
+    },
+    onSuccess: () => {
+      // Reset the form fields
       FormMethods.reset();
       FormMethods.setValue("UserId", UserId);
       FormMethods.setValue("QuotationId", QuotationId as string);
     },
   });
+
+
   const FormSubmit: SubmitHandler<FormType> = (data) => {
     FormMutation.mutate(data);
   };
@@ -184,37 +219,13 @@ R{QuoteData && QuoteData.total}
 }
 
 
-      <MttForm
-   
-        onSubmit={FormSubmit}
+<MttChatReply 
+
+isLoading={FormMutation.isPending}
+MessageField="Message"
+onSubmit={FormSubmit}
         Methods={FormMethods}
-        className="space-y-4 !w-full   "
-      >
-       
-
-        <div className=" relative mtt-center gap-2 w-full">
-          <Textarea
-            className=" px-4 pt-2 border border-input bg-Alpha w-full  ring-0 outline-none min-h-InputHeight p-1 text-[13px]"
-            maxLength={300}
-            {...FormMethods.register("Message")}
-            placeholder="Type a Message "
-          />
-
-          <IsLoading isLoading={FormMutation.isPending} className="w-[90px]">
-            <MttSubmit>
-              <SendHorizontal />
-            </MttSubmit>
-          </IsLoading>
-          <Paperclip
-            size={24}
-            className="hover:cursor-pointer hover:text-Pri "
-          />
-          <Mic className="hover:cursor-pointer hover:text-Pri " />
-        </div>
-        
-      </MttForm>
-
-
+/>
       
     </div>
   );
