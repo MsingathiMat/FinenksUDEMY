@@ -22,11 +22,11 @@ export const POST = async (req: NextRequest) => {
 
 
   const filePath="/me.png"
-  // const UserExist = await SingletonPrisma.users.findUnique({ where: { email } });
+  const UserExist = await SingletonPrisma.users.findUnique({ where: { email } });
 
-  // if (UserExist) {
-  //   return NextResponse.json({ error: "User exists", status: 500 });
-  // }
+  if (UserExist) {
+    return NextResponse.json({ error: "User exists", status: 500 });
+  }
 
   const UserPassword = await bcryptjs.hash(password, 10);
 
