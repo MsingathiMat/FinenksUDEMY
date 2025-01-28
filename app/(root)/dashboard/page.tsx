@@ -3,7 +3,7 @@
 import MttDashBar from "@/components/mtt/components/MttDashBar";
 import { MttStatsCard } from "@/components/mtt/components/MttStatsCard";
 import { Wallet2 } from "lucide-react";          
-import TableEvents from '@/components/table';
+
 import withUtilities from "@/components/mtt/HOC/withUtilities";
 import { useQuery } from "@tanstack/react-query";
 import { QueryModels } from "@/components/mtt/config/ReactQueryConfig";
