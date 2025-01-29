@@ -27,14 +27,28 @@ import MttForm, {
   MttTextField,
 } from "@/components/mtt/components/mttForm/mttForm";
 import MttFieldUpdater from "@/components/mtt/components/MttFieldUpdater";
+import { z } from "zod";
 
 const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   const { Read, Create, toast, QClient, IsLoading } = Utilities;
 
-  const setActive = (EventId: string) => {
+  const setActive = (ItemId: string,Value:string) => {
     TableMutationActivate.mutate({ EventId });
   };
 
+  const FormSchema = z
+      .object({
+        UniqueField: z.string().min(1, "Required"),
+        UniqueValue: z.string().min(1, "Required"),
+        tableName: z.string().min(1, "Required"),
+        UpdatedField: z.string().min(1, "Required"),
+        UpdatedValue: z.string().min(1, "Required"),
+        
+      })
+      
+    ;
+
+    type FormType = z.infer<typeof FormSchema>;
   const TableQuery = useQuery({
     queryKey: [QueryModels.Items.QueryKey],
     queryFn: async () => {
@@ -44,20 +58,30 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     staleTime: 0,
   });
 
-  // const TableMutationActivate = useMutation({
-  //   mutationKey: ["TO CHANGE"],
-  //   mutationFn: async ({ EventId }: { EventId: string }) => {
-  //     return await Create("/api/tables/TableEvents/UpdateStatus/", { EventId });
-  //   },
-  //   onSettled: () => {
-  //     QClient.invalidateQueries({
-  //       queryKey: [MutationModels.Event.Dependants],
-  //     });
-  //   },
-  //   onSuccess: () => {
-  //     toast({ title: "SUCCESSFUL", description: "Event status updated" });
-  //   },
-  // });
+  const {mutate:ChangeItemStatus,isPending:ItemStatusPending} = useMutation({
+    mutationKey: ["SetActiveItem"],
+    mutationFn: async ({ ItemId,Status }: { ItemId: string, Status:string }) => {
+
+      const Data:FormType = {
+
+        UniqueField: "ItemId",
+        UniqueValue: ItemId,
+        tableName: "Items",
+        UpdatedField: "ItemStatus",
+        UpdatedValue: Status
+      }
+
+      return await Create("/api/FieldUpdater/", { ...Data });
+    },
+    onSettled: () => {
+      QClient.invalidateQueries({
+        queryKey: [QueryModels.Items.QueryKey],
+      });
+    },
+    onSuccess: () => {
+      toast({ title: "SUCCESSFUL", description: "Event status updated" });
+    },
+  });
 
   const { data, isPending } = TableQuery;
 
@@ -127,19 +151,26 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
       header: "Status",
       cell: (val) => {
       
+        const ItemId = val.row.original.ItemId
         return (
-          <Select             onValueChange={() => {
-              // setActive(val.row.original.ItemId);
-            }}
-          >
-            <SelectTrigger className="w-[140px] border-none">
-              <SelectValue placeholder={val.getValue() as string}/>
-            </SelectTrigger>
-            <SelectContent>
-            <SelectItem value="ACTIVE">ACTIVE</SelectItem>
-            <SelectItem value="INACTIVE">DEACTIVATE</SelectItem>
-            </SelectContent>
-          </Select>
+          
+          <IsLoading  isLoading={ItemStatusPending}>
+              <Select             onValueChange={(ItemStatus) => {
+          
+             
+          ChangeItemStatus({ItemId,Status:ItemStatus})
+         }}
+       >
+         <SelectTrigger className="w-[140px] border-none">
+           <SelectValue placeholder={val.getValue() as string}/>
+         </SelectTrigger>
+         <SelectContent>
+         <SelectItem value="ACTIVE">ACTIVE</SelectItem>
+         <SelectItem value="INACTIVE">DEACTIVATE</SelectItem>
+         </SelectContent>
+       </Select>
+          </IsLoading>
+        
         );
       },
     },
@@ -151,31 +182,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
       accessorKey: "CompanyId",
       header: "Company ID",
     },
-    {
-      accessorKey: "status",
-      header: "Action",
-      cell: (val) => {
-        const IsActive = val.getValue();
-        return (
-          <Select
-            onValueChange={() => {
-              // setActive(val.row.original.id);
-            }}
-          >
-            <SelectTrigger className="w-auto">
-              <SelectValue placeholder={IsActive ? "ACTIVE" : "INACTIVE"} />
-            </SelectTrigger>
-            <SelectContent>
-              {IsActive ? (
-                <SelectItem value="INACTIVE">DEACTIVATE</SelectItem>
-              ) : (
-                <SelectItem value="ACTIVE">ACTIVATE</SelectItem>
-              )}
-            </SelectContent>
-          </Select>
-        );
-      },
-    },
+    
   ];
 
   // return <MtTable data={data ? data : []} columns={columns} />;

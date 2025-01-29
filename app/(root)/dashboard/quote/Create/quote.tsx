@@ -93,14 +93,14 @@ const Quote = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     },
   });
 
-  const CompQuery = useQuery({
+  const ItemsQuery = useQuery({
     queryKey: [QueryModels.Items.QueryKey],
     queryFn: async () => {
-      return Read<Items[]>(QueryModels.Items.ApiEndpoint);
+      return Read<Items[]>(`/api/root/dashboard/listOf/items?ItemStatus=ACTIVE`);
     },
   });
 
-  const { data, isPending } = CompQuery;
+  const { data:ItemsData, isPending:ItemsPending } = ItemsQuery;
 
   const { data: ClientData, isPending: ClientPending } = ClientQuery;
   const items = watch('items');
@@ -200,12 +200,12 @@ if(field.Description!=="" && field.Description!==undefined && field.Description!
   return (
     <tr key={field.id}>
     <td className="p-2 w-[200px] ">
-      <IsLoading className=" mtt-center" isLoading={isPending}>
-        {data && (
+      <IsLoading className=" mtt-center" isLoading={ItemsPending}>
+        {ItemsData && (
           <MttComboSearch
             className=" w-[150px]"
             callBack={(val) => {
-              const selectedItem = data.find(
+              const selectedItem = ItemsData.find(
                 (item) => item.ItemId === val
               );
               if (selectedItem) {
@@ -229,11 +229,11 @@ if(field.Description!=="" && field.Description!==undefined && field.Description!
             }}
             name={`items.${index}.ItemCode`}
             label=""
-            placeholder="Choose Client"
+            placeholder="Choose Item"
             SelectValues={GenerateSelectValues({
               IdColumn: "ItemId",
               NameColumn: "ItemName",
-              data: data,
+              data: ItemsData,
             })}
           />
         )}
