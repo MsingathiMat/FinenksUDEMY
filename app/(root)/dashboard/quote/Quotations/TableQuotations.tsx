@@ -63,29 +63,29 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     {
       accessorFn: (row) => row.clients.ClientName,
       header: "Client Name",
-      meta: { Class: "", ConditionalClass: " text-red-500" },
+      meta: { Class: "", ConditionalClass: " text-green-500" },
     },
     {
       accessorKey: "user",
       header: "User Name",
       cell: (row) => row.getValue().name,
-      meta: { Class: "", ConditionalClass: " text-red-500" },
+      meta: { Class: "", ConditionalClass: " !text-green-500" },
     },
     {
       accessorKey: "QuotationId",
       header: "QT ID",
       cell: (val) => <p>{val.getValue().slice(0, 6)}...</p>,
-      meta: { Class: "", ConditionalClass: " text-red-500" },
+      meta: { Class: "", ConditionalClass: " text-green-500" },
     },
     {
       accessorKey: "status",
       header: "Status",
-      meta: { Class: "", ConditionalClass: " text-red-500" },
+      meta: { Class: "", ConditionalClass: " text-green-500" },
     },
     {
       accessorKey: "total",
       header: "Total",
-      meta: { Class: "", ConditionalClass: " text-red-500" },
+      meta: { Class: "", ConditionalClass: " text-green-500" },
     },
     {
       accessorKey: "status",
@@ -115,7 +115,6 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
                   { QuotationId: val.row.original.QuotationId }
                 );
 
-            
                 if (quoteDataResult) {
                   Mut.mutate(quoteDataResult);
 
@@ -144,7 +143,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
           </Select>
         );
       },
-      meta: { Class: "", ConditionalClass: " text-red-500" },
+      meta: { Class: "", ConditionalClass: " text-green-500" },
     },
   ];
 

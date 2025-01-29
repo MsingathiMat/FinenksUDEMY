@@ -148,6 +148,11 @@ function MttTable<TData, TValue>({
               );
               const isStatusCreated = statusCell?.getValue() === "CONVERTED";
         
+              const ItemCell = row.getVisibleCells().find(
+                (cell) => cell.column.id === "ItemStatus"
+              );
+              const isActive = ItemCell?.getValue() === "INACTIVE";
+        
 
               return (
               
@@ -155,7 +160,7 @@ function MttTable<TData, TValue>({
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
 
-                  className={isStatusCreated?"text-red-500":""}
+                  className={isStatusCreated?"text-red-500":isActive?"text-red-500":""}
                 >
                   {/* Checkbox for selecting individual row */}
                   <TableCell>
@@ -167,7 +172,7 @@ function MttTable<TData, TValue>({
                     />
                   </TableCell>
                   {row.getVisibleCells().map((cell) => {
-                    const meta = cell.column.columnDef.meta as {Class:string, ConditionalClass:string}
+                    // const meta = cell.column.columnDef.meta as {Class:string, ConditionalClass:string}
                     return (
                       <TableCell 
                       key={cell.id} 
