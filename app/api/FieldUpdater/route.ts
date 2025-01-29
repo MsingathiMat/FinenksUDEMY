@@ -19,7 +19,7 @@ export const POST = async (req: NextRequest) => {
     // Parse the request body ``  ` ` 
     const data = await req.json();
 
- 
+
     // Extract the table name, UniqueField for the record, and the fields to update
     const {UpdatedField,UpdatedValue, tableName, UniqueField,UniqueValue } = data;
 
@@ -32,16 +32,18 @@ export const POST = async (req: NextRequest) => {
       return NextResponse.json({ message: `Table ${tableName} does not support updates`, status: 400 });
     }
 
-    // Update the record in the specified table
+ 
     const updatedRecord = await (SingletonPrisma[tableName] as any).update({
       where: {
-        CompanyId,  [UniqueField]:UniqueValue
+        CompanyId:CompanyId.CompanyId,  [UniqueField]:UniqueValue
       },
       data: {
         [UpdatedField]:UpdatedValue
       },
     });
 
+    
+   
     return NextResponse.json(updatedRecord, { status: 200 });
   } catch (error) {
     console.error("Error updating record:", error);

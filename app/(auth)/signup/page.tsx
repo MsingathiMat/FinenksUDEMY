@@ -15,7 +15,7 @@ const page = () => {
 <div className='w-[400px] mtt-center !flex-col gap-4'>
 <Logo/>
 
-<h6 className=' mt-4 text-textSec'>Empowering Growth Through Precision Finance</h6>
+<h6 className=' mt-4 text-textSec'>Invoicing made simple</h6>
 
 
 </div>
