@@ -49,7 +49,7 @@ export const GET = async (req: NextRequest) => {
 
     // Calculate total for the Invoice (Quantity * Amount)
     const total = Invoice.InvoiceDetails.reduce((sum, detail) => {
-      return sum + (detail.Quantity * detail.Amount.toNumber() );
+      return sum + (detail.Quantity * detail.Amount );
     }, 0);
 
     const InvoiceWithTotal = {

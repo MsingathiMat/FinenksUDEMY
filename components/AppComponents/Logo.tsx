@@ -7,7 +7,7 @@ const Logo = () => {
       
       <Image  width={60} height={60} src="/assets/logo.svg" alt='Logo'/>
 
-      <p className='text-xl'>Account</p>
+      <p className='text-xl'>Finenks</p>
     </div>
   )
 }

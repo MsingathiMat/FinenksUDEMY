@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { PDFDownloadLink, PDFViewer, Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
+import { PDFDownloadLink, PDFViewer, Document, Page, Text, View, StyleSheet, Image, Font } from '@react-pdf/renderer';
 import { useSearchParams } from 'next/navigation';
 import withUtilities from '@/components/mtt/HOC/withUtilities';
 import { useQuery } from '@tanstack/react-query';
@@ -101,7 +101,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-
+Font.register({
+  family: 'Noto Sans',
+  src: '/fonts/NotoSans-Regular.ttf', // Replace with the path to your font file
+});
 const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   const { Read } = Utilities;
   const path = useSearchParams();
@@ -125,9 +128,6 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   const { data: QuoteData, isLoading } = FormQuery(QuotationId);
 
   useEffect(() => {
-
-    
-
     if(!path){
       alert("No Quotation ID")
       return
@@ -235,7 +235,8 @@ if (!CompanyData || !CompanyData.Logo) {
     borderBottomStyle: 'solid',
     
   }}></View>
-<Text style={{marginLeft:'auto', fontSize:14, marginTop:10,marginRight:50}}>{`${CompanyData?.Currency} ${QuoteData.total}`}</Text>
+<Text style={{marginLeft:'auto', fontSize:14, marginTop:10,marginRight:50,  fontFamily: 'Noto Sans',} }>{`${CompanyData?.Currency} ${QuoteData.total}`}</Text>
+
 
 
 <View style={{

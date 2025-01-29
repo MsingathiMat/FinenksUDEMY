@@ -19,8 +19,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Countant",
-  description: "The secrete Accountant",
+  title: "Finenks",
+  description: "Invoicing made simple",
 };
 
 export default function RootLayout({

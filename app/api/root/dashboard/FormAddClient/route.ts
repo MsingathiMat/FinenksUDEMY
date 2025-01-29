@@ -38,7 +38,7 @@ if(!CompanyData){
   // Create the new client entry
   const newClient = await SingletonPrisma.clients.create({
     data: {
-      ClientId: uuid4(),
+      
       ClientName,
       ClientType:ClientType as CompanyType,
       ContactPerson,

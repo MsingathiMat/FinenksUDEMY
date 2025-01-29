@@ -19,10 +19,10 @@ if(!CompanyData){
   const ItemName = data.get("ItemName") as string | null;
   const UserId = data.get("UserId") as string | null;
   const ItemStatus = data.get("ItemStatus") as string | null;
-  const ItemType = data.get("ItemType") as ItemType | null;
+  const ItemType = data.get("ItemType") as string | null;
   const Description = data.get("Description") as string | null;
   const Quantity = data.get("Quantity") as string | null;
-  const Amount = data.get("Amount") as Decimal | null;
+  const Amount = data.get("Amount") as number | null;
 
   if (!ItemName || !ItemType || !Description || !Quantity || !Amount || !UserId ) {
    
@@ -50,7 +50,7 @@ if(!CompanyData){
     ItemStatus:ItemStatus as ItemStatus,
     ItemType:ItemType as ItemTypeEnum,
     Quantity:parseInt(Quantity) ,
-    Amount: Amount as Decimal,
+    Amount: parseFloat(Amount.toString()) ,
     Description,
     CompanyId:CompanyData.CompanyId as string
    }
