@@ -89,7 +89,8 @@ model Quotations {
   QuotationId       String         @id @default(auto()) @map("_id") @db.ObjectId
   status            DocStatus         @default(CREATED)
   UserId            String @db.ObjectId
-  user              Users             @relation(fields: [UserId], references: [UserId])
+  user              Users    @relation(fields: [UserId], references: [UserId])
+   Password String @default("NULL")  
   ClientId          String @db.ObjectId
   clients           Clients           @relation(fields: [ClientId], references: [ClientId])
   createdAt         DateTime          @default(now())

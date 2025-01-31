@@ -173,8 +173,21 @@ declare global {
   
     type SelectValueTypes =  {value:string,label:string,id:string}
     
+    type CreateMttFetch=  <T, D>(
+      endPoint: string,
+      data: T,
+      useFetch?: boolean,
+      progressPercentage?: React.Dispatch<React.SetStateAction<number>>
+    ) => Promise<responseData<D> | null>;
     
+    type ReadMttFetch =<T, P = Record<string, unknown>>(
+      endPoint: string,
+      params?: P,
+      useFetch?: boolean
+    ) => Promise<T>; 
 }
+
+
 
 // Ensure this file is a module by adding an export statement if needed:
 export {};

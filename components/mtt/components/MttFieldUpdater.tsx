@@ -17,11 +17,9 @@ import { ItemStatus, ItemTypeEnum } from "@prisma/client";
 import useActiveUser from "@/components/mtt/Hooks/useActiveUser";
 import { MutationModels } from "@/components/mtt/config/ReactQueryConfig";
 
-const OriginalForm = ({ Utilities,UniqueField,RevalidateKey, UniqueValue,tableName,UpdatedField,UpdatedValue }: { Utilities: UtilitiesProp,UniqueField:string, UniqueValue:string,tableName:string,UpdatedField:string,UpdatedValue:string,RevalidateKey:string }) => {
+const OriginalForm = ({ Utilities,UniqueField,RevalidateKey, UniqueValue,tableName,UpdatedField,UpdatedValue,InputLabel,FormTitle, }: { Utilities?: UtilitiesProp,UniqueField:string, UniqueValue:string,tableName:string,UpdatedField:string,UpdatedValue:string,RevalidateKey:string,InputLabel:string,FormTitle?:string }) => {
   // Declare FORM NAME or Table name
   const FormName = "Item";
-
-  const {userData} = useActiveUser<ActiveUserType>()
 
  
 useEffect(()=>{
@@ -33,8 +31,6 @@ useEffect(()=>{
   const {
     Create,
     toast,
-    ImageReset,
-    ObjectToFormData,
     IsLoading,
     QClient,
   } = Utilities;
@@ -115,7 +111,7 @@ useEffect(()=>{
   return (
     <div className=" mtt-Alpha p-4 w-fit rounded-md">
       <MttForm
-
+title={FormTitle}
         onSubmit={FormSubmit}
         Methods={FormMethods}
         className="  mtt-center gap-6 mt-2 !flex-col w-fit "
@@ -126,7 +122,7 @@ useEffect(()=>{
               readOnly={readOnly}
               
               name="UpdatedValue"
-              label="Item Name"
+              label={InputLabel}
               className=""
             />
 

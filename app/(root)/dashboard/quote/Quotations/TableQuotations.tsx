@@ -11,15 +11,19 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import React, { useState } from "react";
 
-import { UtilitiesProp } from "@/components/mtt/Types/MttTypes";
+
 import { MutationModels, QueryModels } from "@/components/mtt/config/ReactQueryConfig";
 import { MttTable } from "@/components/mtt/components/MttTable";
 import withUtilities from "@/components/mtt/HOC/withUtilities";
 import { Quotations } from "@prisma/client";
 import { MttRedirect } from "@/components/mtt/Helpers/MttRedirect";
+import { MttPopup } from "@/components/mtt/components/MttPopup";
+import CreatePassword from "./CreatePassword";
+import MttFieldUpdater from "@/components/mtt/components/MttFieldUpdater";
+import { FilePenLine, Share2 } from "lucide-react";
 
 const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
-  const { Read, Create, toast, QClient, IsLoading } = Utilities;
+  const { Read, Create, toast, IsLoading } = Utilities;
 
   const [selectedQuotationId, setSelectedQuotationId] = useState<string | null>(null);
 
@@ -106,6 +110,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
                 MttRedirect(`/dashboard/quote/Edit?QuoteId=${val.row.original.QuotationId}`);
               }
 
+              
               if (SelectedItem === "convert") {
              
 
@@ -139,12 +144,44 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
               <SelectItem value="convert">
                 <p className="hover:text-Pri hover:cursor-pointer">Convert</p>
               </SelectItem>
+            
             </SelectContent>
           </Select>
         );
       },
       meta: { Class: "", ConditionalClass: " text-green-500" },
     },
+    
+    {
+      accessorKey:"share",
+      header:"Share",
+      cell:(val)=>{
+        return    <MttPopup
+        title="Edit Quote Password"
+        content={
+          <div className="w-full">
+            <MttFieldUpdater
+            InputLabel="Password"
+           
+              UniqueValue={val.row.original.QuotationId}
+              RevalidateKey="QuotationList"
+              UniqueField="QuotationId"
+              tableName="Quotations"
+              UpdatedField="Password"
+              UpdatedValue={val.getValue() as string}
+            />
+          </div>
+        }
+      >
+
+
+        <Share2
+          className=" hover:cursor-pointer hover:text-Sec"
+          size={15}
+        />
+      </MttPopup>
+      }
+    }
   ];
 
   return (
