@@ -17,7 +17,7 @@ import { ItemStatus, ItemTypeEnum } from "@prisma/client";
 import useActiveUser from "@/components/mtt/Hooks/useActiveUser";
 import { MutationModels } from "@/components/mtt/config/ReactQueryConfig";
 
-const OriginalForm = ({ Utilities,UniqueField,RevalidateKey, UniqueValue,tableName,UpdatedField,UpdatedValue,InputLabel,FormTitle, }: { Utilities?: UtilitiesProp,UniqueField:string, UniqueValue:string,tableName:string,UpdatedField:string,UpdatedValue:string,RevalidateKey:string,InputLabel:string,FormTitle?:string }) => {
+const OriginalForm = ({ Utilities,UniqueField,RevalidateKey, UniqueValue,tableName,UpdatedField,UpdatedValue,InputLabel,FormTitle }: { Utilities?: UtilitiesProp,UniqueField:string, UniqueValue:string,tableName:string,UpdatedField:string,UpdatedValue:string,RevalidateKey:string,InputLabel:string,FormTitle?:string }) => {
   // Declare FORM NAME or Table name
   const FormName = "Item";
 

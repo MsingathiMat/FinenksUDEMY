@@ -59,7 +59,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   });
 
   const {mutate:ChangeItemStatus,isPending:ItemStatusPending} = useMutation({
-    mutationKey: ["SetActiveItem"],
+    mutationKey: ["ChangeItemStatus"],
     mutationFn: async ({ ItemId,Status }: { ItemId: string, Status:string }) => {
 
       const Data:FormType = {
@@ -98,6 +98,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
             content={
               <div className="w-full">
                 <MttFieldUpdater
+                InputLabel="Item Name"
                   UniqueValue={val.row.original.ItemId}
                   RevalidateKey="Items"
                   UniqueField="ItemId"
@@ -128,6 +129,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
             content={
               <div className="w-full">
                 <MttFieldUpdater
+                InputLabel=" Description"
                   UniqueValue={val.row.original.ItemId}
                   RevalidateKey="Items"
                   UniqueField="ItemId"

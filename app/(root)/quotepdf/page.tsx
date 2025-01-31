@@ -12,7 +12,6 @@ import IsLoading from '@/components/mtt/components/Isloading';
 import { Companies } from '@prisma/client';
 import { Loader } from 'lucide-react';
 import LoadingProgress from '@/components/mtt/components/Loader';
-import MttNoSSR from '@/components/mtt/components/MttNoSSR';
 
 // Define types for invoice props
 interface InvoicePDFProps {
@@ -266,13 +265,11 @@ if (!CompanyData || !CompanyData.Logo) {
   );
 
   return (
-   <MttNoSSR>
-     <div className="flex flex-col items-center justify-center h-[500px] w-full p-4">
+    <div className="flex flex-col items-center justify-center h-[500px] w-full p-4">
       <IsLoading isLoading={isLoading} className="w-full h-full">
         <PDFViewer width="100%" height="100%">{InvoiceDocument}</PDFViewer>
       </IsLoading>
     </div>
-   </MttNoSSR>
   );
 };
 

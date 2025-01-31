@@ -153,7 +153,7 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
     },
     
     {
-      accessorKey:"share",
+      accessorKey:"Password",
       header:"Share",
       cell:(val)=>{
         return    <MttPopup
@@ -162,9 +162,9 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
           <div className="w-full">
             <MttFieldUpdater
             InputLabel="Password"
-           
+          
               UniqueValue={val.row.original.QuotationId}
-              RevalidateKey="QuotationList"
+              RevalidateKey={QueryModels.Quotations.QueryKey}
               UniqueField="QuotationId"
               tableName="Quotations"
               UpdatedField="Password"
@@ -175,10 +175,13 @@ const OriginalComponent = ({ Utilities }: { Utilities: UtilitiesProp }) => {
       >
 
 
-        <Share2
+      <div className="relative">
+        <p className="absolute -top-1 right-0 text-primary">{val.getValue() as string}</p>
+      <Share2
           className=" hover:cursor-pointer hover:text-Sec"
           size={15}
         />
+      </div>
       </MttPopup>
       }
     }
