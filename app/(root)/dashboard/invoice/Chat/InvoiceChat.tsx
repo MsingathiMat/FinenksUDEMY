@@ -220,5 +220,5 @@ onSubmit={FormSubmit}
   );
 };
 
-const EditQuote = withUtilities(OriginalComponent);
-export default EditQuote;
+const InvoiceChat = withUtilities(OriginalComponent);
+export default InvoiceChat;

@@ -7,7 +7,7 @@ import {
   MttNavHeader,
 } from "@/components/mtt/MttNavigation";
 
-import { LayoutDashboardIcon } from "lucide-react";
+import { LayoutDashboardIcon, TvMinimalPlay } from "lucide-react";
 
 import { MttModeToggler } from "@/components/mtt/components/MttModeToggler";
 import AvatarAction from "@/components/mtt/components/mttAvatar/AvatarAction";
@@ -19,6 +19,7 @@ import HasACompany from "@/components/mtt/components/HasACompany";
 import { useAtom } from "jotai";
 import { UserCompany } from "@/components/mtt/Atoms/AtomUserCompany";
 import { NavHeading } from "@/components/mtt/Atoms/MtNavAtom";
+import Link from "next/link";
 
 const Layout = ({ children }: { children: Readonly<React.ReactNode> }) => {
   const [CompanyData] = useAtom(UserCompany);
@@ -46,10 +47,15 @@ const Layout = ({ children }: { children: Readonly<React.ReactNode> }) => {
   return (
     <div className="relative mtt-center mtt-xy-screen !flex-col mtt-RightPadding ">
       <div className=" relative min-h-screen mtt-center !items-start  w-full h-full flex-1 ">
+       
+  
         <MttNav type="DESKTOP" />
 
         <div className=" flex-1 pl-[40px] w-full  h-full mtt-center !flex-col  min-h-screen">
+
+          
           <div className=" mtt-center w-full  h-[60px]  pt-8 gap-6">
+            
             <div className=" mr-auto">
               <MttNavSwitch />
             </div>
@@ -78,7 +84,12 @@ const Layout = ({ children }: { children: Readonly<React.ReactNode> }) => {
 
             <MttSideNavToggler />
           </div>
+          <div className=" text-yellow-500 mtt-center gap-5 hover:text-red-600 hover:cursor-pointer">
 
+<TvMinimalPlay />
+
+<Link target="_blank" href="https://youtu.be/zZut8kSJ7Ys"><p>Watch a HOW-TO video here</p></Link>
+</div>
           <div className=" mtt-center w-full h-[60px] mt-10">
             {PageHeading}
             <MttIconTitle

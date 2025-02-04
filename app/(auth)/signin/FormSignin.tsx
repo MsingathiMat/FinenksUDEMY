@@ -14,6 +14,8 @@ import withUtilities from "@/components/mtt/HOC/withUtilities";
 import { UtilitiesProp } from "@/components/mtt/Types/MttTypes";
 import MttArrowText from "@/components/mtt/components/MttArrowText";
 import { MttRedirect } from "@/components/mtt/Helpers/MttRedirect";
+import {  TvMinimalPlay } from "lucide-react";
+import Link from "next/link";
 
 const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   // Declare FORM NAME or Table name
@@ -85,6 +87,13 @@ const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
 
   return (
     <div className=" mtt-Alpha1 p-4 w-fit rounded-md ">
+     <div className=" text-yellow-500 mtt-center gap-5 hover:text-red-600 hover:cursor-pointer">
+
+<TvMinimalPlay />
+
+<Link target="_blank" href="https://youtu.be/zZut8kSJ7Ys"><p>Watch a HOW-TO video here</p></Link>
+</div>
+   
       <MttForm
       isLoading={RedirectLoading}
         title="Sign In"
