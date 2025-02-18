@@ -8,9 +8,12 @@ import withUtilities from "@/components/mtt/HOC/withUtilities";
 import { useQuery } from "@tanstack/react-query";
 import { QueryModels } from "@/components/mtt/config/ReactQueryConfig";
 import TableUnconvertedQuotes from "./quote/Components/TableUnconvertedQuotes";
+import { useAtom } from "jotai";
+import { UserCompany } from "@/components/mtt/Atoms/AtomUserCompany";
 
 const OriginalForm = ({ Utilities }: { Utilities: UtilitiesProp }) => {
   
+  const [CompanyData,] = useAtom(UserCompany);
   const {
     Create,
     toast,
@@ -92,7 +95,7 @@ Read,
         <IsLoading isLoading={TotalInvoiceLoading}>
 
        {
-        TotalInvoiceLoading?null: <MttStatsCard LinkTo="/dashboard/invoice/Invoices" className='' title={`R${TotalInvoices.totalAmount}`} description="Total Income" icon={<Wallet2 />} />
+        TotalInvoiceLoading?null: <MttStatsCard LinkTo="/dashboard/invoice/Invoices" className='' title={`${CompanyData?.Currency + (TotalInvoices.totalAmount).toString()}`} description="Total Income" icon={<Wallet2 />} />
        }
 
         </IsLoading>
